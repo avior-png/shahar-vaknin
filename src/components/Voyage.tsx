@@ -1,80 +1,92 @@
-import { processSteps } from "@/content/site";
+import { processSteps, processAxis } from "@/content/site";
 
 /**
- * המסע — אזור התהליך.
+ * התהליך — תרשים גאנט.
  *
- * מבט עילי, בקנה מידה מרוסן: כל שלב הוא פס דק בצורת גוף
- * ספינה, עם חרטום מחודד לכיוון ההתקדמות (שמאלה). כל ספינה
- * מוסטת מעט שמאלה מקודמתה. מטען הסיפון זהה בכולן — מה
- * שמשתנה הוא רק המרחק שעברו.
+ * כל שלב הוא פס מעוגל שמדורג באלכסון על ציר זמן אמיתי:
+ * המיקום והאורך שלו נגזרים מלוחות הזמנים בפועל, לא מהעיצוב.
+ * מגדל פיקוד קטן וסנפיר בקצה נותנים את הרמז הימי בלי להפוך
+ * את זה לאיור.
+ *
+ * ב-RTL ההתקדמות היא מימין לשמאל: יום 0 בימין, המחסן בשמאל.
  */
 export default function Voyage() {
-  const total = processSteps.length;
-
   return (
-    <div className="relative mt-14">
-      {/* קווי היעד */}
-      <div className="mb-5 flex items-center justify-between text-[0.72rem] font-bold tracking-wide">
-        <span className="flex items-center gap-2 text-gold-2">
-          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold-2" />
-          ישראל
-        </span>
-        <span className="flex items-center gap-2 text-white/40">
-          סין
-          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-red" />
-        </span>
-      </div>
+    <div className="mt-14 overflow-x-auto pb-2">
+      <div className="relative min-w-[820px]">
+        {/* קווי הרשת */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex">
+          {processAxis.map((_, i) => (
+            <span
+              key={i}
+              className="flex-1 border-l border-dashed border-white/[.09] first:border-r first:border-dashed first:border-white/[.09]"
+            />
+          ))}
+        </div>
 
-      <ol className="space-y-6">
-        {processSteps.map((step, i) => {
-          const free = step.cost === "ללא עלות";
-          return (
-            <li
-              key={step.n}
-              className="reveal group"
-              style={{
-                ["--reveal-delay" as string]: `${i * 100}ms`,
-                marginInlineStart: `${i * 3.2}%`,
-                width: `${100 - (total - 1) * 3.2}%`,
-              }}
-            >
-              {/* גוף הספינה — פס דק */}
-              <div className="hull relative flex h-[58px] items-center gap-3.5 bg-gradient-to-l from-white via-[#F4F4F2] to-[#DCDCD8] pl-[9%] pr-3 shadow-[0_16px_28px_-18px_rgba(0,0,0,.9)] transition-transform duration-500 group-hover:-translate-x-1.5 md:h-[64px] md:gap-4 md:pr-3.5">
-                {/* מטען הסיפון — זהה בכל שלב */}
+        <ol className="relative space-y-4 pb-8">
+          {processSteps.map((step, i) => {
+            const free = step.cost === "ללא עלות";
+            return (
+              <li
+                key={step.n}
+                className="reveal group relative"
+                style={{
+                  ["--reveal-delay" as string]: `${i * 110}ms`,
+                  marginInlineStart: `${step.start}%`,
+                  width: `${step.span}%`,
+                  minWidth: "13rem",
+                }}
+              >
+                {/* מגדל הפיקוד */}
                 <span
                   aria-hidden="true"
-                  className="deck pointer-events-none absolute inset-y-[26%] left-[11%] right-[3.6rem]"
+                  className="absolute -top-[9px] right-8 h-[9px] w-9 rounded-t-[4px] bg-white/25"
                 />
-                {/* מגדל הפיקוד, בירכתיים — נושא את מספר השלב */}
-                <span
-                  className={`relative flex h-9 w-9 flex-none items-center justify-center rounded-[7px] font-display text-[0.88rem] ${
-                    free ? "bg-red text-white" : "bg-ink text-white"
+                {/* גוף הצוללת */}
+                <div
+                  className={`relative flex h-[54px] items-center gap-3 rounded-full pl-5 pr-2 backdrop-blur-sm transition-colors duration-300 ${
+                    free
+                      ? "bg-white/[.13] group-hover:bg-white/[.19]"
+                      : "bg-red/25 group-hover:bg-red/35"
                   }`}
                 >
-                  {String(step.n).padStart(2, "0")}
-                </span>
-
-                <h3 className="relative truncate text-[0.98rem] leading-none text-ink md:text-[1.12rem]">
-                  <span className="sr-only">שלב {step.n}: </span>
-                  {step.title}
-                </h3>
-
+                  <span
+                    className={`flex h-[38px] w-[38px] flex-none items-center justify-center rounded-full font-display text-[0.85rem] ${
+                      free ? "bg-white/85 text-ink" : "bg-red text-white"
+                    }`}
+                  >
+                    {step.n}
+                  </span>
+                  <h3 className="truncate text-[0.94rem] leading-none text-white md:text-[1.02rem]">
+                    <span className="sr-only">שלב {step.n}: </span>
+                    {step.title}
+                  </h3>
+                </div>
+                {/* סנפיר */}
                 <span
-                  className={`relative mr-auto hidden flex-none rounded-full px-2.5 py-1 text-[0.66rem] font-bold sm:block ${
-                    free ? "bg-gold-soft text-ink" : "bg-ink/10 text-ink-2"
-                  }`}
-                >
-                  {step.cost}
-                </span>
-              </div>
+                  aria-hidden="true"
+                  className="absolute -bottom-[7px] right-12 h-[7px] w-6 rounded-b-[4px] bg-white/15"
+                />
 
-              <p className="mt-2.5 max-w-[54em] pr-2 text-[0.88rem] leading-relaxed text-white/50">
-                {step.body}
-              </p>
-            </li>
-          );
-        })}
-      </ol>
+                {/* התיאור נחשף בהרחפה, כדי שהתרשים יישאר נקי */}
+                <p className="pointer-events-none absolute right-0 top-[62px] z-10 w-[22rem] max-w-[80vw] rounded-[var(--radius-sm)] border border-white/12 bg-night/95 p-4 text-[0.86rem] leading-relaxed text-white/70 opacity-0 shadow-deep transition-opacity duration-300 group-hover:opacity-100">
+                  {step.body}
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+
+        {/* ציר הזמן */}
+        <div className="flex border-t border-white/15 pt-3">
+          {processAxis.map((label) => (
+            <span key={label} className="flex-1 text-[0.72rem] font-semibold text-white/40">
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

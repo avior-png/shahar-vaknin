@@ -2,48 +2,63 @@ import Visual from "./Visual";
 import Button from "./Button";
 import { finalCta } from "@/content/site";
 
-/** לוח בתוך מסגרת עם שוליים, על תמונת רקע. */
+/**
+ * הנעה לפעולה — מגדל המכולות על רקע שמיים.
+ * לוח בתוך מסגרת עם שוליים: כותרת ענקית למעלה, ומתחתיה
+ * ערימת המכולות שעומדת על קו האופק.
+ */
 export default function CtaBand() {
   return (
     <section className="bg-paper px-3 py-14 md:px-5 md:py-20">
-      <div className="container-x !px-0">
-        <div className="reveal relative overflow-hidden rounded-[var(--radius-xl)] bg-night">
+      <div className="container-wide !px-0">
+        <div className="reveal relative overflow-hidden rounded-[var(--radius-xl)]">
+          {/* שמיים וים */}
           <span aria-hidden="true" className="absolute inset-0 block">
             <Visual
-              id="cta-bg"
+              id="cta-sky"
               alt=""
-              spec="נמל בישראל בשעת בוקר — מכולות ומנופים, פריים רחב ורגוע"
+              spec="שמיים בהירים מעל ים שקט — קו אופק נמוך, עננים דקים"
               width={2400}
-              height={1300}
+              height={1500}
               className="h-full w-full object-cover"
             />
           </span>
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-l from-night via-night/90 to-night/60"
-          />
 
-          <div className="relative px-7 py-16 md:px-16 md:py-24">
-            <p className="text-[0.95rem] font-bold text-gold-2">{finalCta.kicker}</p>
-            <h2 className="display-md mt-4 max-w-[16ch] text-paper">{finalCta.title}</h2>
-            <p className="mt-6 max-w-[38em] text-[1.06rem] leading-relaxed text-paper/75">
+          <div className="relative px-6 pt-16 text-center md:px-14 md:pt-20">
+            <p className="text-[0.95rem] font-bold text-red">{finalCta.kicker}</p>
+            <h2 className="display-md mx-auto mt-4 max-w-[15ch] text-ink">
+              {finalCta.title}
+            </h2>
+            <p className="mx-auto mt-6 max-w-[36em] text-[1.06rem] leading-relaxed text-ink-2">
               {finalCta.body}
             </p>
 
-            <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button href={finalCta.cta.href} variant="red">{finalCta.cta.label}</Button>
+              <Button href={finalCta.secondary.href} variant="outline" arrow={false}>
+                {finalCta.secondary.label}
+              </Button>
+            </div>
+
+            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
               {finalCta.points.map((point) => (
-                <li key={point} className="flex items-center gap-2.5 text-[0.95rem] text-paper/80">
-                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold-2" />
+                <li key={point} className="flex items-center gap-2.5 text-[0.94rem] text-ink-2">
+                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-red" />
                   {point}
                 </li>
               ))}
             </ul>
 
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Button href={finalCta.cta.href} variant="red">{finalCta.cta.label}</Button>
-              <Button href={finalCta.secondary.href} variant="ghost" arrow={false}>
-                {finalCta.secondary.label}
-              </Button>
+            {/* מגדל המכולות עומד על קו האופק */}
+            <div className="mx-auto mt-12 w-full max-w-[620px]">
+              <Visual
+                id="cta-containers"
+                alt=""
+                spec="ארבע מכולות ערומות זו על זו בפרספקטיבה — PNG שקוף, ניצבות על קו האופק"
+                width={1400}
+                height={1200}
+                className="w-full"
+              />
             </div>
           </div>
         </div>

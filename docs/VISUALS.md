@@ -19,40 +19,35 @@
 
 ---
 
-## spine-containers — הציר האנכי
+## hero-factory — רצועת ההירו
 
-`1024×1536 · לאורך · PNG שקוף` · **הנכס הכי חשוב**
+`1536×1024 · לרוחב · JPG` · **הנכס הכי חשוב**
 
-מגדל מכולות שמתחיל בהירו, בין ארבע הכרטיסיות, וממשיך בגלילה מטה מאחורי
-המשפט הסוגר והמספרים עד שהוא נמוג.
+רצועה רחבה מתחת לכותרת. היא מוצגת כתצלום — לא כרקע שהטקסט יושב עליו —
+ולכן אין כאן שום הרכבה שיכולה לצאת מוזרה.
 
-**למה מכולות ולא מנוף:** מנוף הוא אובייקט של נמל — הוא אומר ״חברת שילוח״,
-וזה בדיוק המיצוב שהלקוח פסל. השילוח גם הכי פחות מבדל אצלו. המכולה היא
-האובייקט שלו: ״עשרה ספקים, מכולה אחת״ הוא השירות הייחודי ביותר שלו,
-וחותם הנעילה הוא ההוכחה הפיזית שאיש לא פתח את המשלוח. מגדל מכולות גם
-אנכי מטבעו וניתן להארכה — מנוף נגמר בקרס.
+**זו צריכה להיות תמונה אמיתית של שחר.** כל הטענה של ההירו היא שהוא
+באמת שם ובאמת מדבר איתם. רינדור של "אדם במפעל סיני" יעשה בדיוק את
+ההפך באתר שכל תפקידו לשרוד בדיקת רקע.
 
-**קריטי:** הרקע באתר לבן לחלוטין, אז חובה שקיפות אמיתית סביב כל קצה.
-המגדל צריך להיחתך בשני הקצוות — למעלה ולמטה — כדי שייראה שהוא ממשיך.
+מה לבקש ממנו: צילום מביקור מפעל — הוא בשיחה עם מנהל המפעל או בודק
+מוצר על קו הייצור. אופקי, לא מבוים, בלי מבט למצלמה. גם צילום מהטלפון
+עדיף על רינדור.
+
+**רק אם אין ברירה** — פרומפט זמני, בלי פנים מזוהות:
 
 ```
-A tall vertical stack of shipping containers piled one directly on top of
-another, isolated on a fully transparent background with no backdrop of any
-kind. Six containers are stacked in a single perfectly vertical column that
-fills the entire height of a tall narrow frame and is cut off by both the
-top and the bottom edges, as if the column continues beyond the image.
-Photographed straight on at eye level with almost no perspective
-distortion, so the stack reads as a clean vertical tower. Each container is
-a different weathered colour — deep oxblood red, warm ochre, charcoal grey,
-faded rust, muted steel blue, dark maroon — with realistic corrugated
-ribbing, corner castings, and visible wear, dents and paint chalking that
-differ from one unit to the next. The lowest visible container in the frame
-faces the viewer with its doors closed, its four vertical locking bars and
-heavy cast handles clearly detailed. Soft even daylight from the upper
-left, gentle contact shadows between the stacked units, nothing harsh.
-Photorealistic, sharp throughout, PNG with true alpha transparency around
-every edge. Absolutely no text, no letters, no numbers, no container codes,
-no shipping marks, no logos, no watermarks anywhere in the image.
+A wide documentary photograph inside a working Chinese metal fabrication
+factory. In the middle distance two men stand beside a production line
+examining a component together, both seen from behind and slightly to the
+side so no faces are visible, one gesturing toward the machine. Rows of CNC
+equipment and steel stock recede behind them, overhead industrial lamps
+casting warm pools of light onto a polished concrete floor, faint haze in
+the air. Natural reportage feel, nothing posed, slightly imperfect framing
+as if caught mid-conversation. Warm industrial daylight mixed with lamp
+light, muted red and ochre tones, shallow depth of field on a 50mm lens,
+subtle film grain, no glossy CGI look. Absolutely no text, no letters, no
+numbers, no signage, no Chinese characters, no logos, no watermarks.
 ```
 
 ## container-front — סקציית המיצוב
@@ -203,7 +198,7 @@ watermarks anywhere.
 
 ## עדיפות
 
-1. **spine-containers** — הציר; בלעדיו ראש העמוד ריק
+1. **hero-factory** — רצועת ההירו; עדיף צילום אמיתי משחר
 2. **container-front** + **containers-stack** — סקציית המיצוב
 3. **portrait** + **china-circle** — אזור "מי עומד מאחורי זה"
 4. **cta-bg**

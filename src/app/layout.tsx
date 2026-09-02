@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Secular_One, Assistant, IBM_Plex_Mono } from "next/font/google";
+import { Secular_One, Assistant, IBM_Plex_Mono, Noto_Serif_SC } from "next/font/google";
 import { site } from "@/content/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -24,6 +24,14 @@ const plex = IBM_Plex_Mono({
   variable: "--font-plex",
   subsets: ["latin"],
   weight: ["400", "600"],
+  display: "swap",
+});
+
+/** לכיתוב הסיני בהירו — הוכחה, לא קישוט. */
+const zh = Noto_Serif_SC({
+  variable: "--font-zh",
+  subsets: ["latin"],
+  weight: ["500", "700"],
   display: "swap",
 });
 
@@ -53,7 +61,7 @@ export default function RootLayout({
     <html
       lang="he"
       dir="rtl"
-      className={`${secular.variable} ${assistant.variable} ${plex.variable} h-full`}
+      className={`${secular.variable} ${assistant.variable} ${plex.variable} ${zh.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-ground text-txt">
         <RevealScript />

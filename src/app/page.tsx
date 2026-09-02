@@ -17,97 +17,104 @@ export default function HomePage() {
   const caseBackgrounds = Object.fromEntries(
     cases.map((c) => [c.slug, visualSrc(`case-${c.slug}`)])
   );
-  const rightCards = problem.fears.slice(0, 2);
-  const leftCards = problem.fears.slice(2);
 
   return (
     <>
       {/* ══════════════════════════════════════════════════════
-          הירו + המספרים — אזור אחד עם ציר אנכי אחד.
-          מגדל המכולות מתחיל כאן, עובר מאחורי המשפט הסוגר
-          והמספרים, ונמוג. ההירו יושב במסגרת עם שוליים.
+          הירו — נקי.
+          הטקסט יושב על לבן, והתמונה היא רצועה נפרדת מתחתיו.
+          אין טקסט לבן מעל צילום עמוס, אין גזירות ואין הרכבות —
+          ולכן שום דבר לא יכול להיראות מוזר. התמונה מוצגת
+          כתצלום, לא כרקע שנלחמים בו.
           ══════════════════════════════════════════════════════ */}
-      <div className="spine-zone bg-paper pb-24 pt-4 md:pb-32 md:pt-5">
-        <div className="container-wide relative">
-          {/* המסגרת */}
-          <div className="relative rounded-[var(--radius-xl)] border border-line bg-paper-2/70 px-5 py-16 md:px-12 md:py-20">
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 overflow-hidden rounded-[var(--radius-xl)]"
-            >
-              <span
-                className="absolute -top-40 right-[-8%] block h-[560px] w-[560px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(0,56,184,.11), transparent 66%)" }}
-              />
-              <span
-                className="absolute -top-48 left-[-10%] block h-[620px] w-[620px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(196,22,28,.14), transparent 66%)" }}
-              />
-            </span>
+      <section className="bg-paper pb-20 pt-12 md:pb-28 md:pt-16">
+        <div className="container-wide">
+          <div className="grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-end lg:gap-16">
+            <div>
+              {/* ההוכחה לסינית — כיתוב אמיתי, לא קישוט */}
+              <p className="reveal flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                <span
+                  lang="zh"
+                  className="text-[1.6rem] leading-none text-red md:text-[2rem]"
+                  style={{ fontFamily: "var(--font-zh), serif" }}
+                >
+                  {hero.zh}
+                </span>
+                <span className="text-[0.9rem] font-semibold text-muted">{hero.zhHe}</span>
+              </p>
 
-            <div className="relative mx-auto max-w-4xl text-center">
-              <p className="reveal text-[0.95rem] font-bold text-red">{hero.eyebrow}</p>
               <h1
-                className="reveal display mt-6 text-ink"
+                className="reveal display mt-7 text-ink"
                 style={{ ["--reveal-delay" as string]: "60ms" }}
               >
                 העיניים שלך <FlagWord flag="cn">בסין</FlagWord>
               </h1>
-              <p
-                className="reveal mx-auto mt-7 max-w-[34em] text-[1.08rem] leading-relaxed text-ink-2 md:text-[1.24rem]"
-                style={{ ["--reveal-delay" as string]: "130ms" }}
-              >
-                עשרים שנה חייתי ועבדתי שם. אני מאתר את המפעל האמיתי, מנהל את
-                המשא ומתן בסינית, ובודק את הסחורה{" "}
-                <b className="font-bold text-ink">לפני</b> שהיא עולה על האונייה.
+            </div>
+
+            <div className="reveal" style={{ ["--reveal-delay" as string]: "130ms" }}>
+              <p className="max-w-[32em] text-[1.06rem] leading-relaxed text-ink-2 md:text-[1.18rem]">
+                אני לא מתקשר למפעל מישראל. אני עומד שם, מדבר איתם בשפה שלהם,
+                ויודע איך עסקים באמת נסגרים בסין — כי חייתי שם עשרים שנה.
               </p>
-              <div
-                className="reveal mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
-                style={{ ["--reveal-delay" as string]: "200ms" }}
-              >
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button href={ctaPrimary.href} variant="red">{ctaPrimary.label}</Button>
                 <Button href={ctaSecondary.href} variant="outline" arrow={false}>
                   {ctaSecondary.label}
                 </Button>
               </div>
             </div>
-
-            {/* ארבע הכרטיסיות מלוות את הציר משני צדדיו.
-                הציר מתחיל כאן — מתחת לכותרת — וממשיך מטה אל
-                מעבר לגבול המסגרת, אל המשפט הסוגר והמספרים. */}
-            <div className="relative mt-14 grid gap-6 lg:mt-20 lg:grid-cols-[1fr_minmax(280px,30%)_1fr] lg:gap-8">
-              <div className="spine-col">
-                <Visual
-                  id="spine-containers"
-                  alt=""
-                  spec="מגדל מכולות אנכי · PNG שקוף · נחתך בשני הקצוות"
-                  width={1024}
-                  height={1536}
-                  priority
-                  className="h-full w-full object-cover object-top"
-                />
-              </div>
-              <div className="relative flex flex-col gap-5">
-                {rightCards.map((fear, i) => (
-                  <FearCard key={fear.title} fear={fear} n={i + 1} delay={i * 90} />
-                ))}
-              </div>
-              <div aria-hidden="true" className="hidden lg:block" />
-              <div className="relative flex flex-col gap-5">
-                {leftCards.map((fear, i) => (
-                  <FearCard key={fear.title} fear={fear} n={i + 3} delay={(i + 2) * 90} />
-                ))}
-              </div>
-            </div>
           </div>
 
-          {/* המשפט הסוגר + המספרים — עדיין על הציר */}
-          <p className="reveal mx-auto mt-24 max-w-[24ch] text-center font-display text-[clamp(1.7rem,4.6vw,3.2rem)] leading-[1.1] text-ink">
+          {/* רצועת התצלום — מוצגת כתמונה, עם שוליים */}
+          <figure className="reveal mt-14 md:mt-20">
+            <div className="overflow-hidden rounded-[var(--radius-xl)] border border-line">
+              <Visual
+                id="hero-factory"
+                alt="שחר וקנין על רצפת ייצור במפעל בסין, בשיחה עם מנהל המפעל"
+                spec="שחר על רצפת ייצור סינית, בשיחה עם מנהל המפעל — צילום אמיתי, לרוחב"
+                width={2400}
+                height={1100}
+                priority
+                className="h-[300px] w-full object-cover md:h-[440px] lg:h-[520px]"
+              />
+            </div>
+
+            <figcaption className="mt-6 grid gap-px overflow-hidden rounded-[var(--radius-md)] border border-line bg-line sm:grid-cols-3">
+              {hero.proof.map((item, i) => (
+                <span key={item} className="block bg-paper px-6 py-5">
+                  <span className="font-display text-[0.85rem] text-red">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="mt-1.5 block text-[0.98rem] font-semibold leading-snug text-ink">
+                    {item}
+                  </span>
+                </span>
+              ))}
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* ══ הבעיה ══ */}
+      <Section tone="paper" contained={false}>
+        <div className="container-wide">
+          <SectionHead
+            kicker="הבעיה"
+            title={problem.title}
+            lead={problem.lead}
+            center
+          />
+          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {problem.fears.map((fear, i) => (
+              <FearCard key={fear.title} fear={fear} n={i + 1} delay={i * 80} />
+            ))}
+          </div>
+          <p className="reveal mx-auto mt-20 max-w-[24ch] text-center font-display text-[clamp(1.7rem,4.6vw,3.2rem)] leading-[1.1] text-ink">
             {problem.closing}
           </p>
           <Stats className="mt-16" />
         </div>
-      </div>
+      </Section>
 
       {/* ══ המיצוב ══ */}
       <section className="relative overflow-hidden bg-night">

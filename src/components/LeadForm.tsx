@@ -35,16 +35,16 @@ export default function LeadForm() {
     return (
       <div
         role="status"
-        className="rounded-2xl border-2 border-ink bg-paper p-9 text-center"
+        className="border-2 border-ink bg-paper-2 p-9 text-center"
       >
         <span
           aria-hidden="true"
-          className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-teal"
+          className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-accent"
         >
           <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
             <path
               d="M5 12.5l4.5 4.5L19 7.5"
-              stroke="#0D6B75"
+              stroke="#E8541F"
               strokeWidth="2.4"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -52,7 +52,7 @@ export default function LeadForm() {
           </svg>
         </span>
         <h3 className="mt-5 text-2xl">{contactPage.successTitle}</h3>
-        <p className="mt-3 text-muted">{contactPage.successBody}</p>
+        <p className="mt-3 text-ink/70">{contactPage.successBody}</p>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export default function LeadForm() {
     <form
       onSubmit={onSubmit}
       noValidate={false}
-      className="rounded-2xl border border-line bg-paper p-6 md:p-9"
+      className="border border-paper-line bg-paper-2 p-6 md:p-9"
     >
       {/* מלכודת ספאם — מוסתרת מהמשתמש ומקוראי מסך */}
       <div className="hidden" aria-hidden="true">
@@ -87,7 +87,7 @@ export default function LeadForm() {
             name="quantity"
             required
             defaultValue=""
-            className="mt-2 w-full rounded-lg border border-line bg-paper-2/60 px-4 py-3 text-[1rem] text-ink"
+            className="mt-2 w-full border border-paper-line bg-paper px-4 py-3 text-[1rem] text-ink"
           >
             <option value="" disabled>
               בחר סדר גודל
@@ -107,14 +107,14 @@ export default function LeadForm() {
           id="message"
           name="message"
           rows={4}
-          className="mt-2 w-full resize-y rounded-lg border border-line bg-paper-2/60 px-4 py-3 text-[1rem] text-ink"
+          className="mt-2 w-full resize-y border border-paper-line bg-paper px-4 py-3 text-[1rem] text-ink"
         />
       </div>
 
       {status === "error" && (
         <p
           role="alert"
-          className="mt-6 flex items-start gap-2.5 rounded-lg border-2 border-ink bg-amber-soft px-4 py-3 text-[0.95rem] font-medium text-ink"
+          className="mt-6 flex items-start gap-2.5 border-2 border-accent bg-paper px-4 py-3 text-[0.95rem] font-medium text-ink"
         >
           <span aria-hidden="true" className="font-bold">
             !
@@ -126,12 +126,12 @@ export default function LeadForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="mt-7 w-full rounded-full bg-ink px-8 py-4 text-[1.02rem] font-bold text-paper transition-colors hover:bg-teal disabled:opacity-60"
+        className="mt-7 w-full bg-ink px-8 py-4 text-[1.02rem] font-bold text-paper transition-colors hover:bg-accent disabled:opacity-60"
       >
         {status === "sending" ? "שולח…" : "שליחת הפנייה"}
       </button>
 
-      <p className="mt-4 text-center text-[0.85rem] leading-relaxed text-muted-2">
+      <p className="mt-4 text-center text-[0.85rem] leading-relaxed text-ink/50">
         {contactPage.formNote}
       </p>
     </form>
@@ -151,7 +151,7 @@ function Label({
     <label htmlFor={htmlFor} className="block text-[0.92rem] font-semibold text-ink">
       {children}
       {required && (
-        <span className="text-muted-2"> (חובה)</span>
+        <span className="text-ink/50"> (חובה)</span>
       )}
     </label>
   );
@@ -179,7 +179,7 @@ function Field({
         name={id}
         type={type}
         required={required}
-        className="mt-2 w-full rounded-lg border border-line bg-paper-2/60 px-4 py-3 text-[1rem] text-ink"
+        className="mt-2 w-full border border-paper-line bg-paper px-4 py-3 text-[1rem] text-ink"
         {...rest}
       />
     </div>

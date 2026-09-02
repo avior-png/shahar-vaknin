@@ -1,29 +1,29 @@
 import type { Metadata } from "next";
-import { Frank_Ruhl_Libre, Assistant, Miriam_Libre } from "next/font/google";
+import { Secular_One, Assistant, IBM_Plex_Mono } from "next/font/google";
 import { site } from "@/content/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RevealScript from "@/components/RevealScript";
 import "./globals.css";
 
-const display = Frank_Ruhl_Libre({
-  variable: "--font-display",
+const secular = Secular_One({
+  variable: "--font-secular",
   subsets: ["hebrew", "latin"],
-  weight: ["500", "700", "800", "900"],
+  weight: "400",
   display: "swap",
 });
 
-const body = Assistant({
-  variable: "--font-body",
+const assistant = Assistant({
+  variable: "--font-assistant",
   subsets: ["hebrew", "latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
-const label = Miriam_Libre({
-  variable: "--font-label",
-  subsets: ["hebrew", "latin"],
-  weight: ["400", "700"],
+const plex = IBM_Plex_Mono({
+  variable: "--font-plex",
+  subsets: ["latin"],
+  weight: ["400", "600"],
   display: "swap",
 });
 
@@ -53,13 +53,13 @@ export default function RootLayout({
     <html
       lang="he"
       dir="rtl"
-      className={`${display.variable} ${body.variable} ${label.variable} h-full`}
+      className={`${secular.variable} ${assistant.variable} ${plex.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col bg-paper text-ink">
+      <body className="flex min-h-full flex-col bg-ground text-txt">
         <RevealScript />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:right-3 focus:z-50 focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:right-3 focus:z-50 focus:bg-paper focus:px-4 focus:py-2 focus:font-bold focus:text-ink"
         >
           דילוג לתוכן הראשי
         </a>

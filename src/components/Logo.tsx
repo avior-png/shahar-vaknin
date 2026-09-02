@@ -1,51 +1,37 @@
 import { site } from "@/content/site";
 
 /**
- * סימן זמני עד שיוכרע לוגו.
- * המוטיב: חותם (印章) — סמל האותנטיות בסין, וגם ״מאומת״.
- * העדשה במרכז נשענת על ״העיניים שלך בסין״.
- * בנוי מקווי מתאר בלבד, כך שהוא קריא גם בהדפסה ובמונוכרום.
+ * סימן זמני עד להכרעת לוגו.
+ * המוטיב: חותם נעילה של מכולה — ההוכחה הפיזית שאיש לא פתח את
+ * המשלוח. זה בדיוק מה שהוא מוכר, וזה גם המועמד המוביל ללוגו.
  */
 export default function Logo({
   className = "",
-  tone = "ink",
+  tone = "light",
 }: {
   className?: string;
-  tone?: "ink" | "paper";
+  /** light = על רקע כהה | dark = על רקע בהיר */
+  tone?: "light" | "dark";
 }) {
-  const main = tone === "paper" ? "#FBFAF6" : "#0B1A20";
-  const accent = tone === "paper" ? "#F0C572" : "#0D6B75";
+  const main = tone === "light" ? "#EFEDE8" : "#0B0C0D";
+  const accent = "#E8541F";
+  const sub = tone === "light" ? "#78868E" : "#5C6B72";
 
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <svg
-        viewBox="0 0 40 40"
-        aria-hidden="true"
-        className="h-9 w-9 flex-none"
-        fill="none"
-      >
-        <rect
-          x="2.6"
-          y="2.6"
-          width="34.8"
-          height="34.8"
-          rx="7"
-          stroke={main}
-          strokeWidth="2.4"
-        />
-        <circle cx="20" cy="20" r="10.4" stroke={accent} strokeWidth="2.4" />
-        <circle cx="20" cy="20" r="3.5" fill={accent} />
+      <svg viewBox="0 0 36 36" aria-hidden="true" className="h-9 w-9 flex-none" fill="none">
+        <rect x="2" y="9" width="32" height="18" rx="1.5" stroke={main} strokeWidth="2" />
+        <path d="M9 9v18M27 9v18" stroke={main} strokeWidth="1.2" opacity=".55" />
+        <circle cx="18" cy="18" r="6" stroke={accent} strokeWidth="2.4" />
+        <circle cx="18" cy="18" r="1.9" fill={accent} />
       </svg>
       <span className="flex flex-col leading-none">
-        <span
-          className="font-display text-[1.15rem] font-extrabold tracking-tight"
-          style={{ color: main }}
-        >
+        <span className="font-display text-[1.1rem]" style={{ color: main }}>
           {site.name}
         </span>
         <span
-          className="font-label mt-1 text-[0.6rem] font-bold tracking-[0.18em]"
-          style={{ color: tone === "paper" ? "#F0C572" : "#5C6B72" }}
+          className="mt-1.5 font-mono text-[0.55rem] font-semibold tracking-[0.18em]"
+          style={{ color: sub }}
         >
           {site.tagline}
         </span>

@@ -1,148 +1,177 @@
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════════════════
-   מערכת עיצוב — שחר פתרונות
-   ───────────────────────────────────────────────────────────────
-   אילוץ מוביל: הלקוח עיוור צבעים ואינו מבחין בין אדום לשחור
-   בקווים דקים. לכן:
-     • שום מידע לא מועבר באמצעות גוון בלבד — תמיד גם ניגודיות,
-       משקל, מיקום, מסגרת או תווית טקסטואלית.
-     • הפלטה בנויה על ציר בהיר/כהה + זוג טורקיז־ענבר, שנשמר
-       גם בעיוורון אדום־ירוק (הזוג נבדל בבהירות ובציר כחול־צהוב).
-     • אין אדום וירוק כמדדי מצב.
-   ═══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   שחר וקנין — מערכת עיצוב
+   קונספט: "מבפנים". סין כהה בראש העמוד, ישראל בהירה בתחתיתו.
+   הכתום הוא צבע אמיתי מהעולם שלו (מנופים, ווסטים, חותמי מכולה)
+   ומסמן את שחר עצמו — הוא מופיע בשני קצוות המסע.
+   ══════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* דיו וניירת */
-  --color-ink: #0B1A20;
-  --color-ink-2: #122A34;
-  --color-ink-3: #1D3D49;
-  --color-paper: #FBFAF6;
-  --color-paper-2: #F3EFE7;
-  --color-paper-3: #E8E2D6;
-  --color-line: #D8D1C2;
-  --color-line-soft: #E7E1D5;
-  --color-muted: #5C6B72;
-  --color-muted-2: #7C8A90;
+  --color-ground: #0E0F11;
+  --color-surface: #16181B;
+  --color-surface-2: #1E2226;
+  --color-raised: #272C31;
+  --color-line: #2A2F34;
+  --color-line-2: #3B4248;
 
-  /* מבטא ראשי — טורקיז עמוק */
-  --color-teal: #0D6B75;
-  --color-teal-2: #12909C;
-  --color-teal-3: #6FBDC4;
-  --color-teal-soft: #DCEAEB;
+  --color-txt: #E8E6E1;
+  --color-txt-2: #A5ABB0;
+  --color-steel: #78868E;
 
-  /* מבטא פעולה — ענבר */
-  --color-amber: #B5730D;
-  --color-amber-2: #DC9A25;
-  --color-amber-3: #F0C572;
-  --color-amber-soft: #F7EBD4;
+  --color-accent: #E8541F;
+  --color-accent-2: #FF7A46;
+  --color-accent-ink: #150602;
 
-  --font-display: "Frank Ruhl Libre", Georgia, "Times New Roman", serif;
-  --font-body: "Assistant", "Segoe UI", Arial, Helvetica, sans-serif;
-  --font-label: "Miriam Libre", "Arial Hebrew", Arial, sans-serif;
+  --color-paper: #EFEDE8;
+  --color-paper-2: #DFDBD2;
+  --color-paper-line: #C9C5BC;
+  --color-ink: #0B0C0D;
 
-  --spacing-section: 6.5rem;
+  --color-cn: #DE2910;
+  --color-il: #0038B8;
+
+  --font-display: var(--font-secular), "Arial Hebrew", Arial, sans-serif;
+  --font-body: var(--font-assistant), "Segoe UI", Arial, sans-serif;
+  --font-mono: var(--font-plex), ui-monospace, Menlo, monospace;
 }
 
 @layer base {
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
   html {
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
+    background: var(--color-ground);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
   }
 
   body {
-    background: var(--color-paper);
-    color: var(--color-ink);
+    background: var(--color-ground);
+    color: var(--color-txt);
     font-family: var(--font-body);
     font-size: 17px;
-    line-height: 1.7;
+    line-height: 1.72;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 700;
-    line-height: 1.16;
-    letter-spacing: -0.015em;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.012em;
     text-wrap: balance;
   }
 
-  /* מיקוד נראה תמיד — נגישות מקלדת */
   :focus-visible {
-    outline: 3px solid var(--color-teal-2);
+    outline: 3px solid var(--color-accent-2);
     outline-offset: 3px;
-    border-radius: 2px;
   }
 
   ::selection {
-    background: var(--color-amber-3);
-    color: var(--color-ink);
+    background: var(--color-accent);
+    color: #fff;
   }
 }
 
 @layer components {
+  /* ─── רוחב תוכן ─────────────────────────────────────────── */
   .container-x {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1240px;
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    padding-inline: 20px;
   }
-  @media (min-width: 768px) {
-    .container-x { padding-inline: 2.5rem; }
-  }
+  @media (min-width: 900px) { .container-x { padding-inline: 44px; } }
 
-  /* תווית מדור — משמשת כעוגן היררכי בכל העמודים */
+  /* ─── תווית מונו ────────────────────────────────────────── */
   .eyebrow {
-    font-family: var(--font-label);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    color: var(--color-teal);
-    display: inline-flex;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.17em;
+    color: var(--color-steel);
+    display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.65rem;
   }
   .eyebrow::before {
     content: "";
-    width: 1.75rem;
-    height: 2px;
-    background: currentColor;
+    width: 1.4rem;
+    height: 1px;
+    background: var(--color-accent);
     flex: none;
   }
-  .on-dark .eyebrow { color: var(--color-amber-3); }
+  .eyebrow-plain::before { display: none; }
 
-  /* מספור — נשען על משקל וגודל, לא על צבע */
   .numeral {
     font-family: var(--font-display);
     font-variant-numeric: tabular-nums;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
+
+  /* ═══ אזור הציר ═══════════════════════════════════════════
+     עוטף את שלוש הסקציות הראשונות. הוויזואל הארוך יושב
+     בתוכו במיקום אבסולוטי וחוצה את כולן; התוכן מקבל ריפוד
+     שמור בצד שמאל כדי שלעולם לא ייגע בו.
+     ════════════════════════════════════════════════════════ */
+  .spine-zone { position: relative; }
+
+  .spine {
+    position: absolute;
+    top: 0;
+    inset-inline-end: -3vw;
+    width: min(44vw, 580px);
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    display: none;
+  }
+  @media (min-width: 1024px) { .spine { display: block; } }
+
+  .spine img,
+  .spine .slot {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top center;
+  }
+
+  /* התוכן שומר מקום לציר */
+  .spine-safe { position: relative; z-index: 1; }
+  @media (min-width: 1024px) {
+    .spine-safe { padding-inline-end: min(42vw, 560px); }
+  }
+
+  /* ─── ויזואל שגולש מעבר לקצה המסך ───────────────────────── */
+  .bleed-end,
+  .bleed-start {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+    display: none;
+  }
+  @media (min-width: 1100px) {
+    .bleed-end, .bleed-start { display: block; }
+  }
+  .bleed-end { inset-inline-end: -7vw; }
+  .bleed-start { inset-inline-start: -7vw; }
 }
 
-/* ── חשיפה בגלילה ─────────────────────────────────────────────
-   נותן את התחושה ה״חיה״ שהלקוח ביקש, בלי להסתיר תוכן ממי
-   שגולל מהר או ממנועי חיפוש: ברירת המחדל היא גלוי.
-   ──────────────────────────────────────────────────────────── */
-.reveal {
-  opacity: 1;
-  transform: none;
-}
+/* ─── חשיפה בגלילה ──────────────────────────────────────────
+   ברירת המחדל היא גלוי. הסקריפט רק מוסיף תנועה.
+   ────────────────────────────────────────────────────────── */
+.reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: no-preference) {
   .js .reveal {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(16px);
+    transition: opacity .75s cubic-bezier(.16,1,.3,1),
+                transform .75s cubic-bezier(.16,1,.3,1);
     transition-delay: var(--reveal-delay, 0ms);
   }
-  .js .reveal.is-in {
-    opacity: 1;
-    transform: none;
-  }
+  .js .reveal.is-in { opacity: 1; transform: none; }
 }

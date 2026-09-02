@@ -54,7 +54,7 @@ export const hero = {
 export const heroStats = [
   { value: "20", unit: "שנה", label: "חיים ועבודה בסין" },
   { value: "7", unit: "שירותים", label: "בנפרד או כחבילה" },
-  { value: "10", unit: "←1", label: "ספקים למכולה אחת" },
+  { value: "10", unit: "ספקים", label: "מאוחדים למכולה אחת" },
   { value: "0", unit: "₪", label: "עד להזמנה בפועל" },
 ];
 

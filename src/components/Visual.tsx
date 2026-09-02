@@ -36,6 +36,7 @@ export default function Visual({
   height,
   className = "",
   priority = false,
+  fallback,
 }: {
   id: VisualId;
   /** ריק = דקורטיבי בלבד */
@@ -46,8 +47,12 @@ export default function Visual({
   height: number;
   className?: string;
   priority?: boolean;
+  /** מוצג במקום מציין המקום כשהקובץ עדיין לא קיים */
+  fallback?: React.ReactNode;
 }) {
   const src = resolve(id);
+
+  if (!src && fallback) return <>{fallback}</>;
 
   if (src) {
     return (

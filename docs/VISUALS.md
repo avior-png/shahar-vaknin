@@ -19,35 +19,38 @@
 
 ---
 
-## hero-factory — רצועת ההירו
+## hero-gate — רצועת ההירו
 
 `1536×1024 · לרוחב · JPG` · **הנכס הכי חשוב**
 
-רצועה רחבה מתחת לכותרת. היא מוצגת כתצלום — לא כרקע שהטקסט יושב עליו —
-ולכן אין כאן שום הרכבה שיכולה לצאת מוזרה.
+רצועה רחבה מתחת לכותרת, מוצגת כתצלום ולא כרקע שטקסט יושב עליו — ולכן
+אין כאן שום הרכבה שיכולה לצאת מוזרה.
 
-**זו צריכה להיות תמונה אמיתית של שחר.** כל הטענה של ההירו היא שהוא
-באמת שם ובאמת מדבר איתם. רינדור של "אדם במפעל סיני" יעשה בדיוק את
-ההפך באתר שכל תפקידו לשרוד בדיקת רקע.
+**השער חייב להיות פתוח.** שער סגור אומר ״אתה לא נכנס״; שער פתוח שמאחוריו
+נראה המפעל אומר ״אני מכניס אותך פנימה״ — וזה בדיוק מה שהוא מוכר, וזה גם
+כל הקונספט: הלקוח תמיד בחוץ, שחר בפנים.
 
-מה לבקש ממנו: צילום מביקור מפעל — הוא בשיחה עם מנהל המפעל או בודק
-מוצר על קו הייצור. אופקי, לא מבוים, בלי מבט למצלמה. גם צילום מהטלפון
-עדיף על רינדור.
-
-**רק אם אין ברירה** — פרומפט זמני, בלי פנים מזוהות:
+דגל סין על התורן ליד השער הוא אותנטי — כך זה נראה במתחמי תעשייה בסין —
+ולא אלמנט דקורטיבי.
 
 ```
-A wide documentary photograph inside a working Chinese metal fabrication
-factory. In the middle distance two men stand beside a production line
-examining a component together, both seen from behind and slightly to the
-side so no faces are visible, one gesturing toward the machine. Rows of CNC
-equipment and steel stock recede behind them, overhead industrial lamps
-casting warm pools of light onto a polished concrete floor, faint haze in
-the air. Natural reportage feel, nothing posed, slightly imperfect framing
-as if caught mid-conversation. Warm industrial daylight mixed with lamp
-light, muted red and ochre tones, shallow depth of field on a 50mm lens,
-subtle film grain, no glossy CGI look. Absolutely no text, no letters, no
-numbers, no signage, no Chinese characters, no logos, no watermarks.
+A wide photograph of the main gate of an industrial factory compound in
+China, taken straight on from outside at eye level. A heavy steel sliding
+gate stands half open at the centre of the frame, and through the opening
+a long low fabrication hall is visible across the yard beyond, its windows
+glowing warm from the production floor working inside. The gate itself is
+painted a muted industrial grey-blue with chipped safety markings along
+the lower rails. A tall flagpole stands beside the gate on the left with a
+Chinese national flag hanging from it, gently lifted by a light breeze,
+clearly recognisable but not dominating the frame. Plain concrete boundary
+walls extend to both edges of the image, weathered and unadorned. Overcast
+early morning light, cool soft shadows, faint mist in the yard, wet
+asphalt in the foreground. Calm, still, completely empty — no people, no
+vehicles. Documentary architectural photography on a 35mm lens, sharp and
+even, subtle film grain, no glossy CGI look. The walls, gate and buildings
+must be completely blank — absolutely no text, no letters, no numbers, no
+Chinese characters, no signage, no plaques, no banners, no logos, no
+watermarks anywhere in the image.
 ```
 
 ## container-front — סקציית המיצוב
@@ -198,7 +201,7 @@ watermarks anywhere.
 
 ## עדיפות
 
-1. **hero-factory** — רצועת ההירו; עדיף צילום אמיתי משחר
+1. **hero-gate** — רצועת ההירו
 2. **container-front** + **containers-stack** — סקציית המיצוב
 3. **portrait** + **china-circle** — אזור "מי עומד מאחורי זה"
 4. **cta-bg**

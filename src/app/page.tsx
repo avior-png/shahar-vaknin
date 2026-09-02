@@ -69,9 +69,9 @@ export default function HomePage() {
           <figure className="reveal mt-14 md:mt-20">
             <div className="overflow-hidden rounded-[var(--radius-xl)] border border-line">
               <Visual
-                id="hero-factory"
-                alt="שחר וקנין על רצפת ייצור במפעל בסין, בשיחה עם מנהל המפעל"
-                spec="שחר על רצפת ייצור סינית, בשיחה עם מנהל המפעל — צילום אמיתי, לרוחב"
+                id="hero-gate"
+                alt="שער של מפעל בסין, פתוח, עם דגל סין ומבנה הייצור נראה מעבר לו"
+                spec="שער מפעל בסין, פתוח למחצה · דגל סין על התורן · אולם הייצור נראה מעבר"
                 width={2400}
                 height={1100}
                 priority
@@ -79,7 +79,13 @@ export default function HomePage() {
               />
             </div>
 
-            <figcaption className="mt-6 grid gap-px overflow-hidden rounded-[var(--radius-md)] border border-line bg-line sm:grid-cols-3">
+            {/* הכיתוב הופך את התצלום לטענה ולא לטפט */}
+            <p className="mt-5 max-w-[46em] border-r-[3px] border-red pr-5 text-[0.98rem] leading-relaxed text-muted">
+              השער של מפעל בסין. רוב היבואנים לעולם לא עוברים אותו —
+              הם מדברים עם מי שעונה למייל, ומניחים שזה היצרן.
+            </p>
+
+            <figcaption className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-md)] border border-line bg-line sm:grid-cols-3">
               {hero.proof.map((item, i) => (
                 <span key={item} className="block bg-paper px-6 py-5">
                   <span className="font-display text-[0.85rem] text-red">

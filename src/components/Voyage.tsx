@@ -3,30 +3,29 @@ import { processSteps } from "@/content/site";
 /**
  * המסע — אזור התהליך.
  *
- * מבט עילי: כל שלב הוא גוף ספינה מודרנית שנראית מלמעלה, עם
- * חרטום מחודד בכיוון ההתקדמות (שמאלה). כל ספינה מוסטת מעט
- * שמאלה מקודמתה, וכך ההתקדמות נקראת כמדרגות. מטען הסיפון
- * זהה בכולן — מה שמשתנה זה המרחק שעברו.
+ * מבט עילי, בקנה מידה מרוסן: כל שלב הוא פס דק בצורת גוף
+ * ספינה, עם חרטום מחודד לכיוון ההתקדמות (שמאלה). כל ספינה
+ * מוסטת מעט שמאלה מקודמתה. מטען הסיפון זהה בכולן — מה
+ * שמשתנה הוא רק המרחק שעברו.
  */
 export default function Voyage() {
   const total = processSteps.length;
 
   return (
-    <div className="relative mt-16">
-      {/* נתיב ההפלגה */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-[3%] hidden w-px border-l border-dashed border-white/18 md:block"
-      />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-2 left-0 hidden items-center gap-2 text-[0.72rem] font-bold tracking-wide text-gold-2 md:flex"
-      >
-        <span className="h-2 w-2 rounded-full bg-gold-2" />
-        ישראל
-      </span>
+    <div className="relative mt-14">
+      {/* קווי היעד */}
+      <div className="mb-5 flex items-center justify-between text-[0.72rem] font-bold tracking-wide">
+        <span className="flex items-center gap-2 text-gold-2">
+          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold-2" />
+          ישראל
+        </span>
+        <span className="flex items-center gap-2 text-white/40">
+          סין
+          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-red" />
+        </span>
+      </div>
 
-      <ol className="space-y-7 md:space-y-5">
+      <ol className="space-y-6">
         {processSteps.map((step, i) => {
           const free = step.cost === "ללא עלות";
           return (
@@ -34,61 +33,48 @@ export default function Voyage() {
               key={step.n}
               className="reveal group"
               style={{
-                ["--reveal-delay" as string]: `${i * 110}ms`,
-                marginInlineStart: `${i * 2.4}%`,
-                width: `${100 - (total - 1) * 2.4}%`,
-                minWidth: "min(100%, 22rem)",
+                ["--reveal-delay" as string]: `${i * 100}ms`,
+                marginInlineStart: `${i * 3.2}%`,
+                width: `${100 - (total - 1) * 3.2}%`,
               }}
             >
-              {/* גוף הספינה */}
-              <div className="hull relative flex h-[110px] items-center gap-5 bg-gradient-to-l from-white via-[#F1F1EF] to-[#D9D9D5] pl-[17%] pr-4 shadow-deep transition-transform duration-500 group-hover:-translate-x-2 md:h-[124px]">
+              {/* גוף הספינה — פס דק */}
+              <div className="hull relative flex h-[58px] items-center gap-3.5 bg-gradient-to-l from-white via-[#F4F4F2] to-[#DCDCD8] pl-[9%] pr-3 shadow-[0_16px_28px_-18px_rgba(0,0,0,.9)] transition-transform duration-500 group-hover:-translate-x-1.5 md:h-[64px] md:gap-4 md:pr-3.5">
                 {/* מטען הסיפון — זהה בכל שלב */}
                 <span
                   aria-hidden="true"
-                  className="deck pointer-events-none absolute inset-y-[22%] left-[19%] right-[6.5rem] opacity-70"
-                  style={{ mixBlendMode: "multiply" }}
+                  className="deck pointer-events-none absolute inset-y-[26%] left-[11%] right-[3.6rem]"
                 />
-
                 {/* מגדל הפיקוד, בירכתיים — נושא את מספר השלב */}
                 <span
-                  className={`relative flex h-[3.1rem] w-[3.1rem] flex-none items-center justify-center rounded-[10px] font-display text-[1.1rem] shadow-[0_6px_14px_-6px_rgba(0,0,0,.6)] ${
+                  className={`relative flex h-9 w-9 flex-none items-center justify-center rounded-[7px] font-display text-[0.88rem] ${
                     free ? "bg-red text-white" : "bg-ink text-white"
                   }`}
                 >
                   {String(step.n).padStart(2, "0")}
                 </span>
 
-                <div className="relative min-w-0 flex-1">
-                  <h3 className="truncate text-[1.1rem] leading-tight text-ink md:text-[1.35rem]">
-                    <span className="sr-only">שלב {step.n}: </span>
-                    {step.title}
-                  </h3>
-                  <span
-                    className={`mt-1.5 inline-block rounded-full px-3 py-[3px] text-[0.7rem] font-bold ${
-                      free ? "bg-gold-soft text-ink" : "bg-ink/[.08] text-ink-2"
-                    }`}
-                  >
-                    {step.cost}
-                  </span>
-                </div>
+                <h3 className="relative truncate text-[0.98rem] leading-none text-ink md:text-[1.12rem]">
+                  <span className="sr-only">שלב {step.n}: </span>
+                  {step.title}
+                </h3>
+
+                <span
+                  className={`relative mr-auto hidden flex-none rounded-full px-2.5 py-1 text-[0.66rem] font-bold sm:block ${
+                    free ? "bg-gold-soft text-ink" : "bg-ink/10 text-ink-2"
+                  }`}
+                >
+                  {step.cost}
+                </span>
               </div>
 
-              {/* קילוו */}
-              <p className="mt-3 max-w-[52em] pr-6 text-[0.95rem] leading-relaxed text-white/60">
+              <p className="mt-2.5 max-w-[54em] pr-2 text-[0.88rem] leading-relaxed text-white/50">
                 {step.body}
               </p>
             </li>
           );
         })}
       </ol>
-
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-3 right-0 hidden items-center gap-2 text-[0.72rem] font-bold tracking-wide text-white/45 md:flex"
-      >
-        סין
-        <span className="h-2 w-2 rounded-full bg-red" />
-      </span>
     </div>
   );
 }

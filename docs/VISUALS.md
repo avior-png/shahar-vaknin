@@ -19,30 +19,40 @@
 
 ---
 
-## hero-crane — המנוף המרכזי
+## spine-containers — הציר האנכי
 
 `1024×1536 · לאורך · PNG שקוף` · **הנכס הכי חשוב**
 
-יושב במרכז ההירו על רקע לבן, ושתי כרטיסיות בכל צד שלו. הרקע באתר לבן
-לחלוטין — ולכן התמונה חייבת להיות **שקופה או להימס ללבן בכל הקצוות**,
-אחרת ייראה מלבן. שטיפות הדגלים נעשות באתר עצמו ב-CSS, אז לא חייבים
-אותן בתמונה; אם כן — רק כרמז דהוי מאוד.
+מגדל מכולות שמתחיל בהירו, בין ארבע הכרטיסיות, וממשיך בגלילה מטה מאחורי
+המשפט הסוגר והמספרים עד שהוא נמוג.
+
+**למה מכולות ולא מנוף:** מנוף הוא אובייקט של נמל — הוא אומר ״חברת שילוח״,
+וזה בדיוק המיצוב שהלקוח פסל. השילוח גם הכי פחות מבדל אצלו. המכולה היא
+האובייקט שלו: ״עשרה ספקים, מכולה אחת״ הוא השירות הייחודי ביותר שלו,
+וחותם הנעילה הוא ההוכחה הפיזית שאיש לא פתח את המשלוח. מגדל מכולות גם
+אנכי מטבעו וניתן להארכה — מנוף נגמר בקרס.
+
+**קריטי:** הרקע באתר לבן לחלוטין, אז חובה שקיפות אמיתית סביב כל קצה.
+המגדל צריך להיחתך בשני הקצוות — למעלה ולמטה — כדי שייראה שהוא ממשיך.
 
 ```
-A modern port gantry crane photographed from below against a bright empty
-sky, isolated on a fully transparent background with no backdrop of any
-kind. The crane stands vertically in the centre of a tall narrow frame: its
-main mast rises the full height, its horizontal jib crosses the upper third,
-and from the jib a single steel shipping container hangs on cables at the
-centre of the image. The steel structure is clean and contemporary, painted
-in a muted deep red with pale grey structural members, showing realistic
-weathering and bolted joints but no rust or decay. Soft directional daylight
-from the upper left, gentle shadows, everything sharp and clearly readable
-as a silhouette. Nothing else in the frame — no ground, no buildings, no sky,
-no people, no other cranes. The whole subject is cut out cleanly with true
-alpha transparency around every edge including between the lattice members
-of the mast. Photorealistic, PNG with alpha. Absolutely no text, no letters,
-no numbers, no signage, no logos, no watermarks anywhere in the image.
+A tall vertical stack of shipping containers piled one directly on top of
+another, isolated on a fully transparent background with no backdrop of any
+kind. Six containers are stacked in a single perfectly vertical column that
+fills the entire height of a tall narrow frame and is cut off by both the
+top and the bottom edges, as if the column continues beyond the image.
+Photographed straight on at eye level with almost no perspective
+distortion, so the stack reads as a clean vertical tower. Each container is
+a different weathered colour — deep oxblood red, warm ochre, charcoal grey,
+faded rust, muted steel blue, dark maroon — with realistic corrugated
+ribbing, corner castings, and visible wear, dents and paint chalking that
+differ from one unit to the next. The lowest visible container in the frame
+faces the viewer with its doors closed, its four vertical locking bars and
+heavy cast handles clearly detailed. Soft even daylight from the upper
+left, gentle contact shadows between the stacked units, nothing harsh.
+Photorealistic, sharp throughout, PNG with true alpha transparency around
+every edge. Absolutely no text, no letters, no numbers, no container codes,
+no shipping marks, no logos, no watermarks anywhere in the image.
 ```
 
 ## container-front — סקציית המיצוב
@@ -193,7 +203,7 @@ watermarks anywhere.
 
 ## עדיפות
 
-1. **hero-frame** — בלעדיו ראש העמוד ריק
+1. **spine-containers** — הציר; בלעדיו ראש העמוד ריק
 2. **container-front** + **containers-stack** — סקציית המיצוב
 3. **portrait** + **china-circle** — אזור "מי עומד מאחורי זה"
 4. **cta-bg**

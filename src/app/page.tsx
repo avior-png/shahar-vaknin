@@ -23,87 +23,91 @@ export default function HomePage() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════
-          הירו — רוחב מלא על לבן.
-          המנוף במרכז, שתי כרטיסיות בכל צד שלו.
-          שטיפות הדגלים הן גרדיאנטים רכים מאחורי הכותרת, כך
-          שהן נמסות אל הלבן ולא יוצרות מלבן.
+          הירו + המספרים — אזור אחד עם ציר אנכי אחד.
+          מגדל המכולות מתחיל כאן, עובר מאחורי המשפט הסוגר
+          והמספרים, ונמוג. ההירו יושב במסגרת עם שוליים.
           ══════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-paper pb-20 pt-14 md:pb-28 md:pt-20">
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-40 right-[-10%] h-[620px] w-[620px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(0,56,184,.10), transparent 66%)" }}
-        />
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-52 left-[-12%] h-[680px] w-[680px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(196,22,28,.13), transparent 66%)" }}
-        />
-
+      <div className="spine-zone bg-paper pb-24 pt-4 md:pb-32 md:pt-5">
         <div className="container-wide relative">
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="reveal text-[0.95rem] font-bold text-red">{hero.eyebrow}</p>
-            <h1
-              className="reveal display mt-6 text-ink"
-              style={{ ["--reveal-delay" as string]: "60ms" }}
+          {/* המסגרת */}
+          <div className="relative rounded-[var(--radius-xl)] border border-line bg-paper-2/70 px-5 py-16 md:px-12 md:py-20">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 overflow-hidden rounded-[var(--radius-xl)]"
             >
-              העיניים שלך <FlagWord flag="cn">בסין</FlagWord>
-            </h1>
-            <p
-              className="reveal mx-auto mt-7 max-w-[34em] text-[1.08rem] leading-relaxed text-ink-2 md:text-[1.24rem]"
-              style={{ ["--reveal-delay" as string]: "130ms" }}
-            >
-              עשרים שנה חייתי ועבדתי שם. אני מאתר את המפעל האמיתי, מנהל את
-              המשא ומתן בסינית, ובודק את הסחורה{" "}
-              <b className="font-bold text-ink">לפני</b> שהיא עולה על האונייה.
-            </p>
-            <div
-              className="reveal mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
-              style={{ ["--reveal-delay" as string]: "200ms" }}
-            >
-              <Button href={ctaPrimary.href} variant="red">{ctaPrimary.label}</Button>
-              <Button href={ctaSecondary.href} variant="outline" arrow={false}>
-                {ctaSecondary.label}
-              </Button>
-            </div>
-          </div>
-
-          {/* המנוף במרכז, התוכן משני צדדיו */}
-          <div className="mt-10 grid items-center gap-7 lg:mt-14 lg:grid-cols-[1fr_minmax(340px,36%)_1fr] lg:gap-8">
-            <div className="flex flex-col gap-5">
-              {rightCards.map((fear, i) => (
-                <FearCard key={fear.title} fear={fear} n={i + 1} delay={i * 90} align="end" />
-              ))}
-            </div>
-
-            <div className="reveal relative order-first lg:order-none">
-              <Visual
-                id="hero-crane"
-                alt=""
-                spec="מנוף מודרני מרים מכולה · שמיים בהירים שנמסים ללבן בקצוות · שטיפת דגלים עדינה"
-                width={1100}
-                height={1400}
-                priority
-                className="mx-auto w-full max-w-[520px]"
+              <span
+                className="absolute -top-40 right-[-8%] block h-[560px] w-[560px] rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(0,56,184,.11), transparent 66%)" }}
               />
+              <span
+                className="absolute -top-48 left-[-10%] block h-[620px] w-[620px] rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(196,22,28,.14), transparent 66%)" }}
+              />
+            </span>
+
+            <div className="relative mx-auto max-w-4xl text-center">
+              <p className="reveal text-[0.95rem] font-bold text-red">{hero.eyebrow}</p>
+              <h1
+                className="reveal display mt-6 text-ink"
+                style={{ ["--reveal-delay" as string]: "60ms" }}
+              >
+                העיניים שלך <FlagWord flag="cn">בסין</FlagWord>
+              </h1>
+              <p
+                className="reveal mx-auto mt-7 max-w-[34em] text-[1.08rem] leading-relaxed text-ink-2 md:text-[1.24rem]"
+                style={{ ["--reveal-delay" as string]: "130ms" }}
+              >
+                עשרים שנה חייתי ועבדתי שם. אני מאתר את המפעל האמיתי, מנהל את
+                המשא ומתן בסינית, ובודק את הסחורה{" "}
+                <b className="font-bold text-ink">לפני</b> שהיא עולה על האונייה.
+              </p>
+              <div
+                className="reveal mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
+                style={{ ["--reveal-delay" as string]: "200ms" }}
+              >
+                <Button href={ctaPrimary.href} variant="red">{ctaPrimary.label}</Button>
+                <Button href={ctaSecondary.href} variant="outline" arrow={false}>
+                  {ctaSecondary.label}
+                </Button>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-5">
-              {leftCards.map((fear, i) => (
-                <FearCard key={fear.title} fear={fear} n={i + 3} delay={(i + 2) * 90} align="start" />
-              ))}
+            {/* ארבע הכרטיסיות מלוות את הציר משני צדדיו.
+                הציר מתחיל כאן — מתחת לכותרת — וממשיך מטה אל
+                מעבר לגבול המסגרת, אל המשפט הסוגר והמספרים. */}
+            <div className="relative mt-14 grid gap-6 lg:mt-20 lg:grid-cols-[1fr_minmax(280px,30%)_1fr] lg:gap-8">
+              <div className="spine-col">
+                <Visual
+                  id="spine-containers"
+                  alt=""
+                  spec="מגדל מכולות אנכי · PNG שקוף · נחתך בשני הקצוות"
+                  width={1024}
+                  height={1536}
+                  priority
+                  className="h-full w-full object-cover object-top"
+                />
+              </div>
+              <div className="relative flex flex-col gap-5">
+                {rightCards.map((fear, i) => (
+                  <FearCard key={fear.title} fear={fear} n={i + 1} delay={i * 90} />
+                ))}
+              </div>
+              <div aria-hidden="true" className="hidden lg:block" />
+              <div className="relative flex flex-col gap-5">
+                {leftCards.map((fear, i) => (
+                  <FearCard key={fear.title} fear={fear} n={i + 3} delay={(i + 2) * 90} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ══ המשפט שסוגר את הבעיה + המספרים ══ */}
-      <Section tone="paper" className="!pt-4">
-        <p className="reveal mx-auto max-w-[24ch] text-center font-display text-[clamp(1.7rem,4.6vw,3.2rem)] leading-[1.1] text-ink">
-          {problem.closing}
-        </p>
-        <Stats className="mt-16" />
-      </Section>
+          {/* המשפט הסוגר + המספרים — עדיין על הציר */}
+          <p className="reveal mx-auto mt-24 max-w-[24ch] text-center font-display text-[clamp(1.7rem,4.6vw,3.2rem)] leading-[1.1] text-ink">
+            {problem.closing}
+          </p>
+          <Stats className="mt-16" />
+        </div>
+      </div>
 
       {/* ══ המיצוב ══ */}
       <section className="relative overflow-hidden bg-night">
@@ -240,18 +244,15 @@ export default function HomePage() {
 }
 
 function FearCard({
-  fear, n, delay, align,
+  fear, n, delay,
 }: {
   fear: { title: string; body: string };
   n: number;
   delay: number;
-  align: "start" | "end";
 }) {
   return (
     <article
-      className={`reveal card card-lift group relative overflow-hidden bg-white p-6 shadow-soft ${
-        align === "end" ? "lg:ml-2" : "lg:mr-2"
-      }`}
+      className="reveal card card-lift group relative overflow-hidden bg-white/95 p-6 shadow-soft backdrop-blur-sm"
       style={{ ["--reveal-delay" as string]: `${delay}ms` }}
     >
       <span

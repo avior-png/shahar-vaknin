@@ -93,6 +93,30 @@
   }
   @media (min-width: 900px) { .container-wide { padding-inline: 36px; } }
 
+  /* ─── הציר ──────────────────────────────────────────────────
+     מגדל מכולות אנכי שמתחיל בהירו וממשיך בגלילה מטה, עד
+     שהוא נמוג. אנכי מטבעו וניתן להארכה — בניגוד למנוף,
+     שנגמר בקרס.
+     ──────────────────────────────────────────────────────── */
+  .spine-zone { position: relative; }
+
+  /* מתחיל מתחת לכותרת וממשיך הרבה מעבר לגבול הסקציה */
+  .spine-col {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(30vw, 380px);
+    height: 1180px;
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 58%, transparent 94%);
+    mask-image: linear-gradient(to bottom, #000 0, #000 58%, transparent 94%);
+  }
+  @media (max-width: 1023px) {
+    .spine-col { width: 66vw; height: 620px; opacity: .14; }
+  }
+
   /* ─── מסגרת ─────────────────────────────────────────────────
      בלוק שיושב בתוך מסגרת עם שוליים, על רקע כהה — כך שהוא
      נקרא כלוח בפני עצמו ולא כרצועה שנוגעת בקצוות.
@@ -220,20 +244,20 @@
      ─────────────────────────────────────────────────────── */
   .hull {
     position: relative;
-    clip-path: polygon(0 50%, 3.2% 30%, 8% 12%, 13% 3%, 97.5% 0, 100% 14%, 100% 86%, 97.5% 100%, 13% 97%, 8% 88%, 3.2% 70%);
+    clip-path: polygon(0 50%, 1.6% 26%, 4.2% 8%, 7.5% 0, 98.4% 0, 100% 16%, 100% 84%, 98.4% 100%, 7.5% 100%, 4.2% 92%, 1.6% 74%);
     transition: transform .5s cubic-bezier(.16,1,.3,1), filter .5s ease;
   }
   @media (max-width: 900px) {
-    .hull { clip-path: polygon(0 50%, 5% 26%, 14% 6%, 97% 0, 100% 18%, 100% 82%, 97% 100%, 14% 94%, 5% 74%); }
+    .hull { clip-path: polygon(0 50%, 3% 22%, 8% 4%, 13% 0, 98% 0, 100% 18%, 100% 82%, 98% 100%, 13% 100%, 8% 96%, 3% 78%); }
   }
 
   /* סיפון מכולות — זהה בכל השלבים */
   .deck {
     background-image:
       repeating-linear-gradient(90deg,
-        rgba(255,255,255,.10) 0 22px, transparent 22px 27px),
+        rgba(12,12,12,.11) 0 13px, transparent 13px 16px),
       repeating-linear-gradient(0deg,
-        rgba(255,255,255,.10) 0 14px, transparent 14px 18px);
+        rgba(12,12,12,.09) 0 8px, transparent 8px 11px);
   }
 
   .card-lift:hover {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import Section, { SectionHead } from "@/components/Section";
-import ProductionLine from "@/components/ProductionLine";
+import Voyage from "@/components/Voyage";
 import CtaBand from "@/components/CtaBand";
 import { processIntro, processSteps, commercials } from "@/content/site";
 
@@ -10,13 +10,13 @@ export const metadata: Metadata = { title: "איך זה עובד", description: 
 export default function ProcessPage() {
   return (
     <>
-      <PageHero eyebrow={processIntro.eyebrow} title={processIntro.title} lead={processIntro.lead} />
+      <PageHero kicker={processIntro.eyebrow} title={processIntro.title} lead={processIntro.lead} />
 
-      <Section tone="ground" contained={false}>
-        <ProductionLine />
+      <Section tone="paper" contained={false}>
+        <Voyage />
       </Section>
 
-      <Section tone="surface">
+      <Section tone="paper-2">
         <ol className="space-y-px border border-line bg-line">
           {processSteps.map((step) => {
             const free = step.cost === "ללא עלות";
@@ -40,8 +40,8 @@ export default function ProcessPage() {
         </ol>
       </Section>
 
-      <Section tone="ground">
-        <SectionHead eyebrow="מסחרי" title={commercials.title} />
+      <Section tone="paper">
+        <SectionHead kicker="מסחרי" title={commercials.title} />
         <div className="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
           {commercials.items.map((item, i) => (
             <article key={item.title} className="reveal bg-surface p-8" style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}>

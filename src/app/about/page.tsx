@@ -10,9 +10,9 @@ export const metadata: Metadata = { title: "מי אני", description: about.her
 export default function AboutPage() {
   return (
     <>
-      <PageHero eyebrow={about.hero.eyebrow} title={about.hero.title} lead={about.hero.lead} />
+      <PageHero kicker={about.hero.eyebrow} title={about.hero.title} lead={about.hero.lead} />
 
-      <Section tone="ground">
+      <Section tone="paper">
         <div className="bleed-start w-[320px] opacity-40">
           <Visual id="03-floor" alt="" spec="רצפת ייצור — גולש מעבר לקצה." width={2000} height={1500} />
         </div>
@@ -20,31 +20,31 @@ export default function AboutPage() {
           <div className="space-y-11">
             {about.story.map((chapter, i) => (
               <article key={chapter.title} className="reveal border-r-2 border-line pr-7" style={{ ["--reveal-delay" as string]: `${i * 60}ms` }}>
-                <span className="numeral font-mono text-[0.72rem] text-accent-2">
+                <span className="font-display text-[0.72rem] text-red">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h2 className="mt-2 text-[1.45rem] text-paper md:text-[1.75rem]">{chapter.title}</h2>
-                <p className="mt-4 text-[1.02rem] leading-relaxed text-txt-2">{chapter.body}</p>
+                <h2 className="mt-2 text-[1.45rem] text-ink md:text-[1.75rem]">{chapter.title}</h2>
+                <p className="mt-4 text-[1.02rem] leading-relaxed text-muted">{chapter.body}</p>
               </article>
             ))}
           </div>
           <dl className="reveal grid gap-px border border-line bg-line lg:sticky lg:top-28">
             {credibility.facts.map((fact) => (
-              <div key={fact.k} className="bg-surface px-7 py-6">
-                <dt className="font-mono text-[0.6rem] tracking-[0.13em] text-steel">{fact.k}</dt>
-                <dd className="mt-2 text-[1.02rem] font-semibold leading-snug text-txt">{fact.v}</dd>
+              <div key={fact.k} className="bg-paper-2 px-7 py-6">
+                <dt className="text-[0.6rem] tracking-[0.13em] text-muted">{fact.k}</dt>
+                <dd className="mt-2 text-[1.02rem] font-semibold leading-snug text-ink-2">{fact.v}</dd>
               </div>
             ))}
           </dl>
         </div>
       </Section>
 
-      <Section tone="surface">
+      <Section tone="paper-2">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <SectionHead eyebrow="שפה וגישה" title={about.language.title} />
+          <SectionHead kicker="שפה וגישה" title={about.language.title} />
           <div className="space-y-5">
             {about.language.body.map((p, i) => (
-              <p key={i} className="reveal text-[1.03rem] leading-relaxed text-txt-2" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
+              <p key={i} className="reveal text-[1.03rem] leading-relaxed text-muted" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
                 {p}
               </p>
             ))}
@@ -52,14 +52,14 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section tone="ground">
-        <SectionHead eyebrow="קווים אדומים" title={about.values.title} />
+      <Section tone="paper">
+        <SectionHead kicker="קווים אדומים" title={about.values.title} />
         <div className="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
           {about.values.items.map((value, i) => (
-            <article key={value.title} className="reveal bg-surface p-8" style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}>
-              <span aria-hidden="true" className="flex h-10 w-10 items-center justify-center border border-line-2 text-[1.1rem] text-steel">✕</span>
-              <h3 className="mt-5 text-[1.2rem] text-paper">{value.title}</h3>
-              <p className="mt-3 text-[0.96rem] leading-relaxed text-txt-2">{value.body}</p>
+            <article key={value.title} className="reveal bg-paper-2 p-8" style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}>
+              <span aria-hidden="true" className="flex h-10 w-10 items-center justify-center border border-line-2 text-[1.1rem] text-muted">✕</span>
+              <h3 className="mt-5 text-[1.2rem] text-ink">{value.title}</h3>
+              <p className="mt-3 text-[0.96rem] leading-relaxed text-muted">{value.body}</p>
             </article>
           ))}
         </div>

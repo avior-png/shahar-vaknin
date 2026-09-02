@@ -2,54 +2,57 @@
 
 /* ══════════════════════════════════════════════════════════════
    שחר וקנין — מערכת עיצוב
-   קונספט: "מבפנים". סין כהה בראש העמוד, ישראל בהירה בתחתיתו.
-   הכתום הוא צבע אמיתי מהעולם שלו (מנופים, ווסטים, חותמי מכולה)
-   ומסמן את שחר עצמו — הוא מופיע בשני קצוות המסע.
+   ──────────────────────────────────────────────────────────────
+   בסיס לבן־חם עם אדום וזהב סיניים. האדום הוא אדום חותם (印章) —
+   סמל האותנטיות בסין, וגם בדיוק מה שהוא מוכר. הכהה שמור לרגעים
+   שבהם אנחנו בתוך המפעל.
+   אתר שכל עניינו לראות — לא צריך להיות שחור.
    ══════════════════════════════════════════════════════════════ */
 
 @theme {
-  --color-ground: #0E0F11;
-  --color-surface: #16181B;
-  --color-surface-2: #1E2226;
-  --color-raised: #272C31;
-  --color-line: #2A2F34;
-  --color-line-2: #3B4248;
+  --color-paper: #FBF9F5;
+  --color-paper-2: #F4EFE6;
+  --color-paper-3: #EAE1D2;
+  --color-line: #E0D7C7;
+  --color-line-2: #C7B9A2;
 
-  --color-txt: #E8E6E1;
-  --color-txt-2: #A5ABB0;
-  --color-steel: #78868E;
+  --color-ink: #17120F;
+  --color-ink-2: #453C34;
+  --color-muted: #7A6F64;
 
-  --color-accent: #E8541F;
-  --color-accent-2: #FF7A46;
-  --color-accent-ink: #150602;
+  --color-red: #C4161C;
+  --color-red-2: #9E0F14;
+  --color-red-3: #E8443F;
+  --color-red-soft: #F8E6E3;
 
-  --color-paper: #EFEDE8;
-  --color-paper-2: #DFDBD2;
-  --color-paper-line: #C9C5BC;
-  --color-ink: #0B0C0D;
+  --color-gold: #C0902A;
+  --color-gold-2: #E0B449;
+  --color-gold-soft: #F8EED4;
 
-  --color-cn: #DE2910;
+  --color-night: #15100C;
+  --color-night-2: #241B14;
+  --color-night-3: #3A2C21;
+
   --color-il: #0038B8;
 
   --font-display: var(--font-secular), "Arial Hebrew", Arial, sans-serif;
   --font-body: var(--font-assistant), "Segoe UI", Arial, sans-serif;
-  --font-mono: var(--font-plex), ui-monospace, Menlo, monospace;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
 }
 
 @layer base {
   * { box-sizing: border-box; }
 
-  html {
-    scroll-behavior: smooth;
-    background: var(--color-ground);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-  }
+  html { scroll-behavior: smooth; background: var(--color-paper); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   body {
-    background: var(--color-ground);
-    color: var(--color-txt);
+    background: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-body);
     font-size: 17px;
     line-height: 1.72;
@@ -59,179 +62,161 @@
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.012em;
+    line-height: 1.08;
+    letter-spacing: -0.018em;
     text-wrap: balance;
   }
 
   :focus-visible {
-    outline: 3px solid var(--color-accent-2);
+    outline: 3px solid var(--color-red);
     outline-offset: 3px;
+    border-radius: 6px;
   }
-
-  ::selection {
-    background: var(--color-accent);
-    color: #fff;
-  }
+  ::selection { background: var(--color-gold-soft); color: var(--color-ink); }
 }
 
 @layer components {
-  /* ─── רוחב תוכן ─────────────────────────────────────────── */
   .container-x {
     width: 100%;
-    max-width: 1240px;
+    max-width: 1280px;
     margin-inline: auto;
-    padding-inline: 20px;
+    padding-inline: 18px;
   }
-  @media (min-width: 900px) { .container-x { padding-inline: 44px; } }
+  @media (min-width: 900px) { .container-x { padding-inline: 40px; } }
 
-  /* ─── תווית מונו ────────────────────────────────────────── */
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.17em;
-    color: var(--color-steel);
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
+  /* ─── מסגרת ─────────────────────────────────────────────────
+     בלוק שיושב בתוך מסגרת עם שוליים, על רקע כהה — כך שהוא
+     נקרא כלוח בפני עצמו ולא כרצועה שנוגעת בקצוות.
+     ──────────────────────────────────────────────────────── */
+  .frame {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    position: relative;
   }
-  .eyebrow::before {
-    content: "";
-    width: 1.4rem;
-    height: 1px;
-    background: var(--color-accent);
-    flex: none;
-  }
-  .eyebrow-plain::before { display: none; }
+  .frame-pad { padding: 14px; }
+  @media (min-width: 900px) { .frame-pad { padding: 20px; } }
 
-  .numeral {
-    font-family: var(--font-display);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.03em;
-  }
-
-  /* ═══ אזור הציר ═══════════════════════════════════════════
-     עוטף את שלוש הסקציות הראשונות. הוויזואל הארוך יושב
-     בתוכו במיקום אבסולוטי וחוצה את כולן; התוכן מקבל ריפוד
-     שמור בצד שמאל כדי שלעולם לא ייגע בו.
-     ════════════════════════════════════════════════════════ */
-  .spine-zone { position: relative; }
-
-  .spine {
-    position: absolute;
-    top: 0;
-    inset-inline-end: -3vw;
-    width: min(44vw, 580px);
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    display: none;
-  }
-  @media (min-width: 1024px) { .spine { display: block; } }
-
-  .spine img,
-  .spine .slot {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: top center;
-  }
-
-  /* התוכן שומר מקום לציר */
-  .spine-safe { position: relative; z-index: 1; }
-  @media (min-width: 1024px) {
-    .spine-safe { padding-inline-end: min(42vw, 560px); }
-  }
-
-  /* ═══ שכבת העומק ═══════════════════════════════════════════
-     ארבעה מהלכים בלבד, ומהם מגיעה כל תחושת העומק:
-     טיפוגרפיה בקנה מידה של כרזה · חפיפה בין אלמנטים ·
-     חיתוך בקצה המסך · והטיה עם צל אמיתי.
-     ═════════════════════════════════════════════════════════ */
-
-  /* כותרת בקנה מידה של כרזה — לא של אתר */
+  /* ─── טיפוגרפיה ────────────────────────────────────────── */
   .display {
-    font-size: clamp(3.4rem, 13vw, 11rem);
-    line-height: 0.86;
-    letter-spacing: -0.04em;
-  }
-  .display-md {
-    font-size: clamp(2.4rem, 8.5vw, 6.5rem);
-    line-height: 0.9;
+    font-size: clamp(2.9rem, 9.5vw, 7.4rem);
+    line-height: 0.92;
     letter-spacing: -0.035em;
   }
+  .display-md {
+    font-size: clamp(2rem, 6vw, 4.1rem);
+    line-height: 0.98;
+    letter-spacing: -0.028em;
+  }
+  .display-sm {
+    font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+  }
 
-  /* מילה ענקית בקו מתאר, מאחורי התוכן */
-  .ghost {
+  /* קו מפריד עדין עם נקודת זהב — מחליף את תוויות המונו */
+  .rule {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .rule::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-red);
+    flex: none;
+  }
+
+  /* ─── כפתורים ───────────────────────────────────────────── */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding: 1.05rem 2.1rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1.02rem;
+    line-height: 1;
+    text-decoration: none;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color .35s ease, border-color .35s ease, transform .2s ease;
+  }
+  .btn::before {
+    content: "";
     position: absolute;
-    font-family: var(--font-display);
-    font-size: clamp(9rem, 30vw, 26rem);
-    line-height: 0.75;
-    white-space: nowrap;
-    color: transparent;
-    -webkit-text-stroke: 1.5px rgba(232, 226, 216, 0.07);
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    transform: translateY(101%);
+    transition: transform .42s cubic-bezier(.16,1,.3,1);
   }
+  .btn:hover::before { transform: translateY(0); }
+  .btn:active { transform: translateY(1px); }
+  .btn .arrow { transition: transform .35s cubic-bezier(.16,1,.3,1); }
+  .btn:hover .arrow { transform: translateX(-0.3rem); }
 
-  /* כותרת שנחתכת בקצה המסך — הרוחב ממשיך מעבר למסגרת */
-  .crop {
-    white-space: nowrap;
-    margin-inline-start: -0.06em;
-  }
+  .btn-red { background: var(--color-red); color: #fff; }
+  .btn-red::before { background: var(--color-ink); }
 
-  /* כרטיס מרחף — הטיה + צל אמיתי הם מה שמרים אותו מהמשטח */
-  .float {
-    box-shadow:
-      0 44px 70px -22px rgba(0, 0, 0, 0.92),
-      0 8px 22px rgba(0, 0, 0, 0.6);
-  }
-  .tilt-a { transform: rotate(-1.4deg); }
-  .tilt-b { transform: rotate(1.1deg); }
-  @media (max-width: 900px) {
-    .tilt-a, .tilt-b { transform: none; }
-  }
+  .btn-ink { background: var(--color-ink); color: var(--color-paper); }
+  .btn-ink::before { background: var(--color-red); }
 
-  /* חפיפה בין סקציות — האלמנט רוכב על התפר */
-  .ride { position: relative; z-index: 3; margin-bottom: -5.5rem; }
-  .make-room { padding-top: 7.5rem; }
+  .btn-outline {
+    border: 1.5px solid var(--color-line-2);
+    color: var(--color-ink);
+  }
+  .btn-outline::before { background: var(--color-ink); }
+  .btn-outline:hover { color: var(--color-paper); border-color: var(--color-ink); }
 
-  /* מדרגה אנכית — שובר יישור אחיד בין כרטיסים */
-  @media (min-width: 900px) {
-    .step-1 { transform: translateY(2.6rem); }
-    .step-2 { transform: translateY(-1.4rem); }
+  .btn-ghost {
+    border: 1.5px solid rgba(251,249,245,.35);
+    color: var(--color-paper);
   }
+  .btn-ghost::before { background: var(--color-paper); }
+  .btn-ghost:hover { color: var(--color-ink); border-color: var(--color-paper); }
 
-  /* ─── ויזואל שגולש מעבר לקצה המסך ───────────────────────── */
-  .bleed-end,
-  .bleed-start {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 0;
-    pointer-events: none;
-    display: none;
+  /* ─── כרטיס ─────────────────────────────────────────────── */
+  .card {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s ease,
+                border-color .3s ease;
   }
-  @media (min-width: 1100px) {
-    .bleed-end, .bleed-start { display: block; }
+  .card-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 22px 40px -20px rgba(23,18,15,.28);
+    border-color: var(--color-line-2);
   }
-  .bleed-end { inset-inline-end: -7vw; }
-  .bleed-start { inset-inline-start: -7vw; }
 }
 
-/* ─── חשיפה בגלילה ──────────────────────────────────────────
-   ברירת המחדל היא גלוי. הסקריפט רק מוסיף תנועה.
-   ────────────────────────────────────────────────────────── */
+/* ─── חשיפה בגלילה ────────────────────────────────────────── */
 .reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: no-preference) {
   .js .reveal {
     opacity: 0;
     transform: translateY(16px);
-    transition: opacity .75s cubic-bezier(.16,1,.3,1),
-                transform .75s cubic-bezier(.16,1,.3,1);
+    transition: opacity .8s cubic-bezier(.16,1,.3,1),
+                transform .8s cubic-bezier(.16,1,.3,1);
     transition-delay: var(--reveal-delay, 0ms);
   }
   .js .reveal.is-in { opacity: 1; transform: none; }
+}
+
+/* ─── ריחוף עדין ──────────────────────────────────────────── */
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-11px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .drift { animation: drift var(--drift-dur, 7s) ease-in-out infinite; }
+  .drift-2 { animation: drift var(--drift-dur, 9s) ease-in-out infinite .9s; }
+  .drift-3 { animation: drift var(--drift-dur, 8s) ease-in-out infinite 1.8s; }
 }

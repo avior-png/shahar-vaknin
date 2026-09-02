@@ -29,9 +29,9 @@ export default function FaqPage() {
   return (
     <>
       <FaqSchema />
-      <PageHero eyebrow={faqIntro.eyebrow} title={faqIntro.title} lead={faqIntro.lead} />
+      <PageHero kicker={faqIntro.eyebrow} title={faqIntro.title} lead={faqIntro.lead} />
 
-      <Section tone="ground">
+      <Section tone="paper">
         <div className="mx-auto max-w-4xl border-t border-line">
           {faq.map((item, i) => (
             <details
@@ -40,20 +40,20 @@ export default function FaqPage() {
               open={i === 0}
             >
               <summary className="flex cursor-pointer list-none items-start gap-5 py-6 [&::-webkit-details-marker]:hidden">
-                <span className="numeral mt-1 font-mono text-[0.68rem] text-steel">
+                <span className="font-display mt-1 text-[0.68rem] text-muted">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h2 className="flex-1 font-display text-[1.15rem] leading-snug text-paper md:text-[1.35rem]">
+                <h2 className="flex-1 font-display text-[1.15rem] leading-snug text-ink md:text-[1.35rem]">
                   {item.q}
                 </h2>
                 <span
                   aria-hidden="true"
-                  className="mt-1 flex h-7 w-7 flex-none items-center justify-center border border-line-2 text-accent-2 transition-transform group-open:rotate-45"
+                  className="mt-1 flex h-7 w-7 flex-none items-center justify-center border border-line-2 text-red transition-transform group-open:rotate-45"
                 >
                   +
                 </span>
               </summary>
-              <p className="max-w-[54em] pb-7 pr-[3.1rem] text-[1rem] leading-relaxed text-txt-2">
+              <p className="max-w-[54em] pb-7 pr-[3.1rem] text-[1rem] leading-relaxed text-muted">
                 {item.a}
               </p>
             </details>

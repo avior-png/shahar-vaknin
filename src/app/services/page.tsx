@@ -10,36 +10,36 @@ export const metadata: Metadata = { title: "שירותים", description: servic
 export default function ServicesPage() {
   return (
     <>
-      <PageHero eyebrow={servicesIntro.eyebrow} title={servicesIntro.title} lead={servicesIntro.lead} />
+      <PageHero kicker={servicesIntro.eyebrow} title={servicesIntro.title} lead={servicesIntro.lead} />
 
-      <nav aria-label="שירותים" className="border-b border-line bg-surface">
+      <nav aria-label="שירותים" className="border-b border-line bg-paper-2">
         <div className="container-x flex gap-2 overflow-x-auto py-4">
           {services.map((service) => (
-            <a key={service.slug} href={`#${service.slug}`} className="flex-none border border-line-2 px-4 py-2 text-[0.86rem] font-semibold whitespace-nowrap text-txt-2 hover:border-accent hover:text-paper">
-              <span className="numeral ml-2 font-mono text-[0.7rem] text-accent-2">{service.n}</span>
+            <a key={service.slug} href={`#${service.slug}`} className="flex-none border border-line-2 px-4 py-2 text-[0.86rem] font-semibold whitespace-nowrap text-muted hover:border-red hover:text-ink">
+              <span className="font-display ml-2 text-[0.7rem] text-red">{service.n}</span>
               {service.title}
             </a>
           ))}
         </div>
       </nav>
 
-      <Section tone="ground">
+      <Section tone="paper">
         <div className="space-y-px border border-line bg-line">
           {services.map((service) => (
-            <article key={service.slug} id={service.slug} className="reveal scroll-mt-28 bg-surface p-8 md:p-11">
+            <article key={service.slug} id={service.slug} className="reveal scroll-mt-28 bg-paper-2 p-8 md:p-11">
               <div className="grid gap-9 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
                 <div>
-                  <span className="numeral text-[2.4rem] leading-none text-line-2">{service.n}</span>
-                  <h2 className="mt-2 text-[1.6rem] text-paper md:text-[2rem]">{service.title}</h2>
-                  <p className="mt-2 font-mono text-[0.66rem] tracking-[0.12em] text-accent-2">{service.tagline}</p>
-                  <p className="mt-6 text-[1.02rem] leading-relaxed text-txt-2">{service.summary}</p>
+                  <span className="font-display text-[2.4rem] leading-none text-line-2">{service.n}</span>
+                  <h2 className="mt-2 text-[1.6rem] text-ink md:text-[2rem]">{service.title}</h2>
+                  <p className="mt-2 text-[0.66rem] tracking-[0.12em] text-red">{service.tagline}</p>
+                  <p className="mt-6 text-[1.02rem] leading-relaxed text-muted">{service.summary}</p>
                 </div>
-                <div className="border border-line bg-ground p-7">
-                  <h3 className="font-mono text-[0.62rem] tracking-[0.14em] text-steel">מה זה כולל</h3>
+                <div className="border border-line bg-paper p-7">
+                  <h3 className="text-[0.62rem] tracking-[0.14em] text-muted">מה זה כולל</h3>
                   <ul className="mt-5 space-y-3">
                     {service.items.map((item) => (
-                      <li key={item} className="flex gap-3 text-[0.95rem] leading-relaxed text-txt-2">
-                        <span aria-hidden="true" className="mt-2.5 h-px w-4 flex-none bg-accent" />
+                      <li key={item} className="flex gap-3 text-[0.95rem] leading-relaxed text-muted">
+                        <span aria-hidden="true" className="mt-2.5 h-px w-4 flex-none bg-red" />
                         {item}
                       </li>
                     ))}
@@ -50,11 +50,11 @@ export default function ServicesPage() {
           ))}
         </div>
 
-        <div className="reveal mt-12 grid gap-8 border border-line bg-surface p-8 md:grid-cols-[1fr_320px] md:items-center md:p-11">
+        <div className="reveal mt-12 grid gap-8 border border-line bg-paper-2 p-8 md:grid-cols-[1fr_320px] md:items-center md:p-11">
           <div>
             <p className="eyebrow">השירות שאף אחד אחר לא נותן</p>
-            <h2 className="mt-4 text-[1.5rem] text-paper md:text-[1.9rem]">עשרה ספקים, מכולה אחת</h2>
-            <p className="mt-4 max-w-[40em] text-[1rem] leading-relaxed text-txt-2">
+            <h2 className="mt-4 text-[1.5rem] text-ink md:text-[1.9rem]">עשרה ספקים, מכולה אחת</h2>
+            <p className="mt-4 max-w-[40em] text-[1rem] leading-relaxed text-muted">
               פריטים קטנים שהכמות שלהם לבדה לא מצדיקה יבוא — כפפות, ברגים, ברזלים,
               חומרי גלם. איחוד של ספקים מאזורים שונים בסין למכולה אחת משנה את התחשיב לגמרי.
             </p>

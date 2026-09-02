@@ -7,95 +7,136 @@ import { cases } from "@/content/site";
 /**
  * סיפורי מקרה.
  *
- * במקום שלוש תיבות זהות — לוח אחד. הכפתורים יושבים בצד קבוע
- * מהרגע הראשון והמקרה הראשון פתוח כברירת מחדל, כך שאין קפיצה
- * בפריסה; רק הרקע והתוכן מתחלפים בהצלבה.
+ * לוח כהה אחד. המספר המרכזי של כל מקרה מודפס ענק ברקע בקו
+ * מתאר, התמונה יושבת ככרטיס מוסט עם צל, והמעבר בין המקרים
+ * נעשה ברצועת בוררים ממוספרת — בלי שהפריסה זזה.
  */
 export default function CaseExplorer({
   backgrounds,
 }: {
-  /** נתיבי הרקעים, נפתרים בשרת — קומפוננטת לקוח לא ניגשת לקבצים */
   backgrounds: Record<string, string | null>;
 }) {
   const [active, setActive] = useState(0);
   const item = cases[active];
+  const headline = item.stats[0];
 
   return (
-    <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-line bg-night">
-      {/* רקע מתחלף */}
-      {cases.map((c, i) => (
-        <span
-          key={c.slug}
-          aria-hidden="true"
-          className="absolute inset-0 transition-opacity duration-700 ease-out"
-          style={{ opacity: i === active ? 1 : 0 }}
-        >
-          <Slot
-            src={backgrounds[c.slug] ?? null}
-            id={`case-${c.slug}`}
-            alt=""
-            spec={`רקע לסיפור: ${c.title}`}
-            width={2000}
-            height={1300}
-            className="h-full w-full object-cover"
-          />
-        </span>
-      ))}
+    <div className="relative overflow-hidden rounded-[var(--radius-xl)] bg-night text-white">
+      {/* המספר המרכזי, ענק ומאחור */}
       <span
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-l from-night via-night/92 to-night/70"
+        className="ghost-num pointer-events-none absolute -top-6 left-[-2%] text-white"
+        style={{ fontSize: "clamp(9rem,24vw,20rem)" }}
+      >
+        {headline.v}
+      </span>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 -top-32 h-96 w-96 rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(196,22,28,.4), transparent 68%)" }}
       />
 
-      <div className="relative grid gap-8 p-6 md:p-10 lg:grid-cols-[1fr_290px] lg:gap-12">
+      <div className="relative grid gap-10 p-7 md:p-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
         {/* התוכן */}
-        <div key={item.slug} className="min-h-[360px]">
-          <p className="text-[0.92rem] font-bold text-gold-2">{item.sector}</p>
-          <h3 className="display-sm mt-3 max-w-[18ch] text-paper">{item.title}</h3>
+        <div>
+          <p className="flex items-center gap-2.5 text-[0.92rem] font-bold text-gold-2">
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-gold-2" />
+            {item.sector}
+          </p>
+          <h3 className="display-sm mt-4 max-w-[16ch] text-white">{item.title}</h3>
+
           {item.body.map((paragraph, pi) => (
-            <p key={pi} className="mt-4 max-w-[46em] text-[1rem] leading-relaxed text-paper/75">
+            <p key={pi} className="mt-4 max-w-[44em] text-[1rem] leading-relaxed text-white/65">
               {paragraph}
             </p>
           ))}
 
-          <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-5 border-t border-paper/15 pt-6">
-            {item.stats.map((stat) => (
-              <div key={stat.l}>
-                <dd className="font-display text-[2.2rem] leading-none text-gold-2">{stat.v}</dd>
-                <dt className="mt-2 text-[0.82rem] font-semibold text-paper/55">{stat.l}</dt>
+          <dl className="mt-9 grid gap-3 sm:grid-cols-3">
+            {item.stats.map((stat, si) => (
+              <div
+                key={stat.l}
+                className={`rounded-[var(--radius-sm)] border p-4 ${
+                  si === 0 ? "border-red bg-red/12" : "border-white/12 bg-white/[.04]"
+                }`}
+              >
+                <dd className={`font-display text-[1.75rem] leading-none ${si === 0 ? "text-red-3" : "text-gold-2"}`}>
+                  {stat.v}
+                </dd>
+                <dt className="mt-2.5 text-[0.78rem] font-semibold leading-snug text-white/55">
+                  {stat.l}
+                </dt>
               </div>
             ))}
           </dl>
         </div>
 
-        {/* הבוררים */}
-        <div
-          role="tablist"
-          aria-label="סיפורי מקרה"
-          aria-orientation="vertical"
-          className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible"
-        >
-          {cases.map((c, i) => {
-            const on = i === active;
-            return (
-              <button
+        {/* התמונה — כרטיס מוסט עם צל */}
+        <div className="relative lg:self-center">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] border border-white/12 shadow-deep">
+            {cases.map((c, i) => (
+              <span
                 key={c.slug}
-                role="tab"
-                type="button"
-                aria-selected={on}
-                onClick={() => setActive(i)}
-                className={`flex-none rounded-[var(--radius-sm)] border px-4 py-3.5 text-right text-[0.92rem] font-semibold transition-colors lg:flex-auto ${
-                  on
-                    ? "border-red bg-red text-white"
-                    : "border-paper/20 text-paper/70 hover:border-paper/45 hover:text-paper"
-                }`}
+                aria-hidden="true"
+                className="absolute inset-0 block transition-opacity duration-700 ease-out"
+                style={{ opacity: i === active ? 1 : 0 }}
               >
-                <span className="block whitespace-nowrap lg:whitespace-normal">
-                  {c.sector}
-                </span>
-              </button>
-            );
-          })}
+                <Slot
+                  src={backgrounds[c.slug] ?? null}
+                  id={`case-${c.slug}`}
+                  alt=""
+                  spec={`רקע לסיפור: ${c.title}`}
+                  width={1600}
+                  height={1200}
+                  className="h-full w-full object-cover"
+                />
+              </span>
+            ))}
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-night/70 via-transparent to-transparent"
+            />
+          </div>
+          <span
+            aria-hidden="true"
+            className="absolute -bottom-4 -left-4 -z-10 h-full w-full rounded-[var(--radius-lg)] border border-red/45"
+          />
         </div>
+      </div>
+
+      {/* רצועת הבוררים */}
+      <div
+        role="tablist"
+        aria-label="סיפורי מקרה"
+        className="relative flex gap-px overflow-x-auto border-t border-white/10 bg-white/[.03]"
+      >
+        {cases.map((c, i) => {
+          const on = i === active;
+          return (
+            <button
+              key={c.slug}
+              role="tab"
+              type="button"
+              aria-selected={on}
+              onClick={() => setActive(i)}
+              className={`group relative flex-1 whitespace-nowrap px-5 py-5 text-right transition-colors ${
+                on ? "bg-white/[.07]" : "hover:bg-white/[.05]"
+              }`}
+            >
+              <span
+                aria-hidden="true"
+                className={`absolute inset-x-0 top-0 h-[3px] origin-right bg-red transition-transform duration-500 ${
+                  on ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                }`}
+              />
+              <span className={`block font-display text-[0.95rem] ${on ? "text-gold-2" : "text-white/35"}`}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className={`mt-1 block text-[0.92rem] font-semibold ${on ? "text-white" : "text-white/55"}`}>
+                {c.sector}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

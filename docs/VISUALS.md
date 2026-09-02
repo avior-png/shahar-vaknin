@@ -19,33 +19,30 @@
 
 ---
 
-## hero-frame — הלוח הראשי
+## hero-crane — המנוף המרכזי
 
-`1536×1024 · לרוחב · JPG` · **הנכס הכי חשוב**
+`1024×1536 · לאורך · PNG שקוף` · **הנכס הכי חשוב**
 
-יושב בתוך המסגרת המעוגלת בראש העמוד. הכותרת יושבת עליו במרכז, וארבע
-כרטיסיות מלוות אותו משני צדדיו — לכן **המנוף חייב להיות במרכז המדויק**,
-והשליש העליון חייב להישאר בהיר ופנוי לטקסט.
+יושב במרכז ההירו על רקע לבן, ושתי כרטיסיות בכל צד שלו. הרקע באתר לבן
+לחלוטין — ולכן התמונה חייבת להיות **שקופה או להימס ללבן בכל הקצוות**,
+אחרת ייראה מלבן. שטיפות הדגלים נעשות באתר עצמו ב-CSS, אז לא חייבים
+אותן בתמונה; אם כן — רק כרמז דהוי מאוד.
 
 ```
-A tall industrial gantry crane standing dead centre of the frame against a
-vast bright daytime sky, photographed from below. The crane's horizontal
-jib crosses the upper middle of the image and a single steel cargo
-container hangs from it on cables at the centre. The sky fills the entire
-background: soft pale blue near the top fading to warm white and gentle
-haze toward the horizon, with thin high cirrus clouds. On the far right
-edge of the sky, the blue and white bands of an Israeli flag appear as an
-extremely faint, heavily blurred wash of colour bleeding into the clouds,
-barely perceptible. On the far left edge, the red and gold of a Chinese
-flag appears the same way — a soft diffused stain of warm red in the sky,
-not a flag object, no visible fabric, no stars, no shapes, just colour
-bleeding into cloud. Both are subtle atmospheric tints, roughly ten percent
-opacity, never competing with the crane. The upper third of the image is
-almost pure bright empty sky, deliberately clear for text. The crane
-structure is weathered steel painted muted red-orange. No people, no
-ground, no buildings. Bright natural daylight photography on a 35mm lens,
-airy and clean, high key, soft contrast, subtle film grain. Absolutely no
-text, no letters, no numbers, no signage, no logos, no watermarks.
+A modern port gantry crane photographed from below against a bright empty
+sky, isolated on a fully transparent background with no backdrop of any
+kind. The crane stands vertically in the centre of a tall narrow frame: its
+main mast rises the full height, its horizontal jib crosses the upper third,
+and from the jib a single steel shipping container hangs on cables at the
+centre of the image. The steel structure is clean and contemporary, painted
+in a muted deep red with pale grey structural members, showing realistic
+weathering and bolted joints but no rust or decay. Soft directional daylight
+from the upper left, gentle shadows, everything sharp and clearly readable
+as a silhouette. Nothing else in the frame — no ground, no buildings, no sky,
+no people, no other cranes. The whole subject is cut out cleanly with true
+alpha transparency around every edge including between the lattice members
+of the mast. Photorealistic, PNG with alpha. Absolutely no text, no letters,
+no numbers, no signage, no logos, no watermarks anywhere in the image.
 ```
 
 ## container-front — סקציית המיצוב

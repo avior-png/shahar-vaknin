@@ -3,101 +3,92 @@ import { processSteps } from "@/content/site";
 /**
  * המסע — אזור התהליך.
  *
- * כל שלב הוא ספינה שמתקדמת שמאלה לאורך קו מים אחד, עד לנמל.
- * הקו נצבע באדום עד לנקודה שאליה הגיעו, וכך ההתקדמות נקראת
- * גם בלי לקרוא מילה.
+ * מבט עילי: כל שלב הוא גוף ספינה מודרנית שנראית מלמעלה, עם
+ * חרטום מחודד בכיוון ההתקדמות (שמאלה). כל ספינה מוסטת מעט
+ * שמאלה מקודמתה, וכך ההתקדמות נקראת כמדרגות. מטען הסיפון
+ * זהה בכולן — מה שמשתנה זה המרחק שעברו.
  */
-
-function Ship({ progress }: { progress: number }) {
-  // ככל שמתקדמים, נערמות עוד שכבות מכולות על הסיפון
-  const tiers = Math.min(3, Math.floor(progress * 3) + 1);
-  return (
-    <svg viewBox="0 0 96 62" className="h-14 w-[5.4rem]" fill="none" aria-hidden="true">
-      {Array.from({ length: tiers }).map((_, t) => (
-        <g key={t}>
-          {[0, 1, 2].map((c) => (
-            <rect
-              key={c}
-              x={24 + c * 17}
-              y={34 - t * 9}
-              width="15"
-              height="8"
-              rx="1.5"
-              fill={t === tiers - 1 ? "#C0902A" : "#C4161C"}
-              opacity={t === tiers - 1 ? 0.9 : 0.75}
-            />
-          ))}
-        </g>
-      ))}
-      <path d="M12 42h72l-9 13H21z" fill="#17120F" />
-      <rect x="66" y="24" width="13" height="12" rx="2" fill="#453C34" />
-      <path d="M72.5 24v-7" stroke="#453C34" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export default function Voyage() {
-  const last = processSteps.length - 1;
+  const total = processSteps.length;
 
   return (
-    <div className="mt-14 overflow-x-auto pb-4">
-      <ol className="relative flex min-w-[1080px] items-stretch gap-4 px-1">
-        {/* קו המים */}
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 1200 24"
-          preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-x-2 top-[86px] h-6"
-        >
-          <path
-            d="M0 12q30-9 60 0t60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0"
-            stroke="#C7B9A2"
-            strokeWidth="2"
-            fill="none"
-          />
-        </svg>
+    <div className="relative mt-16">
+      {/* נתיב ההפלגה */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 left-[3%] hidden w-px border-l border-dashed border-white/18 md:block"
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-2 left-0 hidden items-center gap-2 text-[0.72rem] font-bold tracking-wide text-gold-2 md:flex"
+      >
+        <span className="h-2 w-2 rounded-full bg-gold-2" />
+        ישראל
+      </span>
 
+      <ol className="space-y-7 md:space-y-5">
         {processSteps.map((step, i) => {
           const free = step.cost === "ללא עלות";
           return (
             <li
               key={step.n}
-              className="reveal relative flex flex-1 flex-col"
-              style={{ ["--reveal-delay" as string]: `${i * 90}ms` }}
+              className="reveal group"
+              style={{
+                ["--reveal-delay" as string]: `${i * 110}ms`,
+                marginInlineStart: `${i * 2.4}%`,
+                width: `${100 - (total - 1) * 2.4}%`,
+                minWidth: "min(100%, 22rem)",
+              }}
             >
-              {/* הספינה — נעה שמאלה ככל שמתקדמים */}
-              <div
-                className="flex h-[92px] items-end"
-                style={{ justifyContent: "flex-start", paddingInlineStart: `${(i / last) * 26}%` }}
-              >
-                <Ship progress={i / last} />
-              </div>
+              {/* גוף הספינה */}
+              <div className="hull relative flex h-[110px] items-center gap-5 bg-gradient-to-l from-white via-[#F1F1EF] to-[#D9D9D5] pl-[17%] pr-4 shadow-deep transition-transform duration-500 group-hover:-translate-x-2 md:h-[124px]">
+                {/* מטען הסיפון — זהה בכל שלב */}
+                <span
+                  aria-hidden="true"
+                  className="deck pointer-events-none absolute inset-y-[22%] left-[19%] right-[6.5rem] opacity-70"
+                  style={{ mixBlendMode: "multiply" }}
+                />
 
-              <div className="card card-lift mt-7 flex flex-1 flex-col bg-paper p-6">
-                <div className="flex items-baseline gap-2.5">
-                  <span className="font-display text-[1.9rem] leading-none text-gold">
-                    {String(step.n).padStart(2, "0")}
-                  </span>
+                {/* מגדל הפיקוד, בירכתיים — נושא את מספר השלב */}
+                <span
+                  className={`relative flex h-[3.1rem] w-[3.1rem] flex-none items-center justify-center rounded-[10px] font-display text-[1.1rem] shadow-[0_6px_14px_-6px_rgba(0,0,0,.6)] ${
+                    free ? "bg-red text-white" : "bg-ink text-white"
+                  }`}
+                >
+                  {String(step.n).padStart(2, "0")}
+                </span>
+
+                <div className="relative min-w-0 flex-1">
+                  <h3 className="truncate text-[1.1rem] leading-tight text-ink md:text-[1.35rem]">
+                    <span className="sr-only">שלב {step.n}: </span>
+                    {step.title}
+                  </h3>
                   <span
-                    className={`rounded-full px-3 py-1 text-[0.7rem] font-bold ${
-                      free ? "bg-red text-white" : "bg-paper-3 text-ink-2"
+                    className={`mt-1.5 inline-block rounded-full px-3 py-[3px] text-[0.7rem] font-bold ${
+                      free ? "bg-gold-soft text-ink" : "bg-ink/[.08] text-ink-2"
                     }`}
                   >
                     {step.cost}
                   </span>
                 </div>
-                <h3 className="mt-3.5 text-[1.18rem] leading-tight text-ink">
-                  <span className="sr-only">שלב {step.n}: </span>
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-[0.93rem] leading-relaxed text-muted">
-                  {step.body}
-                </p>
               </div>
+
+              {/* קילוו */}
+              <p className="mt-3 max-w-[52em] pr-6 text-[0.95rem] leading-relaxed text-white/60">
+                {step.body}
+              </p>
             </li>
           );
         })}
       </ol>
+
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-3 right-0 hidden items-center gap-2 text-[0.72rem] font-bold tracking-wide text-white/45 md:flex"
+      >
+        סין
+        <span className="h-2 w-2 rounded-full bg-red" />
+      </span>
     </div>
   );
 }

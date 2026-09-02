@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════
+   מערכת עיצוב — שחר פתרונות
+   ───────────────────────────────────────────────────────────────
+   אילוץ מוביל: הלקוח עיוור צבעים ואינו מבחין בין אדום לשחור
+   בקווים דקים. לכן:
+     • שום מידע לא מועבר באמצעות גוון בלבד — תמיד גם ניגודיות,
+       משקל, מיקום, מסגרת או תווית טקסטואלית.
+     • הפלטה בנויה על ציר בהיר/כהה + זוג טורקיז־ענבר, שנשמר
+       גם בעיוורון אדום־ירוק (הזוג נבדל בבהירות ובציר כחול־צהוב).
+     • אין אדום וירוק כמדדי מצב.
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* דיו וניירת */
+  --color-ink: #0B1A20;
+  --color-ink-2: #122A34;
+  --color-ink-3: #1D3D49;
+  --color-paper: #FBFAF6;
+  --color-paper-2: #F3EFE7;
+  --color-paper-3: #E8E2D6;
+  --color-line: #D8D1C2;
+  --color-line-soft: #E7E1D5;
+  --color-muted: #5C6B72;
+  --color-muted-2: #7C8A90;
+
+  /* מבטא ראשי — טורקיז עמוק */
+  --color-teal: #0D6B75;
+  --color-teal-2: #12909C;
+  --color-teal-3: #6FBDC4;
+  --color-teal-soft: #DCEAEB;
+
+  /* מבטא פעולה — ענבר */
+  --color-amber: #B5730D;
+  --color-amber-2: #DC9A25;
+  --color-amber-3: #F0C572;
+  --color-amber-soft: #F7EBD4;
+
+  --font-display: "Frank Ruhl Libre", Georgia, "Times New Roman", serif;
+  --font-body: "Assistant", "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-label: "Miriam Libre", "Arial Hebrew", Arial, sans-serif;
+
+  --spacing-section: 6.5rem;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.16;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  /* מיקוד נראה תמיד — נגישות מקלדת */
+  :focus-visible {
+    outline: 3px solid var(--color-teal-2);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-amber-3);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x { padding-inline: 2.5rem; }
+  }
+
+  /* תווית מדור — משמשת כעוגן היררכי בכל העמודים */
+  .eyebrow {
+    font-family: var(--font-label);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--color-teal);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 2px;
+    background: currentColor;
+    flex: none;
+  }
+  .on-dark .eyebrow { color: var(--color-amber-3); }
+
+  /* מספור — נשען על משקל וגודל, לא על צבע */
+  .numeral {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ── חשיפה בגלילה ─────────────────────────────────────────────
+   נותן את התחושה ה״חיה״ שהלקוח ביקש, בלי להסתיר תוכן ממי
+   שגולל מהר או ממנועי חיפוש: ברירת המחדל היא גלוי.
+   ──────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}

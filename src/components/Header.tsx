@@ -24,17 +24,23 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /** בעמוד הבית ההדר שקוף מעל ההירו, ונאטם ברגע שגוללים */
+  const overHero = pathname === "/" && !lifted;
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <header className="sticky top-0 z-50">
-      {/* פס דק בצבעי המותג — חותם את ראש העמוד */}
-      <div aria-hidden="true" className="h-[3px] bg-gradient-to-l from-red via-gold to-red" />
+      {!overHero && (
+        <div aria-hidden="true" className="h-[3px] bg-gradient-to-l from-red via-gold to-red" />
+      )}
 
       <div
-        className={`bg-paper/92 backdrop-blur-lg transition-shadow duration-300 ${
-          lifted ? "shadow-[0_10px_30px_-22px_rgba(23,18,15,.5)]" : ""
+        className={`transition-all duration-300 ${
+          overHero
+            ? "bg-transparent"
+            : "bg-paper/92 shadow-[0_10px_30px_-22px_rgba(12,12,12,.5)] backdrop-blur-lg"
         }`}
       >
         <div className="container-x flex h-[82px] items-center justify-between gap-4">

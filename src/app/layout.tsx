@@ -5,6 +5,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RevealScript from "@/components/RevealScript";
 import "./globals.css";
+// נוצר על ידי scripts/bake-studio.mjs — חייב לבוא אחרי globals כדי לנצח בקסקדה
+import "./studio-baked.css";
+import StudioMount from "@/studio/StudioMount";
 
 const secular = Secular_One({
   variable: "--font-secular",
@@ -65,6 +68,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-ground text-txt">
         <RevealScript />
+        <StudioMount />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:right-3 focus:z-50 focus:bg-paper focus:px-4 focus:py-2 focus:font-bold focus:text-ink"

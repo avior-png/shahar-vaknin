@@ -63,24 +63,41 @@ Confirm you understand, then wait for my first image request.
 
 ## 2 · נכסי הליבה
 
-### `hero-gate`
-`1536×1024 · לרוחב` · **הכי חשוב**
+### `hero-bg` + `hero-gate` — שתי שכבות ההירו
 
-השער חייב להיות **פתוח**. שער סגור אומר ״אתה לא נכנס״; שער פתוח שמאחוריו
-נראה המפעל אומר ״אני מכניס אותך פנימה״ — וזה כל הקונספט.
+ההירו בנוי משתי תמונות של **אותה סצנה**:
+
+- **`hero-bg`** `1536×1024 · לרוחב` — הגרסה המלאה עם השמיים. יושבת ברקע.
+- **`hero-gate`** `1536×1024 · לרוחב · TRANSPARENT` — אותה תמונה בדיוק,
+  בלי השמיים, גזורה לשקיפות. יושבת **מעל הכותרת** כך שתחתית המילה
+  ״בסין״ מסתתרת מאחורי המפעל.
+
+שתיהן חייבות להיות **אותה קומפוזיציה בדיוק** — אותו קדר, אותה זווית,
+אותו גודל — אחרת השכבות לא יתלכדו.
 
 ```
 The main gate of an industrial factory compound in China, photographed
 straight on from outside at eye level, wide horizontal framing. A heavy
-steel sliding gate stands half open at the centre; through the opening a
-long low fabrication hall is visible across the yard beyond, its windows
-glowing warm from the production floor working inside. The gate is painted
-muted industrial grey-blue with chipped safety markings on the lower rails.
-A tall flagpole beside the gate on the left carries a Chinese national
-flag, lifted by a light breeze, clearly recognisable but not dominating.
-Plain weathered concrete boundary walls extend to both edges. Overcast
-early morning light, faint mist in the yard, wet asphalt in the foreground.
+steel sliding gate stands half open at the centre-left; through the
+opening a long low fabrication hall is visible across the yard beyond,
+its interior glowing warm from the production floor working inside. The
+gate is clean brushed steel and pale grey composite panels. A tall
+flagpole beside the gate on the left carries a Chinese national flag
+lifted by a light breeze. A wide expanse of polished wet concrete yard
+fills the lower half of the frame, reflecting the light. Bright clear
+daylight, blue sky with scattered white clouds in the upper half.
 Completely empty — no people, no vehicles. All walls and surfaces blank.
+```
+
+לאחר מכן, באותה שיחה:
+
+```
+Now give me the exact same image again, identical composition, camera
+position and lighting, but with the sky and everything above the horizon
+removed — only the gate, the flagpole with the flag, the walls, the
+buildings and the concrete yard, isolated on a fully transparent
+background with true alpha. Do not re-compose or re-render the scene;
+keep every element in exactly the same position and scale.
 ```
 
 ### `container-front`

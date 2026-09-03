@@ -21,83 +21,86 @@ export default function HomePage() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════
-          הירו — נקי.
-          הטקסט יושב על לבן, והתמונה היא רצועה נפרדת מתחתיו.
-          אין טקסט לבן מעל צילום עמוס, אין גזירות ואין הרכבות —
-          ולכן שום דבר לא יכול להיראות מוזר. התמונה מוצגת
-          כתצלום, לא כרקע שנלחמים בו.
+          הירו — לפי הסקיצה.
+          שלוש שכבות: תמונת רקע מלאה, הכותרת מעליה, ותמונת
+          המפעל השקופה מעל הכותרת — כך שהיא מסתתרת מאחוריו.
+          מעל הכל: הכיתוב הסיני האנכי, הטקסט והכפתורים.
+          בתחתית — חיתוך אלכסוני אל הלבן.
           ══════════════════════════════════════════════════════ */}
-      <section className="bg-paper pb-20 pt-12 md:pb-28 md:pt-16">
-        <div className="container-wide">
-          <div className="grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-end lg:gap-16">
-            <div>
-              {/* ההוכחה לסינית — כיתוב אמיתי, לא קישוט */}
-              <p className="reveal flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <span
-                  lang="zh"
-                  className="text-[1.6rem] leading-none text-red md:text-[2rem]"
-                  style={{ fontFamily: "var(--font-zh), serif" }}
-                >
-                  {hero.zh}
-                </span>
-                <span className="text-[0.9rem] font-semibold text-muted">{hero.zhHe}</span>
-              </p>
+      <section className="relative min-h-[92vh] overflow-hidden bg-paper">
+        {/* 1 · רקע */}
+        <span aria-hidden="true" className="absolute inset-0 z-0 block">
+          <Visual
+            id="hero-bg"
+            alt=""
+            spec="שער המפעל עם שמיים כחולים — תמונת הרקע המלאה"
+            width={2400}
+            height={1600}
+            priority
+            className="h-full w-full object-cover"
+          />
+        </span>
 
-              <h1
-                className="reveal display mt-7 text-ink"
-                style={{ ["--reveal-delay" as string]: "60ms" }}
-              >
-                העיניים שלך <FlagWord flag="cn">בסין</FlagWord>
-              </h1>
-            </div>
+        {/* 2 · הכותרת — מתחת לתמונת המפעל */}
+        <div className="container-wide relative z-10 pt-[16vh] md:pt-[18vh]">
+          <h1 className="reveal text-center leading-[0.86] md:text-right">
+            <span className="block text-[clamp(2.4rem,7vw,5.6rem)] font-normal text-ink">
+              העיניים שלך
+            </span>
+            <span className="mt-1 block text-[clamp(4.5rem,15vw,12rem)] text-red">
+              בסין
+            </span>
+          </h1>
+        </div>
 
-            <div className="reveal" style={{ ["--reveal-delay" as string]: "130ms" }}>
-              <p className="max-w-[32em] text-[1.06rem] leading-relaxed text-ink-2 md:text-[1.18rem]">
-                אני לא מתקשר למפעל מישראל. אני עומד שם, מדבר איתם בשפה שלהם,
-                ויודע איך עסקים באמת נסגרים בסין — כי חייתי שם עשרים שנה.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button href={ctaPrimary.href} variant="red">{ctaPrimary.label}</Button>
-                <Button href={ctaSecondary.href} variant="outline" arrow={false}>
-                  {ctaSecondary.label}
-                </Button>
-              </div>
+        {/* 3 · המפעל — מעל הכותרת, מסתיר את תחתיתה */}
+        <span aria-hidden="true" className="absolute inset-x-0 bottom-0 z-20 block">
+          <Visual
+            id="hero-gate"
+            alt=""
+            spec="שער המפעל — PNG שקוף, ללא שמיים. יושב מעל הכותרת"
+            width={2400}
+            height={1200}
+            priority
+            className="w-full object-contain object-bottom"
+          />
+        </span>
+
+        {/* 4 · החיתוך האלכסוני אל הלבן */}
+        <span
+          aria-hidden="true"
+          className="diag-cut absolute inset-x-0 bottom-0 z-30 block h-[26vh] bg-paper"
+        />
+
+        {/* 5 · הכיתוב הסיני האנכי — חוצה את החיתוך */}
+        <span
+          aria-hidden="true"
+          className="vertical-zh absolute bottom-[2vh] left-1/2 z-40 hidden -translate-x-1/2 text-[clamp(2rem,4.4vw,3.6rem)] md:block"
+          style={{ fontFamily: "var(--font-zh), serif" }}
+        >
+          <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,.45)]">在中国二十</span>
+          <span className="text-red">年</span>
+        </span>
+
+        {/* 6 · הטקסט והכפתורים */}
+        <div className="container-wide relative z-40 pb-[16vh] pt-[26vh] md:pb-[14vh]">
+          <div className="max-w-[30em] md:mr-auto md:ml-[52%]">
+            <p className="reveal text-[1.02rem] leading-relaxed text-ink-2 md:text-[1.12rem]">
+              אני לא מתקשר למפעל מישראל.
+              <b className="mt-1 block font-bold text-ink">
+                אני עומד שם, מדבר איתם בשפה שלהם, ויודע איך עסקים באמת נסגרים
+                בסין כי חייתי שם עשרים שנה.
+              </b>
+            </p>
+            <div className="reveal mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button href={ctaPrimary.href} variant="red" className="btn-sq" solidArrow>
+                {ctaPrimary.label}
+              </Button>
+              <Button href={ctaSecondary.href} variant="outline" className="btn-sq" solidArrow>
+                {ctaSecondary.label}
+              </Button>
             </div>
           </div>
-
-          {/* רצועת התצלום — מוצגת כתמונה, עם שוליים */}
-          <figure className="reveal mt-14 md:mt-20">
-            <div className="overflow-hidden rounded-[var(--radius-xl)] border border-line">
-              <Visual
-                id="hero-gate"
-                alt="שער של מפעל בסין, פתוח, עם דגל סין ומבנה הייצור נראה מעבר לו"
-                spec="שער מפעל בסין, פתוח למחצה · דגל סין על התורן · אולם הייצור נראה מעבר"
-                width={2400}
-                height={1100}
-                priority
-                className="h-[300px] w-full object-cover md:h-[440px] lg:h-[520px]"
-              />
-            </div>
-
-            {/* הכיתוב הופך את התצלום לטענה ולא לטפט */}
-            <p className="mt-5 max-w-[46em] border-r-[3px] border-red pr-5 text-[0.98rem] leading-relaxed text-muted">
-              השער של מפעל בסין. רוב היבואנים לעולם לא עוברים אותו —
-              הם מדברים עם מי שעונה למייל, ומניחים שזה היצרן.
-            </p>
-
-            <figcaption className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-md)] border border-line bg-line sm:grid-cols-3">
-              {hero.proof.map((item, i) => (
-                <span key={item} className="block bg-paper px-6 py-5">
-                  <span className="font-display text-[0.85rem] text-red">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="mt-1.5 block text-[0.98rem] font-semibold leading-snug text-ink">
-                    {item}
-                  </span>
-                </span>
-              ))}
-            </figcaption>
-          </figure>
         </div>
       </section>
 

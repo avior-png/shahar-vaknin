@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/bake-studio.mjs && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "bake:studio": "node scripts/bake-studio.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

@@ -215,6 +215,22 @@
   .btn-ghost::before { background: var(--color-paper); }
   .btn-ghost:hover { color: var(--color-ink); border-color: var(--color-paper); }
 
+  /* ─── כפתור מלבני (הסקיצה) ─────────────────────────────── */
+  .btn-sq { border-radius: 4px; padding: 1rem 1.9rem; }
+
+  /* ─── חיתוך אלכסוני בתחתית ההירו ────────────────────────── */
+  .diag-cut {
+    clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 100%);
+  }
+
+  /* ─── טקסט סיני אנכי ────────────────────────────────────── */
+  .vertical-zh {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 0.16em;
+    line-height: 1;
+  }
+
   /* ─── כרטיס ─────────────────────────────────────────────── */
   .card {
     border-radius: var(--radius-md);

@@ -225,22 +225,17 @@
      בתוכה בדיוק במקום שממנו נגזרה: top 18.34%, גובה 45.43%.
      כך הן מתלכדות בכל רוחב מסך.
      ──────────────────────────────────────────────────────── */
+  /* הבמה תופסת את ההירו כולו — התמונה נראית במלואה, בלי חיתוך */
   .hero-stage {
-    --stage-w: 100vw;
     position: absolute;
-    inset-inline: 0;
-    width: var(--stage-w);
-    margin-inline: auto;
-    aspect-ratio: 1536 / 1728;
-    /* תחתית שכבת השער יושבת על תחתית ההירו */
-    bottom: calc(var(--stage-w) * 1.125 * -0.3623 + 17vw);
+    inset: 0;
     z-index: 0;
     pointer-events: none;
   }
   .hero-stage > .hs-bg { position: absolute; inset: 0; }
   .hero-stage > .hs-bg img,
-  .hero-stage > .hs-bg .slot { width: 100%; height: 100%; object-fit: cover; }
-  /* שכבת השער — מעל הכותרת */
+  .hero-stage > .hs-bg .slot { width: 100%; height: 100%; object-fit: fill; }
+  /* שכבת השער — מעל הכותרת, במיקום שממנו נגזרה */
   .hero-stage > .hs-gate {
     position: absolute;
     inset-inline: 0;
@@ -249,25 +244,18 @@
     z-index: 20;
   }
   .hero-stage > .hs-gate img,
-  .hero-stage > .hs-gate .slot { width: 100%; height: 100%; object-fit: cover; }
-
-  @media (max-width: 900px) {
-    /* במסך צר מגדילים את הבמה כדי שהשער לא ייבלע */
-    .hero-stage { --stage-w: 190vw; bottom: calc(var(--stage-w) * 1.125 * -0.3623 + 26vw); }
-  }
+  .hero-stage > .hs-gate .slot { width: 100%; height: 100%; object-fit: fill; }
 
   /* ─── חיתוך אלכסוני בתחתית ההירו ────────────────────────── */
   .diag-cut {
     clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
   }
 
-  /* ─── טקסט סיני אנכי ────────────────────────────────────── */
-  .vertical-zh {
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    letter-spacing: 0.16em;
-    line-height: 1;
-  }
+  /* ─── טקסט סיני אנכי ──────────────────────────────────────
+     כל תו ב-block משלו. writing-mode מתנהג באופן בלתי צפוי
+     על אלמנט ממוקם אבסולוטית, וזה ודאי. ──────────────────── */
+  .zh-col { display: flex; flex-direction: column; align-items: center; }
+  .zh-col > span { display: block; line-height: 1.06; }
 
   /* ─── כרטיס ─────────────────────────────────────────────── */
   .card {

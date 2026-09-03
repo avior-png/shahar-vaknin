@@ -29,78 +29,93 @@ export default function HomePage() {
           ══════════════════════════════════════════════════════ */}
       <section
         className="relative overflow-hidden bg-paper"
-        style={{ height: "clamp(600px, 75vw, 1150px)" }}
+        style={{ aspectRatio: "1536 / 1728" }}
       >
-        {/* 1+3 · שתי שכבות התמונה, נעולות זו לזו בתוך במה אחת */}
+        {/* שתי שכבות התמונה, נעולות זו לזו */}
         <div className="hero-stage" aria-hidden="true">
           <div className="hs-bg">
-            <Visual
-              id="hero-bg"
-              alt=""
-              spec="שער המפעל עם שמיים — שכבת הרקע"
-              width={1536}
-              height={1728}
-              priority
-            />
+            <Visual id="hero-bg" alt="" spec="שער המפעל עם שמיים — שכבת רקע" width={1536} height={1728} priority />
           </div>
           <div className="hs-gate">
-            <Visual
-              id="hero-gate"
-              alt=""
-              spec="שער המפעל — PNG שקוף, יושב מעל הכותרת"
-              width={1536}
-              height={785}
-              priority
-            />
+            <Visual id="hero-gate" alt="" spec="שער המפעל — PNG שקוף מעל הכותרת" width={1536} height={785} priority />
           </div>
         </div>
 
-        {/* 2 · הכותרת — בין שתי השכבות */}
-        <div className="container-wide relative z-10 pt-[9vh]">
-          <h1 className="reveal text-center leading-[0.86] md:text-right">
-            <span className="block text-[clamp(2.2rem,6vw,5rem)] font-normal text-ink">
-              העיניים שלך
-            </span>
-            <span className="mt-1 block text-[clamp(4rem,13vw,11rem)] text-red">
-              בסין
-            </span>
-          </h1>
-        </div>
+        {/* ─── הכותרת ─────────────────────────────────────────
+            בסקיצה היא מיושרת לימין בקצה שנמצא ב-47% מהשמאל,
+            ו״בסין״ נחתכת מלמטה בקו הגג של השער. ─────────── */}
+        <h1
+          className="reveal absolute z-10 hidden text-right leading-[0.84] lg:block"
+          style={{ top: "6.6%", right: "53%", whiteSpace: "nowrap" }}
+        >
+          <span className="block text-[5.2vw] font-normal text-ink">העיניים שלך</span>
+          <span className="mt-[0.06em] block text-[13.5vw] text-red">בסין</span>
+        </h1>
 
-        {/* 4 · החיתוך האלכסוני אל הלבן */}
+        {/* גרסת מובייל — ממורכזת, בלי מיקום אבסולוטי */}
+        <h1 className="reveal container-wide relative z-10 pt-[6%] text-center leading-[0.86] lg:hidden">
+          <span className="block text-[8vw] font-normal text-ink">העיניים שלך</span>
+          <span className="mt-1 block text-[19vw] text-red">בסין</span>
+        </h1>
+
+        {/* ─── החיתוך האלכסוני ───────────────────────────────── */}
         <span
           aria-hidden="true"
-          className="diag-cut absolute inset-x-0 bottom-0 z-30 block h-[22%] bg-paper"
+          className="diag-cut absolute inset-x-0 bottom-0 z-30 block bg-paper"
+          style={{ height: "13%" }}
         />
 
-        {/* 5 · הכיתוב הסיני האנכי — חוצה את החיתוך */}
-        <span
+        {/* ─── הכיתוב הסיני האנכי ──────────────────────────────
+            מתחיל ב-80% מגובה ההירו וממשיך אל תוך הלבן. ─────── */}
+        <div
           aria-hidden="true"
-          className="vertical-zh absolute bottom-[-1%] left-[46%] z-40 hidden text-[clamp(2rem,4.6vw,4.2rem)] lg:block"
-          style={{ fontFamily: "var(--font-zh), serif" }}
+          className="zh-col absolute z-40 hidden text-[3.1vw] lg:flex"
+          style={{ top: "60%", left: "40.3%", fontFamily: "var(--font-zh), serif" }}
         >
-          <span className="text-ink/70">在中国二十</span>
+          {"在中国二十".split("").map((c, i) => (
+            <span key={i} className="text-ink/70">{c}</span>
+          ))}
           <span className="text-red">年</span>
-        </span>
+        </div>
 
-        {/* 6 · הטקסט והכפתורים */}
-        <div className="container-wide absolute inset-x-0 bottom-[7%] z-40">
-          <div className="max-w-[28em] md:mr-auto md:ml-[44%]">
-            <p className="reveal text-[1rem] leading-relaxed text-ink-2 md:text-[1.1rem]">
-              אני לא מתקשר למפעל מישראל.
-              <b className="mt-1 block font-bold text-ink">
-                אני עומד שם, מדבר איתם בשפה שלהם, ויודע איך עסקים באמת נסגרים
-                בסין כי חייתי שם עשרים שנה.
-              </b>
-            </p>
-            <div className="reveal mt-6 flex flex-col gap-3 sm:flex-row">
-              <Button href={ctaPrimary.href} variant="red" className="btn-sq" solidArrow>
-                {ctaPrimary.label}
-              </Button>
-              <Button href={ctaSecondary.href} variant="outline" className="btn-sq" solidArrow>
-                {ctaSecondary.label}
-              </Button>
-            </div>
+        {/* ─── הטקסט והכפתורים — בצד שמאל ───────────────────── */}
+        <div
+          className="absolute z-40 hidden lg:block"
+          style={{ top: "70%", left: "3.8%", width: "33%" }}
+        >
+          <p className="reveal text-right text-[1.05rem] leading-relaxed text-ink-2">
+            אני לא מתקשר למפעל מישראל.
+            <b className="mt-1 block font-bold text-ink">
+              אני עומד שם, מדבר איתם בשפה שלהם, ויודע איך עסקים באמת נסגרים
+              בסין כי חייתי שם עשרים שנה.
+            </b>
+          </p>
+          <div className="reveal mt-7 flex flex-row-reverse justify-end gap-3">
+            <Button href={ctaPrimary.href} variant="red" className="btn-sq" solidArrow>
+              {ctaPrimary.label}
+            </Button>
+            <Button href={ctaSecondary.href} variant="outline" className="btn-sq" solidArrow>
+              {ctaSecondary.label}
+            </Button>
+          </div>
+        </div>
+
+        {/* גרסת מובייל */}
+        <div className="container-wide absolute inset-x-0 bottom-[6%] z-40 lg:hidden">
+          <p className="reveal text-[1rem] leading-relaxed text-ink-2">
+            אני לא מתקשר למפעל מישראל.
+            <b className="mt-1 block font-bold text-ink">
+              אני עומד שם, מדבר איתם בשפה שלהם, ויודע איך עסקים באמת נסגרים
+              בסין כי חייתי שם עשרים שנה.
+            </b>
+          </p>
+          <div className="reveal mt-5 flex flex-col gap-3 sm:flex-row">
+            <Button href={ctaPrimary.href} variant="red" className="btn-sq" solidArrow>
+              {ctaPrimary.label}
+            </Button>
+            <Button href={ctaSecondary.href} variant="outline" className="btn-sq" solidArrow>
+              {ctaSecondary.label}
+            </Button>
           </div>
         </div>
       </section>

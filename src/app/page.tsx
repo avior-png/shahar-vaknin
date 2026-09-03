@@ -27,72 +27,73 @@ export default function HomePage() {
           מעל הכל: הכיתוב הסיני האנכי, הטקסט והכפתורים.
           בתחתית — חיתוך אלכסוני אל הלבן.
           ══════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[92vh] overflow-hidden bg-paper">
-        {/* 1 · רקע */}
-        <span aria-hidden="true" className="absolute inset-0 z-0 block">
-          <Visual
-            id="hero-bg"
-            alt=""
-            spec="שער המפעל עם שמיים כחולים — תמונת הרקע המלאה"
-            width={2400}
-            height={1600}
-            priority
-            className="h-full w-full object-cover"
-          />
-        </span>
+      <section
+        className="relative overflow-hidden bg-paper"
+        style={{ height: "clamp(600px, 75vw, 1150px)" }}
+      >
+        {/* 1+3 · שתי שכבות התמונה, נעולות זו לזו בתוך במה אחת */}
+        <div className="hero-stage" aria-hidden="true">
+          <div className="hs-bg">
+            <Visual
+              id="hero-bg"
+              alt=""
+              spec="שער המפעל עם שמיים — שכבת הרקע"
+              width={1536}
+              height={1728}
+              priority
+            />
+          </div>
+          <div className="hs-gate">
+            <Visual
+              id="hero-gate"
+              alt=""
+              spec="שער המפעל — PNG שקוף, יושב מעל הכותרת"
+              width={1536}
+              height={785}
+              priority
+            />
+          </div>
+        </div>
 
-        {/* 2 · הכותרת — מתחת לתמונת המפעל */}
-        <div className="container-wide relative z-10 pt-[16vh] md:pt-[18vh]">
+        {/* 2 · הכותרת — בין שתי השכבות */}
+        <div className="container-wide relative z-10 pt-[9vh]">
           <h1 className="reveal text-center leading-[0.86] md:text-right">
-            <span className="block text-[clamp(2.4rem,7vw,5.6rem)] font-normal text-ink">
+            <span className="block text-[clamp(2.2rem,6vw,5rem)] font-normal text-ink">
               העיניים שלך
             </span>
-            <span className="mt-1 block text-[clamp(4.5rem,15vw,12rem)] text-red">
+            <span className="mt-1 block text-[clamp(4rem,13vw,11rem)] text-red">
               בסין
             </span>
           </h1>
         </div>
 
-        {/* 3 · המפעל — מעל הכותרת, מסתיר את תחתיתה */}
-        <span aria-hidden="true" className="absolute inset-x-0 bottom-0 z-20 block">
-          <Visual
-            id="hero-gate"
-            alt=""
-            spec="שער המפעל — PNG שקוף, ללא שמיים. יושב מעל הכותרת"
-            width={2400}
-            height={1200}
-            priority
-            className="w-full object-contain object-bottom"
-          />
-        </span>
-
         {/* 4 · החיתוך האלכסוני אל הלבן */}
         <span
           aria-hidden="true"
-          className="diag-cut absolute inset-x-0 bottom-0 z-30 block h-[26vh] bg-paper"
+          className="diag-cut absolute inset-x-0 bottom-0 z-30 block h-[22%] bg-paper"
         />
 
         {/* 5 · הכיתוב הסיני האנכי — חוצה את החיתוך */}
         <span
           aria-hidden="true"
-          className="vertical-zh absolute bottom-[2vh] left-1/2 z-40 hidden -translate-x-1/2 text-[clamp(2rem,4.4vw,3.6rem)] md:block"
+          className="vertical-zh absolute bottom-[-1%] left-[46%] z-40 hidden text-[clamp(2rem,4.6vw,4.2rem)] lg:block"
           style={{ fontFamily: "var(--font-zh), serif" }}
         >
-          <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,.45)]">在中国二十</span>
+          <span className="text-ink/70">在中国二十</span>
           <span className="text-red">年</span>
         </span>
 
         {/* 6 · הטקסט והכפתורים */}
-        <div className="container-wide relative z-40 pb-[16vh] pt-[26vh] md:pb-[14vh]">
-          <div className="max-w-[30em] md:mr-auto md:ml-[52%]">
-            <p className="reveal text-[1.02rem] leading-relaxed text-ink-2 md:text-[1.12rem]">
+        <div className="container-wide absolute inset-x-0 bottom-[7%] z-40">
+          <div className="max-w-[28em] md:mr-auto md:ml-[44%]">
+            <p className="reveal text-[1rem] leading-relaxed text-ink-2 md:text-[1.1rem]">
               אני לא מתקשר למפעל מישראל.
               <b className="mt-1 block font-bold text-ink">
                 אני עומד שם, מדבר איתם בשפה שלהם, ויודע איך עסקים באמת נסגרים
                 בסין כי חייתי שם עשרים שנה.
               </b>
             </p>
-            <div className="reveal mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="reveal mt-6 flex flex-col gap-3 sm:flex-row">
               <Button href={ctaPrimary.href} variant="red" className="btn-sq" solidArrow>
                 {ctaPrimary.label}
               </Button>

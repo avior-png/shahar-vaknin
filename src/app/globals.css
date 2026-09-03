@@ -218,9 +218,47 @@
   /* ─── כפתור מלבני (הסקיצה) ─────────────────────────────── */
   .btn-sq { border-radius: 4px; padding: 1rem 1.9rem; }
 
+  /* ─── במה של ההירו ──────────────────────────────────────────
+     שתי שכבות ההירו הן קרופים של אותו רנדר, ולכן הן חייבות
+     להישאר נעולות זו לזו. שתיהן יושבות בתוך "במה" יחידה
+     ביחס הגובה־רוחב של הרקע (1536×1728), ושכבת השער ממוקמת
+     בתוכה בדיוק במקום שממנו נגזרה: top 18.34%, גובה 45.43%.
+     כך הן מתלכדות בכל רוחב מסך.
+     ──────────────────────────────────────────────────────── */
+  .hero-stage {
+    --stage-w: 100vw;
+    position: absolute;
+    inset-inline: 0;
+    width: var(--stage-w);
+    margin-inline: auto;
+    aspect-ratio: 1536 / 1728;
+    /* תחתית שכבת השער יושבת על תחתית ההירו */
+    bottom: calc(var(--stage-w) * 1.125 * -0.3623 + 17vw);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero-stage > .hs-bg { position: absolute; inset: 0; }
+  .hero-stage > .hs-bg img,
+  .hero-stage > .hs-bg .slot { width: 100%; height: 100%; object-fit: cover; }
+  /* שכבת השער — מעל הכותרת */
+  .hero-stage > .hs-gate {
+    position: absolute;
+    inset-inline: 0;
+    top: 18.34%;
+    height: 45.43%;
+    z-index: 20;
+  }
+  .hero-stage > .hs-gate img,
+  .hero-stage > .hs-gate .slot { width: 100%; height: 100%; object-fit: cover; }
+
+  @media (max-width: 900px) {
+    /* במסך צר מגדילים את הבמה כדי שהשער לא ייבלע */
+    .hero-stage { --stage-w: 190vw; bottom: calc(var(--stage-w) * 1.125 * -0.3623 + 26vw); }
+  }
+
   /* ─── חיתוך אלכסוני בתחתית ההירו ────────────────────────── */
   .diag-cut {
-    clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
   }
 
   /* ─── טקסט סיני אנכי ────────────────────────────────────── */

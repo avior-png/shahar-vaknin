@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# Original full-resolution source images (~97MB). Not referenced by the site —
+# the optimised versions live in assets/img. Kept locally as the asset archive.
+assets/_source/

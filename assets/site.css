@@ -4,6 +4,19 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 /* the UA tap flash on phones is a blue unrelated to the brand */
 html{-webkit-tap-highlight-color:transparent}
+.skip{
+  position:fixed;z-index:200;inset-block-start:8px;inset-inline-start:8px;
+  transform:translateY(-160%);
+  background:var(--red);color:#fff;font-weight:800;font-size:14px;
+  padding:12px 20px;text-decoration:none;
+  transition:transform .25s var(--ease);
+}
+.skip:focus{transform:translateY(0);outline:3px solid #fff;outline-offset:-6px}
+
+/* footer legal row */
+.ftr-legal{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+.ftr-legal a{color:rgba(255,255,255,.62);font-size:var(--f-small);text-decoration:none}
+.ftr-legal a:hover,.ftr-legal a:focus-visible{color:#fff;text-decoration:underline}
 
 :root{
   --red:#DD371B;
@@ -594,8 +607,12 @@ a.svc-row:hover .svc-go,a.svc-row:focus-visible .svc-go{
   .voyage-axis span:not(:first-child):not(:last-child):not(:nth-child(4)){display:none}
 }
 @media (max-width:520px){
-  .voyage-in{--w:100%}
-  .voyage-ship{padding-left:20%}
+  /* the fleet still steps across the width — the offset just gets shorter,
+     so the sense of progress survives on a phone */
+  .voyage-in{--w:84%}
+  .voyage-ship{padding-left:21%;padding-right:clamp(16px,4.4vw,24px)}
+  .voyage-name{font-size:clamp(11.5px,3.3vw,14px)}
+  .voyage-note{padding-right:clamp(16px,4.4vw,24px)}
 }
 
 /* the process page runs on one dark ground — no hero container, no wedge */
@@ -1024,7 +1041,13 @@ body.inner{padding-top:0}
 /* long-form prose */
 .prose{max-width:70ch}
 .prose > * + *{margin-top:18px}
+.prose h2{font-size:clamp(20px,2.2vw,29px);font-weight:800;line-height:1.24;margin-top:clamp(32px,3.2vw,48px)}
 .prose h3{font-size:clamp(20px,2.1vw,28px);font-weight:800;line-height:1.28;margin-top:clamp(30px,3vw,44px)}
+.prose h2:first-child,.prose h3:first-child{margin-top:0}
+.prose a{color:var(--red);font-weight:700}
+.prose ol{margin-top:16px;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:11px}
+.prose ol li{color:var(--slate);font-size:var(--f-small);line-height:1.6}
+.prose .updated{font-size:var(--f-small);color:var(--slate);font-weight:700}
 .prose p{color:var(--slate)}
 .prose strong{color:var(--ink);font-weight:800}
 .prose ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:16px}

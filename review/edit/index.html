@@ -1,0 +1,139 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>שחר וקנין — עריכת טקסטים</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#5b6068;font:14px "Noto Sans Hebrew",Arial,sans-serif;color:#0B0D10}
+#bar{position:sticky;top:0;z-index:50;background:#0B0D10;color:#fff;padding:10px 16px;
+     display:flex;flex-wrap:wrap;gap:8px;align-items:center;box-shadow:0 2px 14px rgba(0,0,0,.35)}
+#bar b{font-size:15px;margin-inline-end:6px}
+.tabs{display:flex;flex-wrap:wrap;gap:5px;flex:1}
+.tab{background:#1e242c;color:#cfd6de;border:0;padding:7px 13px;border-radius:4px;cursor:pointer;
+     font:700 12.5px "Noto Sans Hebrew",Arial;white-space:nowrap}
+.tab:hover{background:#2b333d;color:#fff}
+.tab.on{background:#DD371B;color:#fff}
+.tab .n{display:inline-block;min-width:17px;margin-inline-start:6px;background:rgba(255,255,255,.22);
+        border-radius:9px;padding:0 5px;font-size:11px}
+.tab.on .n{background:rgba(0,0,0,.28)}
+.act{background:#fff;color:#0B0D10;border:0;padding:7px 14px;border-radius:4px;cursor:pointer;
+     font:800 12.5px "Noto Sans Hebrew",Arial}
+.act.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+#hint{background:#FFF7E8;border-bottom:1px solid #EBD9AE;padding:9px 16px;font-size:13px;color:#6b5726}
+#stage{position:relative;margin:20px auto 60px;width:1280px;transform-origin:top center}
+#stage img{display:block;width:1280px;height:auto}
+.ed{position:absolute;overflow:hidden;outline:0;border-radius:3px;backdrop-filter:blur(1px);
+    box-shadow:inset 0 0 0 1px rgba(221,55,27,.28);cursor:text;transition:box-shadow .15s}
+.ed:hover{box-shadow:inset 0 0 0 1px rgba(221,55,27,.75)}
+.ed:focus{box-shadow:0 0 0 2px #DD371B, 0 3px 16px rgba(0,0,0,.28);overflow:visible;z-index:20}
+.ed.chg{box-shadow:inset 0 0 0 2px #16A34A}
+.ed.chg:focus{box-shadow:0 0 0 2px #16A34A,0 3px 16px rgba(0,0,0,.28)}
+#done{position:fixed;inset:0;background:rgba(11,13,16,.62);display:none;z-index:99;
+      align-items:center;justify-content:center;padding:20px}
+#done .box{background:#fff;max-width:760px;width:100%;max-height:82vh;overflow:auto;padding:22px 24px;border-radius:6px}
+#done h3{margin:0 0 12px;font-size:20px}
+#done textarea{width:100%;height:44vh;font:12.5px/1.6 ui-monospace,Menlo,monospace;padding:12px;
+   border:1px solid #ccd3da;border-radius:4px;direction:rtl}
+#done .row{display:flex;gap:8px;margin-top:12px}
+#done .b{background:#DD371B;color:#fff;border:0;padding:9px 16px;border-radius:4px;cursor:pointer;font:800 13px "Noto Sans Hebrew",Arial}
+#done .b.g{background:#eef1f4;color:#0B0D10}
+@media (max-width:1340px){ #stage{transform:scale(var(--z,1))} }
+</style></head><body>
+<div id="bar">
+  <b>שחר וקנין · עריכת טקסטים</b>
+  <div class="tabs" id="tabs"></div>
+  <button class="act" id="exp">סיימתי — ייצוא השינויים</button>
+  <button class="act ghost" id="rst">איפוס</button>
+</div>
+<div id="hint">לוחצים על כל טקסט ועורכים אותו במקום, כמו באתר עצמו. מה ששונה מסומן בירוק. הכול נשמר אוטומטית בדפדפן — אפשר לסגור ולחזור.</div>
+<div id="stage"><img id="shot" alt=""><div id="boxes"></div></div>
+<div id="done"><div class="box">
+  <h3>השינויים שלך</h3>
+  <p style="margin:0 0 10px;color:#41505E">העתק את הטקסט הזה ושלח חזרה. כל שינוי מופיע עם המיקום שלו באתר.</p>
+  <textarea id="out" readonly></textarea>
+  <div class="row"><button class="b" id="cp">העתק הכול</button><button class="b g" id="cl">סגור</button></div>
+</div></div>
+<script>
+var DATA, cur='index', KEY='shahar-review-v1';
+var store=JSON.parse(localStorage.getItem(KEY)||'{}');
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){} }
+function changed(p){ var n=0,d=store[p]||{}; for(var k in d){ if(d[k]!=null) n++; } return n; }
+
+function drawTabs(){
+  var t=document.getElementById('tabs'); t.innerHTML='';
+  Object.keys(DATA).forEach(function(p){
+    var b=document.createElement('button');
+    b.className='tab'+(p===cur?' on':'');
+    var c=changed(p);
+    b.innerHTML=DATA[p].label+(c?'<span class="n">'+c+'</span>':'');
+    b.onclick=function(){ cur=p; render(); };
+    t.appendChild(b);
+  });
+}
+function render(){
+  drawTabs();
+  var d=DATA[cur];
+  document.getElementById('shot').src=cur+'.jpg';
+  var box=document.getElementById('boxes'); box.innerHTML='';
+  d.items.forEach(function(it){
+    var e=document.createElement('div');
+    e.className='ed'; e.contentEditable='true'; e.spellcheck=false;
+    var s=it.s;
+    e.style.cssText='left:'+it.x+'px;top:'+it.y+'px;width:'+it.w+'px;min-height:'+it.h+'px;padding:1px 2px;'+
+      'font-size:'+s.fs+';font-weight:'+s.fw+';line-height:'+s.lh+';color:'+s.col+';'+
+      'text-align:'+s.ta+';letter-spacing:'+s.ls+';font-family:"'+s.ff+'",Arial,sans-serif;'+
+      'background:'+s.bg+';text-transform:'+s.tt+';';
+    var saved=(store[cur]||{})[it.i];
+    e.textContent = saved!=null ? saved : it.t;
+    if(saved!=null && saved!==it.t) e.classList.add('chg');
+    e.addEventListener('input',function(){
+      var v=e.textContent.replace(/\s+/g,' ').trim();
+      store[cur]=store[cur]||{};
+      if(v===it.t){ delete store[cur][it.i]; e.classList.remove('chg'); }
+      else { store[cur][it.i]=v; e.classList.add('chg'); }
+      save(); drawTabs();
+    });
+    e.addEventListener('paste',function(ev){
+      ev.preventDefault();
+      document.execCommand('insertText',false,(ev.clipboardData||window.clipboardData).getData('text'));
+    });
+    box.appendChild(e);
+  });
+  window.scrollTo(0,0);
+  fit();
+}
+function fit(){
+  var z=Math.min(1,(window.innerWidth-24)/1280);
+  document.getElementById('stage').style.setProperty('--z',z);
+  document.getElementById('stage').style.transform='scale('+z+')';
+  document.getElementById('stage').style.marginBottom=(60-(1-z)*1000)+'px';
+}
+window.addEventListener('resize',fit);
+document.getElementById('exp').onclick=function(){
+  var L=[], total=0;
+  Object.keys(DATA).forEach(function(p){
+    var d=store[p]||{}, keys=Object.keys(d); if(!keys.length) return;
+    L.push('═══ '+DATA[p].label+' ═══');
+    DATA[p].items.forEach(function(it){
+      if(d[it.i]==null) return; total++;
+      L.push('');
+      L.push('['+DATA[p].label+' › '+it.a+']');
+      L.push('לפני:  '+it.t);
+      L.push('אחרי:  '+d[it.i]);
+    });
+    L.push('');
+  });
+  document.getElementById('out').value = total? (L.join('\n')) : 'לא בוצעו שינויים.';
+  document.getElementById('done').style.display='flex';
+};
+document.getElementById('cp').onclick=function(){
+  var t=document.getElementById('out'); t.select(); document.execCommand('copy');
+  this.textContent='הועתק ✓'; var b=this; setTimeout(function(){b.textContent='העתק הכול';},1600);
+};
+document.getElementById('cl').onclick=function(){ document.getElementById('done').style.display='none'; };
+document.getElementById('rst').onclick=function(){
+  if(!confirm('לאפס את כל השינויים בכל העמודים?')) return;
+  store={}; save(); render();
+};
+fetch('data.json').then(function(r){return r.json();}).then(function(j){ DATA=j; render(); });
+</script></body></html>

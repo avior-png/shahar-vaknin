@@ -24,7 +24,6 @@
   var backBtn = document.getElementById('qz-back');
   var foot      = document.querySelector('.calc-foot');
   var footInfo  = document.querySelector('.calc-info');
-  var footClose = document.querySelector('.calc-close');
   var docFace   = document.getElementById('panel');
   var docScroll = document.getElementById('panel-scroll');
   var docOpen   = false;
@@ -60,7 +59,9 @@
     if (footInfo) footInfo.hidden = docOpen || atIntro;
     /* במסך הפתיחה אין בתחתית כלום, ולכן היא נעלמת — סרגל ריק נראה
        כמו תקלה ולא כמו חלק מהמכשיר */
-    if (foot) foot.hidden = atIntro && !docOpen;
+    /* בפָן השני הדרך חזרה יושבת מעל הכותרת, ובמסך הפתיחה אין
+       בתחתית כלום — בשני המצבים סרגל ריק, ולכן הוא נעלם */
+    if (foot) foot.hidden = docOpen || atIntro;
   }
 
   function go(next, opts) {
@@ -488,7 +489,6 @@
     docOpen = open;
     stack.hidden = open;
     docFace.hidden = !open;
-    if (footClose) footClose.hidden = !open;
     infoBtns.forEach(function (b) { b.setAttribute('aria-expanded', open ? 'true' : 'false'); });
     paintRail(screens[live]);
 

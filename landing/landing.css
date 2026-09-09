@@ -278,8 +278,6 @@ h2.title b{font-weight:800;display:block}
 .calc-info:hover,.calc-info:focus-visible{color:var(--red-deep)}
 .calc-back:hover i,.calc-back:focus-visible i{transform:translateX(4px)}
 .calc-back:focus-visible,.calc-info:focus-visible{outline:2px solid var(--red);outline-offset:3px}
-.calc-close{height:40px;font-size:12.5px;padding:0 18px;gap:10px}
-.calc-close .tri{border-top-width:6.5px;border-bottom-width:6.5px;border-right-width:10px}
 .calc-info i{
   width:18px;height:18px;flex:none;
   display:grid;place-items:center;
@@ -511,6 +509,39 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
 .calc-doc-scroll::-webkit-scrollbar-track{background:var(--mist-2)}
 .calc-doc-scroll::-webkit-scrollbar-thumb{background:var(--red)}
 .calc-doc-scroll:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+/* הדרך חזרה יושבת מעל הכותרת ומקובעת שם, כך שהיא בשדה הראייה גם
+   אחרי גלילה. מסגרת ולא אדום מלא: נראית בבירור, אבל לא מושכת
+   לחיצות סרק כמו כפתור פעולה ראשי. */
+.calc-doc-back{
+  position:sticky;inset-block-start:0;z-index:3;
+  background:#fff;display:flex;
+  padding-block:2px clamp(15px,1.8vw,24px);
+}
+.calc-close{
+  display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+  font-family:inherit;font-weight:800;font-size:12.5px;letter-spacing:.03em;
+  color:var(--ink);background:#fff;border:1px solid var(--ink);
+  padding:0 16px;height:38px;
+  position:relative;isolation:isolate;overflow:hidden;
+  transition:color .32s var(--ease);
+}
+.calc-close::before{
+  content:"";position:absolute;inset:0;z-index:-1;background:var(--ink);
+  transform:scaleX(0);transform-origin:right center;
+  transition:transform .4s var(--ease);
+}
+.calc-close:hover::before,.calc-close:focus-visible::before{transform:scaleX(1)}
+.calc-close:hover,.calc-close:focus-visible{color:#fff}
+.calc-close:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+/* המשולש מצביע לאחור — לימין, בכיוון הקריאה */
+.calc-close .tri{
+  width:0;height:0;flex:none;
+  border-top:6.5px solid transparent;border-bottom:6.5px solid transparent;
+  border-left:10px solid currentColor;
+  transition:transform .34s var(--ease);
+}
+.calc-close:hover .tri,.calc-close:focus-visible .tri{transform:translateX(5px)}
+
 .calc-doc-head{margin-bottom:clamp(4px,.6vw,10px)}
 .calc-doc-head .title{max-width:26ch}
 /* הדהייה בקצה התחתון — נעלמת כשמגיעים לסוף */

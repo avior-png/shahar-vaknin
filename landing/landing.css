@@ -562,7 +562,7 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
    אחר. הגלילה קורית בתוך החלון המוכר, עם דהייה בקצה וסרגל בצבע
    המותג — כדי שיהיה ברור שיש עוד.
    ===================================================================== */
-.calc-doc{position:relative}
+.calc-doc{position:relative;container-type:inline-size;container-name:doc}
 .calc-doc-scroll{
   max-height:min(64svh, 580px);
   overflow-y:auto;overscroll-behavior:contain;
@@ -670,6 +670,12 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
 /* בעברית קוראים קודם את הצד הימני, ולכן הטקסט שם והתמונה מנגד */
 .case-media{grid-column:2;position:relative;overflow:hidden}
 .case-body{grid-column:1;grid-row:1}
+/* צר מדי לשני טורים — התמונה מעל והטקסט מתחת, כמו במובייל */
+@container doc (max-width:660px){
+  .case-grid{grid-template-columns:1fr;gap:clamp(18px,3.4vw,26px)}
+  .case-media{grid-column:1;grid-row:1;max-width:560px}
+  .case-body{grid-row:2}
+}
 .case-media img{width:100%;height:auto;aspect-ratio:4/3.1;object-fit:cover}
 .case-tag{
   position:absolute;inset-block-start:0;inset-inline-start:0;z-index:2;
@@ -758,6 +764,30 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
   .stage{display:block}
   .stage-pad,.side{display:none}
   .lp-main .shell{width:min(920px, 100% - 48px)}
+
+  /* כאן אין מודול לצד המכשיר, ולכן זה הכפתור היחיד בזמן השאלון —
+     והוא חייב להיראות כמו פעולה. טקסט קטן על רצועה אפורה נקרא
+     כמו כותרת שוליים ונבלע. אותו משקל של הכפתור במסך הפתיחה. */
+  .calc-foot{
+    background:#fff;border-top:0;
+    padding:0 clamp(20px,2.6vw,40px) clamp(20px,4.4vw,28px);
+  }
+  .calc-info{
+    width:100%;justify-content:center;gap:12px;
+    height:52px;padding:0 18px;
+    font-size:14px;letter-spacing:0;color:var(--ink);
+    box-shadow:inset 0 0 0 2px var(--ink);
+    position:relative;isolation:isolate;overflow:hidden;
+    transition:color .32s var(--ease);
+  }
+  .calc-info::before{
+    content:"";position:absolute;inset:0;z-index:-1;background:var(--ink);
+    transform:scaleX(0);transform-origin:right center;
+    transition:transform .4s var(--ease);
+  }
+  .calc-info:hover::before,.calc-info:focus-visible::before{transform:scaleX(1)}
+  .calc-info:hover,.calc-info:focus-visible{color:#fff}
+  .calc-info i{width:22px;height:22px;font-size:12px;border-width:1.5px}
 }
 /* בדסקטופ המודול הוא נקודת הכניסה היחידה, ולכן שני הכפתורים
    האחרים מיותרים — והתחתית נשארת ריקה ונעלמת */
@@ -771,9 +801,6 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
   .lp-main .shell{width:min(920px, 100% - 32px)!important}
   .lp-hdr-tag{display:none}
   .calc-main{min-height:0}
-  .case-grid{grid-template-columns:1fr;gap:clamp(18px,3.4vw,26px)}
-  .case-media{grid-column:1;grid-row:1;max-width:560px}
-  .case-body{grid-row:2}
 }
 @media (max-width:620px){
   .calc-rail{

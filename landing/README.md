@@ -28,7 +28,23 @@ landing/landing.css            העיצוב (אזור 0 = הטוקנים המש�
 landing/landing.js             מנוע השאלון, לוגיקת הפיצול, הפאנל ושליחת הליד
 landing/img/boxes.jpg          רקע הדף — ערימות ארגזים (מקור: assets/img/warehouse.jpg)
 landing/img/case-scaffold.jpg  תמונת מקרה הלקוח (מקור: assets/img/scaffold.jpg)
+landing/tools/build-preview.py כלי: בונה מהדף קובץ HTML אחד לשליחה ולביקורת
 ```
+
+## לשלוח את הדף למישהו לראות
+`index.html` טוען CSS, JS ותמונות בנפרד, ולכן אי אפשר פשוט לשלוח אותו. הכלי
+מטמיע את הכול פנימה (התמונות כ-data URI) ומייצר קובץ אחד שנפתח בכל דפדפן:
+
+```bash
+python3 landing/tools/build-preview.py            # נכתב לתיקייה זמנית, הנתיב מודפס
+python3 landing/tools/build-preview.py ~/lp.html  # או ליעד שבוחרים
+```
+
+הקובץ מתאים גם לפרסום כ-Artifact ב-Claude, ולכן הוא מחזיר את `dir="rtl"` בעצמו:
+השלד שעוטף את ה-Artifact לא נושא אותו, ובלעדיו הדף כולו מתהפך לשמאל.
+
+מקור האמת נשאר `index.html` + `landing.css` + `landing.js`. הקובץ הבודד נבנה
+מהם ולא נערך ביד — מריצים את הכלי מחדש אחרי כל שינוי.
 
 ## גוף המכשיר
 מסך הפתיחה, שש השאלות ומסך התוצאה יושבים **כולם בתוך גוף אחד** — אותה שילדה,

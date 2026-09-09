@@ -1,0 +1,663 @@
+/* =====================================================================
+   דף נחיתה — מחשבון יבוא מסין · שחר וקנין
+   הדף עומד בנפרד מהאתר: קובץ עיצוב משלו, בלי תלות ב-assets/site.css,
+   כדי שאפשר יהיה להעלות אותו לבד (או לדומיין נפרד) בלי לגרור את האתר.
+   הטוקנים, מערכת הכפתורים והמוטיבים הועתקו 1:1 מהאתר — פינות חדות,
+   משולש ◀ בכל כפתור, מילוי שנשטף מהקצה המוביל, טיפוגרפיה 300 ליד 800,
+   האלכסון של הפס הלבן וטקסט סיני אנכי כאלמנט נלווה.
+   אם הפלטה או הטיפוגרפיה של האתר משתנות — לעדכן גם כאן (אזור 0).
+   ===================================================================== */
+
+/* =====================================================================
+   0 · TOKENS
+   ===================================================================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-tap-highlight-color:transparent}
+/* המסכים מוסתרים גם ב-attribute וגם ב-class — הכלל הזה מכריע ביניהם */
+[hidden]{display:none!important}
+
+:root{
+  --red:#DD371B;
+  --red-deep:#B32912;
+  --ink:#0B0D10;
+  --ink-2:#1A1F26;
+  --slate:#41505E;
+  --mist:#F2F4F6;
+  --mist-2:#E5E9ED;
+  --line:rgba(11,13,16,.14);
+  --line-dark:rgba(255,255,255,.14);
+
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-soft:cubic-bezier(.4,.05,.2,1);
+  --shell:min(1240px, 100% - 64px);
+
+  --f-h2:clamp(30px, 4.6vw, 62px);
+  --f-h3:clamp(21px, 2.1vw, 28px);
+  --f-body:clamp(16px, 1.35vw, 19px);
+  --f-small:clamp(13px, 1.05vw, 15px);
+  --f-label:clamp(11px, .92vw, 13px);
+}
+
+html{scroll-behavior:smooth}
+html,body{background:#fff}
+html,body{overflow-x:clip}
+body{
+  -webkit-text-size-adjust:100%;
+  font-family:"Noto Sans Hebrew",system-ui,sans-serif;
+  color:var(--ink);
+  font-size:var(--f-body);
+  line-height:1.62;
+  font-weight:400;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--red);color:#fff}
+
+.shell{width:var(--shell);margin-inline:auto}
+
+.skip{
+  position:fixed;z-index:200;inset-block-start:8px;inset-inline-start:8px;
+  transform:translateY(-160%);
+  background:var(--red);color:#fff;font-weight:800;font-size:14px;
+  padding:12px 20px;text-decoration:none;
+  transition:transform .25s var(--ease);
+}
+.skip:focus{transform:translateY(0);outline:3px solid #fff;outline-offset:-6px}
+
+.eyebrow{
+  font-size:var(--f-label);font-weight:800;letter-spacing:.16em;
+  color:var(--red);display:flex;align-items:center;gap:10px;margin-bottom:18px;
+}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--red);flex:none}
+
+h2.title{
+  font-size:var(--f-h2);line-height:1.04;font-weight:300;letter-spacing:-.01em;
+  max-width:24ch;text-wrap:balance;
+}
+h2.title b{font-weight:800;display:block}
+
+/* מערכת הכפתורים של האתר — פעולה מלאה, מסגרת בהירה, מסגרת כהה, קישור טקסט */
+.cta{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:inline-flex;align-items:center;justify-content:center;gap:13px;
+  padding:0 clamp(22px,2.1vw,30px);height:clamp(50px,4.4vw,58px);
+  font-family:inherit;
+  font-weight:800;font-size:clamp(14px,1.15vw,16px);line-height:1;
+  text-decoration:none;white-space:nowrap;cursor:pointer;border:0;
+  background:var(--red);color:#fff;
+  transition:color .34s var(--ease);
+}
+.cta::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:var(--ink);
+  transform:scaleX(0);transform-origin:right center;
+  transition:transform .42s var(--ease);
+}
+.cta:hover::before,.cta:focus-visible::before{transform:scaleX(1)}
+.cta .tri{
+  width:0;height:0;flex:none;
+  border-top:8px solid transparent;border-bottom:8px solid transparent;
+  border-right:12px solid currentColor;
+  transition:transform .38s var(--ease);
+}
+.cta:hover .tri,.cta:focus-visible .tri{transform:translateX(-6px)}
+.cta:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.cta.big{height:clamp(56px,5vw,66px);font-size:clamp(15px,1.3vw,18px);padding:0 clamp(26px,2.6vw,38px)}
+.cta[disabled]{opacity:.42;cursor:not-allowed}
+.cta[disabled]::before{transform:scaleX(0)}
+
+.lnk{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:inherit;background:none;border:0;cursor:pointer;
+  font-weight:800;font-size:clamp(13.5px,1.1vw,15.5px);line-height:1.2;
+  color:var(--red);text-decoration:none;position:relative;padding-bottom:3px;
+}
+.lnk::after{
+  content:"";position:absolute;inset-inline:0;bottom:0;height:1.5px;
+  background:currentColor;transform:scaleX(0);transform-origin:right center;
+  transition:transform .38s var(--ease);
+}
+.lnk:hover::after,.lnk:focus-visible::after{transform:scaleX(1)}
+.lnk i{
+  width:0;height:0;flex:none;font-style:normal;
+  border-top:5px solid transparent;border-bottom:5px solid transparent;
+  border-right:8px solid currentColor;
+  transition:transform .38s var(--ease);
+}
+.lnk:hover i,.lnk:focus-visible i{transform:translateX(-5px)}
+.lnk.quiet{color:rgba(255,255,255,.6);font-weight:700}
+.lnk:focus-visible{outline:none}
+
+/* מספרים: רק רצף הספרות מבודד כ-LTR, הזוג עצמו נשאר RTL */
+.v{direction:ltr;unicode-bidi:isolate;white-space:nowrap}
+
+/* =====================================================================
+   1 · HEADER — לוגו בלבד. אין ניווט: דף נחיתה עם יעד אחד.
+   ===================================================================== */
+.lp-hdr{
+  position:absolute;inset:0 0 auto 0;z-index:20;
+  display:flex;align-items:center;height:clamp(70px,6vw,88px);
+  color:#fff;
+}
+.lp-hdr .shell{display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:12px;flex:none}
+.brand-mark{
+  width:38px;height:38px;flex:none;background:var(--red);
+  display:grid;place-items:center;color:#fff;
+  font-family:"Noto Sans SC",sans-serif;font-size:19px;line-height:1;
+}
+.brand-txt{display:flex;flex-direction:column;line-height:1.1}
+.brand-name{font-weight:800;font-size:19px;letter-spacing:-.01em}
+.brand-sub{font-size:11px;font-weight:500;letter-spacing:.1em;opacity:.72}
+.lp-hdr-tag{
+  margin-inline-start:auto;flex:none;
+  font-size:11.5px;font-weight:800;letter-spacing:.1em;
+  color:rgba(255,255,255,.78);
+  border:1px solid rgba(255,255,255,.24);padding:7px 13px;
+}
+
+/* =====================================================================
+   2 · הבמה — המחשבון הוא הדף עצמו
+   ===================================================================== */
+.lp-stage{
+  position:relative;overflow:hidden;isolation:isolate;
+  background:var(--ink);color:#fff;
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:calc(clamp(70px,6vw,88px) + clamp(28px,3.4vw,54px)) 0 clamp(74px,7.4vw,124px);
+}
+.lp-stage-bg{
+  position:absolute;inset:0;z-index:-2;
+  width:100%;height:100%;object-fit:cover;object-position:center 46%;opacity:.86;
+}
+/* כיסוי מנוצה, כמו בהירו של העמודים הפנימיים באתר: כבד בדיוק במקום
+   שבו יושבים הטקסט והאפשרויות, ומשתחרר לצד הרחוק כדי שהשער והדגל ייראו */
+.lp-stage::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(to left, rgba(11,13,16,.9) 0%, rgba(11,13,16,.84) 44%,
+                    rgba(11,13,16,.5) 72%, rgba(11,13,16,.18) 100%),
+    linear-gradient(to top, rgba(11,13,16,.6) 2%, transparent 44%),
+    radial-gradient(120% 90% at 74% 0%, rgba(255,255,255,.05), transparent 62%);
+}
+/* האלכסון של הפס הלבן מההירו — חוזר בתחתית הבמה */
+.lp-stage::after{
+  content:"";position:absolute;inset-inline:-6%;bottom:-1px;
+  height:clamp(38px,5vw,84px);
+  background:#fff;transform-origin:bottom right;rotate:-1.6deg;z-index:-1;
+}
+.lp-cn{
+  position:absolute;top:50%;inset-inline-end:3%;transform:translateY(-50%);
+  font-family:"Noto Sans SC",sans-serif;font-size:clamp(74px,11vw,158px);
+  writing-mode:vertical-rl;color:rgba(255,255,255,.055);line-height:1;
+  letter-spacing:.02em;pointer-events:none;z-index:-1;user-select:none;
+}
+
+/* =====================================================================
+   3 · המחשבון
+   ===================================================================== */
+.qz{position:relative;max-width:860px}
+.qz-stack{position:relative}
+
+.qz-s{display:none}
+.qz-s.is-live{display:block}
+.qz-s[data-screen="q"]{max-width:680px}
+
+/* --- סרגל התקדמות ------------------------------------------------- */
+.qz-bar{
+  display:flex;align-items:center;gap:clamp(12px,1.4vw,20px);
+  margin-bottom:clamp(20px,2.4vw,34px);max-width:680px;
+}
+.qz-bar[hidden]{display:none}
+.qz-track{position:relative;flex:1;height:2px;background:rgba(255,255,255,.18)}
+.qz-fill{
+  position:absolute;inset-block:0;inset-inline-start:0;width:0;
+  background:var(--red);transition:width .5s var(--ease);
+}
+.qz-step{
+  flex:none;font-size:11.5px;font-weight:800;letter-spacing:.1em;
+  color:rgba(255,255,255,.6);
+}
+.qz-back{
+  flex:none;background:none;border:0;cursor:pointer;font-family:inherit;
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11.5px;font-weight:800;letter-spacing:.06em;
+  color:rgba(255,255,255,.6);padding:4px 0;
+  transition:color .3s var(--ease);
+}
+.qz-back i{
+  width:0;height:0;flex:none;font-style:normal;
+  border-top:5px solid transparent;border-bottom:5px solid transparent;
+  border-left:8px solid currentColor;
+  transition:transform .34s var(--ease);
+}
+.qz-back:hover,.qz-back:focus-visible{color:#fff}
+.qz-back:hover i,.qz-back:focus-visible i{transform:translateX(4px)}
+
+/* --- מסך פתיחה ----------------------------------------------------- */
+.qz-h1{
+  font-size:clamp(34px,5.4vw,74px);font-weight:300;line-height:1.03;
+  letter-spacing:-.015em;max-width:22ch;text-wrap:balance;
+}
+.qz-h1 b{display:block;font-weight:800}
+.qz-sub{
+  font-size:clamp(17px,1.7vw,23px);line-height:1.55;
+  color:rgba(255,255,255,.8);max-width:50ch;
+  margin-top:clamp(16px,1.8vw,26px);
+}
+.qz-filter{
+  display:flex;gap:12px;align-items:flex-start;
+  margin-top:clamp(18px,2vw,28px);padding-top:clamp(16px,1.8vw,24px);
+  border-top:1px solid rgba(255,255,255,.16);
+  max-width:56ch;font-size:var(--f-small);line-height:1.6;
+  color:rgba(255,255,255,.62);
+}
+.qz-filter::before{
+  content:"";width:0;height:0;flex:none;margin-top:.5em;
+  border-top:5px solid transparent;border-bottom:5px solid transparent;
+  border-right:8px solid var(--red);
+}
+.qz-start{
+  display:flex;flex-wrap:wrap;align-items:center;gap:clamp(12px,1.6vw,22px);
+  margin-top:clamp(26px,3vw,44px);
+}
+.qz-start-note{font-size:var(--f-small);font-weight:700;color:rgba(255,255,255,.62)}
+.qz-trust{
+  margin-top:clamp(14px,1.6vw,20px);
+  font-size:var(--f-small);color:rgba(255,255,255,.52);line-height:1.6;
+}
+
+/* --- מסך שאלה ------------------------------------------------------ */
+.qz-kicker{
+  font-size:11.5px;font-weight:800;letter-spacing:.16em;color:var(--red);
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.qz-kicker::before{content:"";width:22px;height:2px;background:var(--red);flex:none}
+.qz-q{
+  font-size:clamp(25px,3.5vw,46px);font-weight:800;line-height:1.1;
+  letter-spacing:-.015em;max-width:26ch;text-wrap:balance;
+}
+.qz-hint{
+  font-size:var(--f-small);color:rgba(255,255,255,.56);
+  margin-top:10px;max-width:52ch;
+}
+
+/* --- אפשרויות ------------------------------------------------------ */
+.qz-opts{
+  list-style:none;display:flex;flex-direction:column;gap:8px;
+  margin-top:clamp(22px,2.4vw,34px);
+}
+.opt{
+  position:relative;display:grid;
+  grid-template-columns:clamp(34px,3.2vw,42px) minmax(0,1fr) auto;
+  align-items:center;gap:clamp(12px,1.4vw,18px);
+  padding:clamp(12px,1.3vw,17px) clamp(14px,1.5vw,20px);
+  background-color:rgba(11,13,16,.62);
+  border:1px solid rgba(255,255,255,.22);
+  backdrop-filter:blur(3px);
+  cursor:pointer;
+  transition:background-color .34s var(--ease), border-color .34s var(--ease),
+             transform .34s var(--ease);
+}
+.opt:hover{background-color:rgba(11,13,16,.8);border-color:rgba(255,255,255,.5);transform:translateX(-3px)}
+.opt input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+.opt-k{
+  flex:none;height:clamp(28px,2.6vw,34px);
+  display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.28);
+  font-size:12.5px;font-weight:800;color:rgba(255,255,255,.72);
+  direction:ltr;
+  transition:background-color .3s var(--ease), color .3s var(--ease),
+             border-color .3s var(--ease);
+}
+.opt-t{font-size:clamp(15px,1.4vw,18.5px);font-weight:700;line-height:1.35}
+.opt-go{
+  width:0;height:0;flex:none;
+  border-top:6px solid transparent;border-bottom:6px solid transparent;
+  border-right:9px solid rgba(255,255,255,.28);
+  transition:border-right-color .3s var(--ease), transform .3s var(--ease);
+}
+.opt:hover .opt-go{border-right-color:var(--red);transform:translateX(-4px)}
+
+/* מצב נבחר — הכרטיס מקבל את הפס האדום של האתר */
+.opt:has(input:checked){
+  background-color:rgba(11,13,16,.66);
+  background-image:linear-gradient(rgba(221,55,27,.34), rgba(221,55,27,.34));
+  border-color:var(--red);
+}
+.opt input:checked ~ .opt-k{background:var(--red);border-color:var(--red);color:#fff}
+.opt input:checked ~ .opt-go{border-right-color:var(--red);transform:translateX(-4px)}
+.opt:has(input:focus-visible){outline:2px solid var(--red);outline-offset:3px}
+
+/* בחירה מרובה — תיבת סימון בפינות חדות עם וי בקווים, כמו ה-FAQ באתר */
+.opt.multi .opt-k{border-color:rgba(255,255,255,.34);position:relative}
+.opt.multi .opt-k::after{
+  content:"";width:11px;height:6px;
+  border-inline-start:2px solid #fff;border-bottom:2px solid #fff;
+  rotate:-45deg;translate:0 -2px;
+  opacity:0;transition:opacity .22s var(--ease);
+}
+.opt.multi input:checked ~ .opt-k::after{opacity:1}
+.opt.multi .opt-go{display:none}
+
+/* שמונה אפשרויות במסך אחד: מרוחב טאבלט ומעלה הן נפרסות לשני טורים,
+   ו„אף אחד מאלה” נשאר בשורה משלו כדי שלא ייראה כאפשרות שווה לשאר */
+@media (min-width:721px){
+  .qz-s[data-kind="many"]{max-width:900px}
+  .qz-s[data-kind="many"] .qz-opts{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch;
+  }
+  .qz-s[data-kind="many"] .qz-opts li:has(input[data-none]){grid-column:1/-1}
+  .qz-s[data-kind="many"] .opt{height:100%;padding-block:clamp(11px,1.1vw,14px)}
+  .qz-s[data-kind="many"] .opt-t{font-size:clamp(14.5px,1.15vw,16.5px)}
+}
+
+/* שדה חופשי שנפתח מתחת ל„אחר” */
+.qz-other{display:none;margin-top:10px}
+.qz-other.is-open{display:block}
+
+/* --- שדות ---------------------------------------------------------- */
+.fld{display:flex;flex-direction:column;gap:7px}
+.fld label{
+  font-size:12px;font-weight:700;letter-spacing:.06em;
+  color:rgba(255,255,255,.62);
+}
+.fld .opt-note{font-weight:500;letter-spacing:0;opacity:.72}
+input[type=text],input[type=tel]{
+  font-family:inherit;font-size:15px;color:#fff;
+  background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.16);
+  padding:14px 16px;width:100%;
+  transition:border-color .3s, background-color .3s;
+}
+input::placeholder{color:rgba(255,255,255,.34)}
+input[type=text]:focus,input[type=tel]:focus{
+  outline:0;border-color:var(--red);background:rgba(255,255,255,.09);
+}
+input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.1)}
+.fld-err{
+  display:none;font-size:12.5px;font-weight:700;color:#FF8A72;line-height:1.4;
+}
+.fld.has-err .fld-err{display:block}
+
+.qz-next{
+  display:flex;flex-wrap:wrap;align-items:center;gap:clamp(12px,1.5vw,20px);
+  margin-top:clamp(20px,2.2vw,30px);
+}
+.qz-next-note{font-size:var(--f-small);color:rgba(255,255,255,.5)}
+
+/* =====================================================================
+   4 · מסך התוצאה
+   ===================================================================== */
+.qz-res{max-width:900px}
+.qz-res-h{
+  font-size:clamp(27px,3.7vw,50px);font-weight:300;line-height:1.06;
+  letter-spacing:-.015em;max-width:26ch;text-wrap:balance;
+}
+.qz-res-h b{display:block;font-weight:800}
+.qz-res-body{
+  margin-top:clamp(18px,2vw,28px);
+  display:flex;flex-direction:column;gap:14px;
+  max-width:62ch;
+}
+.qz-res-body p{font-size:clamp(15px,1.35vw,18px);line-height:1.68;color:rgba(255,255,255,.78)}
+.qz-res-body p strong{color:#fff;font-weight:800}
+
+/* הרמזים שזוהו — במקום אחוז חיסכון על המסך */
+.qz-signals{
+  margin-top:clamp(20px,2.2vw,30px);padding-top:clamp(16px,1.8vw,24px);
+  border-top:1px solid rgba(255,255,255,.16);
+}
+.qz-signals h3{
+  font-size:12px;font-weight:800;letter-spacing:.14em;color:#fff;
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.qz-signals h3::before{content:"";width:14px;height:2px;background:var(--red);flex:none}
+.qz-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.qz-chips li{
+  font-size:12.5px;font-weight:700;line-height:1.4;
+  color:rgba(255,255,255,.82);
+  border:1px solid rgba(255,255,255,.24);
+  background:rgba(11,13,16,.6);
+  padding:8px 13px;
+}
+.qz-chips li.n{border-color:var(--red);background:rgba(221,55,27,.16);color:#fff}
+
+/* ההצעה + הטופס — בקומון ריג'ן אחד, כמו כרטיס הטופס באתר */
+.qz-offer{
+  margin-top:clamp(24px,2.8vw,40px);
+  background:rgba(11,13,16,.7);
+  border:1px solid rgba(255,255,255,.2);
+  padding:clamp(22px,2.6vw,40px);
+  backdrop-filter:blur(6px);
+}
+.qz-offer h3{
+  font-size:clamp(19px,1.9vw,26px);font-weight:800;line-height:1.28;max-width:34ch;
+}
+.qz-offer > p{
+  font-size:var(--f-small);color:rgba(255,255,255,.72);line-height:1.68;
+  margin-top:12px;max-width:60ch;
+}
+.qz-form{
+  display:flex;flex-direction:column;gap:14px;
+  margin-top:clamp(20px,2.2vw,28px);
+  max-width:440px;
+}
+.qz-form .cta{align-self:start;margin-top:6px}
+.qz-note{
+  font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.6;
+  max-width:52ch;
+}
+.qz-ok{
+  display:none;
+  padding:clamp(20px,2.2vw,30px);
+  background:rgba(221,55,27,.14);border:1px solid var(--red);
+}
+.qz-offer.sent .qz-ok{display:block}
+.qz-offer.sent .qz-form,.qz-offer.sent > p,.qz-offer.sent > h3{display:none}
+.qz-ok b{display:block;font-size:clamp(18px,1.8vw,24px);font-weight:800;line-height:1.3}
+.qz-ok p{font-size:var(--f-small);color:rgba(255,255,255,.78);line-height:1.68;margin-top:10px}
+.qz-ok ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:9px}
+.qz-ok li{
+  display:flex;gap:11px;align-items:flex-start;
+  font-size:var(--f-small);color:rgba(255,255,255,.72);line-height:1.55;
+}
+.qz-ok li::before{
+  content:"";width:0;height:0;flex:none;margin-top:.45em;
+  border-top:5px solid transparent;border-bottom:5px solid transparent;
+  border-right:8px solid var(--red);
+}
+.qz-again{margin-top:clamp(18px,2vw,26px)}
+
+/* =====================================================================
+   5 · אזורים מתחת לקיפול
+   ===================================================================== */
+.sec{padding:clamp(66px,7.6vw,124px) 0}
+.sec-mist{background:var(--mist)}
+.lp-below[hidden]{display:none}
+
+/* --- שלוש נקודות כאב — הכרטיסיות של האתר, אחד לאחד ---------------- */
+.pain-head{max-width:60ch}
+.q-grid{
+  display:grid;gap:clamp(14px,1.5vw,22px);
+  grid-template-columns:repeat(auto-fit,minmax(258px,1fr));
+  margin-top:clamp(34px,4vw,56px);
+}
+.q-card{
+  position:relative;background:#fff;border:1px solid var(--line);
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease),
+             border-color .45s var(--ease);
+}
+.q-band{position:relative;flex:none;overflow:hidden;height:clamp(40px,3.7vw,56px);background:var(--red)}
+.q-n{
+  position:absolute;left:clamp(12px,1.15vw,18px);top:-1px;
+  font-size:clamp(58px,5.4vw,82px);font-weight:800;line-height:1;
+  letter-spacing:.005em;direction:ltr;
+  color:transparent;-webkit-text-stroke:1.6px rgba(255,255,255,.95);
+  user-select:none;pointer-events:none;
+}
+.q-body{padding:clamp(20px,2.1vw,30px) clamp(18px,1.9vw,26px) clamp(24px,2.4vw,34px)}
+.q-card h3{font-size:var(--f-h3);font-weight:800;line-height:1.24}
+.q-card p{font-size:var(--f-small);color:var(--slate);line-height:1.65;margin-top:12px}
+.q-card:hover{transform:translateY(-6px);border-color:var(--red);box-shadow:0 24px 46px -26px rgba(11,13,16,.55)}
+
+/* משפט הסיכום שאחרי הכרטיסיות — אותו מוטיב שסוגר אזורים באתר */
+.punch{
+  margin-top:clamp(38px,4.4vw,64px);text-align:center;
+  font-size:clamp(21px,2.9vw,40px);font-weight:300;line-height:1.2;
+  max-width:26ch;margin-inline:auto;text-wrap:balance;
+}
+.punch b{font-weight:800;display:block}
+
+/* --- מקרה לקוח ------------------------------------------------------ */
+.lp-case{background:var(--ink);color:#fff;position:relative;overflow:hidden;isolation:isolate}
+.lp-case::after{
+  content:"在中国二十年";position:absolute;top:50%;inset-inline-start:-.35em;
+  transform:translateY(-50%);
+  font-family:"Noto Sans SC",sans-serif;font-size:clamp(90px,13vw,190px);
+  writing-mode:vertical-rl;color:rgba(255,255,255,.03);
+  letter-spacing:.02em;pointer-events:none;line-height:1;z-index:-1;user-select:none;
+}
+.case-grid{
+  display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+  gap:clamp(28px,3.8vw,66px);align-items:center;
+}
+.case-media{position:relative;overflow:hidden}
+.case-media img{width:100%;height:auto;aspect-ratio:4/3.2;object-fit:cover;opacity:.92}
+.case-tag{
+  position:absolute;inset-block-start:0;inset-inline-start:0;z-index:2;
+  background:var(--red);color:#fff;font-size:11px;font-weight:800;
+  letter-spacing:.13em;padding:9px 15px;
+}
+.case-body h2{
+  font-size:clamp(24px,2.7vw,38px);font-weight:800;line-height:1.15;
+  max-width:22ch;text-wrap:balance;
+}
+.case-body p{font-size:var(--f-small);color:rgba(255,255,255,.74);line-height:1.72;margin-top:14px;max-width:56ch}
+.case-kpi{
+  display:flex;flex-wrap:wrap;gap:clamp(20px,2.4vw,42px);
+  margin-top:clamp(20px,2.2vw,30px);padding-top:clamp(16px,1.8vw,24px);
+  border-top:1px solid rgba(255,255,255,.2);
+}
+.case-kpi b{
+  display:block;font-size:clamp(24px,2.6vw,36px);font-weight:800;line-height:1;
+  letter-spacing:-.02em;
+}
+.case-kpi b i{font-style:normal;color:var(--red)}
+.case-kpi span{display:block;font-size:11.5px;color:rgba(255,255,255,.58);letter-spacing:.04em;margin-top:7px}
+
+/* --- רצועת הסייגים -------------------------------------------------- */
+.lp-terms{background:var(--mist);padding:clamp(30px,3.4vw,50px) 0}
+.terms-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:clamp(16px,2vw,32px);
+}
+.terms-grid div{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 12px;align-items:start}
+.terms-grid div::before{
+  content:"";grid-column:1;grid-row:1;
+  width:0;height:0;margin-top:.42em;
+  border-top:5px solid transparent;border-bottom:5px solid transparent;
+  border-right:8px solid var(--red);
+}
+.terms-grid b{grid-column:2;font-size:14.5px;font-weight:800;line-height:1.35}
+.terms-grid span{grid-column:2;font-size:13px;color:var(--slate);line-height:1.6;margin-top:5px}
+
+/* --- חזרה למחשבון --------------------------------------------------- */
+.lp-again{
+  background:var(--ink);color:#fff;text-align:center;
+  padding:clamp(52px,6vw,96px) 0;position:relative;overflow:hidden;
+}
+.lp-again h2{font-size:clamp(24px,3.2vw,44px);font-weight:300;line-height:1.1;text-wrap:balance}
+.lp-again h2 b{display:block;font-weight:800}
+.lp-again p{font-size:var(--f-small);color:rgba(255,255,255,.6);margin-top:14px}
+.lp-again .cta{margin-top:clamp(22px,2.4vw,34px)}
+
+/* =====================================================================
+   6 · FOOTER — בלי ניווט לאתר
+   ===================================================================== */
+.lp-ftr{
+  background:#06080A;color:rgba(255,255,255,.55);
+  font-size:var(--f-small);padding:clamp(34px,3.8vw,56px) 0 24px;
+  position:relative;
+}
+.lp-ftr::before{
+  content:"";position:absolute;inset-block-start:0;inset-inline:0;height:2px;
+  background:linear-gradient(to left, var(--red) 0 30%, rgba(255,255,255,.1) 30%);
+}
+.lp-ftr .brand{color:#fff}
+.lp-ftr-in{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:clamp(16px,2vw,32px);
+}
+.lp-ftr-chips{display:flex;flex-wrap:wrap;gap:8px}
+.lp-ftr-chips span{
+  font-size:11.5px;font-weight:700;letter-spacing:.05em;color:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.16);padding:7px 13px;
+}
+.lp-ftr-bot{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;
+  padding-top:20px;margin-top:clamp(20px,2.2vw,32px);
+  border-top:1px solid rgba(255,255,255,.09);
+  font-size:12px;color:rgba(255,255,255,.36);
+}
+.lp-ftr-bot a{color:rgba(255,255,255,.36);text-decoration:none}
+.lp-ftr-bot a:hover,.lp-ftr-bot a:focus-visible{color:#fff;text-decoration:underline}
+
+/* =====================================================================
+   7 · ANIMATION — אותה שפה: עלייה עדינה, עקומת expo, כיבוד reduced-motion
+   ===================================================================== */
+.anim [data-rise]{opacity:0;translate:0 clamp(12px,1.3vw,20px)}
+.anim [data-rise].in{
+  opacity:1;translate:0 0;
+  transition:opacity 620ms var(--ease) var(--d,0ms), translate 760ms var(--ease) var(--d,0ms);
+}
+[data-zoom]{overflow:hidden}
+.anim [data-zoom] img{scale:1.05}
+.anim [data-zoom].in img{scale:1;transition:scale 1100ms var(--ease)}
+
+/* מעבר בין מסכי המחשבון — מתגלגל, בסגנון typeform */
+@keyframes qz-in{
+  from{opacity:0;translate:0 22px}
+  to{opacity:1;translate:0 0}
+}
+@keyframes qz-out{
+  from{opacity:1;translate:0 0}
+  to{opacity:0;translate:0 -16px}
+}
+.anim .qz-s.is-live{animation:qz-in 460ms var(--ease) both}
+.anim .qz-s.is-out{display:block;animation:qz-out 200ms var(--ease-soft) both;pointer-events:none}
+/* האפשרויות נכנסות בהשהיה מדורגת אחרי השאלה */
+.anim .qz-s.is-live .opt{animation:qz-in 420ms var(--ease) both;animation-delay:calc(120ms + var(--i,0) * 45ms)}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .anim *{
+    opacity:1 !important;translate:none !important;scale:none !important;
+    transition:none !important;animation:none !important;
+  }
+}
+
+/* =====================================================================
+   8 · RESPONSIVE
+   ===================================================================== */
+@media (max-width:920px){
+  .case-grid{grid-template-columns:1fr}
+  .case-media{order:-1;max-width:560px}
+}
+@media (max-width:860px){
+  :root{--shell:min(1240px, 100% - 48px)}
+  .lp-hdr-tag{display:none}
+  .lp-stage{min-height:0;padding-block:calc(clamp(70px,6vw,88px) + 26px) clamp(64px,9vw,96px)}
+}
+@media (max-width:560px){
+  :root{--shell:min(1240px, 100% - 36px)}
+  .brand-sub{display:none}
+  .qz-h1{font-size:clamp(30px,8.6vw,40px)}
+  .qz-q{font-size:clamp(22px,6.4vw,30px)}
+  .opt{grid-template-columns:clamp(30px,8vw,36px) minmax(0,1fr);padding:12px 13px}
+  .opt-go{display:none}
+  .opt:hover{transform:none}
+  .qz-start .cta,.qz-form .cta,.qz-next .cta{width:100%}
+  .qz-form{max-width:none}
+  .lp-ftr-in{flex-direction:column;align-items:flex-start}
+}

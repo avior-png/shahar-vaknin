@@ -182,8 +182,8 @@ h2.title b{font-weight:800;display:block}
    2 · גוף המכשיר
    ===================================================================== */
 .lp-main{
-  flex:1;display:flex;align-items:center;
-  padding-block:clamp(14px,2vw,34px) clamp(30px,4vw,64px);
+  flex:1;display:flex;align-items:flex-start;
+  padding-block:clamp(16px,2.8vw,48px) clamp(30px,4vw,64px);
 }
 .lp-main .shell{width:min(1240px, 100% - 48px)}
 
@@ -193,9 +193,12 @@ h2.title b{font-weight:800;display:block}
    האחרות נעשות 60/40 — המחשבון נדחס והמודול נמתח לחלון.
    כל העמודות ב-fr, וזה מה שמאפשר להנפיש את המעבר.
    -------------------------------------------------------------------- */
+/* יישור לראש ולא למרכז: גובה המחשבון משתנה בין מסך עם שלוש
+   אפשרויות למסך עם שמונה, ובמרכוז כל שינוי כזה היה מזיז את המודול
+   שלצדו. קו עליון משותף = המודול לא נע בין שלבים. */
 .stage{
   display:grid;grid-template-columns:14fr 72fr 14fr;
-  align-items:center;
+  align-items:start;
   transition:grid-template-columns 620ms var(--ease);
 }
 .stage.is-split{grid-template-columns:0fr 60fr 40fr}
@@ -216,7 +219,7 @@ h2.title b{font-weight:800;display:block}
    היא מחזיקה את הכפתור; בפתוח את התוכן. לכן זה נראה כמו חלון שנמתח.
    -------------------------------------------------------------------- */
 .side{
-  position:relative;overflow:hidden;align-self:center;
+  position:relative;overflow:hidden;align-self:start;
   background:#fff;border:1px solid var(--line);
   box-shadow:0 34px 64px -46px rgba(11,13,16,.38);
   margin-inline-start:clamp(14px,1.6vw,24px);

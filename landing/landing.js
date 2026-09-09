@@ -22,11 +22,18 @@
   var railSteps = [].slice.call(document.querySelectorAll('.calc-step'));
   var read    = document.getElementById('calc-read');
   var backBtn = document.getElementById('qz-back');
+  var navRow  = document.getElementById('calc-nav');
   var foot      = document.querySelector('.calc-foot');
   var footInfo  = document.querySelector('.calc-info');
   var docFace   = document.getElementById('panel');
   var docScroll = document.getElementById('panel-scroll');
   var docOpen   = false;
+  var stage     = document.getElementById('stage');
+  var sideBody  = document.getElementById('side-body');
+  var sideTab   = document.querySelector('.side-tab');
+  /* מעל הרוחב הזה המידע נפתח כחלון לצד המחשבון; מתחתיו הוא מחליף
+     את תוכן החלון. אותו רוחב מוגדר גם ב-CSS. */
+  var wide      = matchMedia('(min-width:1080px)');
   var result  = document.getElementById('qz-result');
   if (!stack) return;
 
@@ -55,8 +62,12 @@
     /* במסך הפתיחה כפתור המידע יושב ליד ההנעה לפעולה, ולכן התחתית
        ריקה שם. משהשאלון מתחיל — הוא זמין בתחתית, שקט. */
     var atIntro = el.dataset.screen === 'intro';
-    backBtn.hidden = docOpen || atIntro;
-    if (footInfo) footInfo.hidden = docOpen || atIntro;
+    /* בפיצול השאלון נשאר פעיל לצד החלון, ולכן רק כשהמידע *מחליף*
+       את התוכן צריך להסתיר את הניווט שלו */
+    var replaced = docOpen && !wide.matches;
+    /* מסתירים את השורה כולה ולא רק את הכפתור, כדי שלא יישאר רווח */
+    if (navRow) navRow.hidden = replaced || atIntro;
+    if (footInfo) footInfo.hidden = replaced || atIntro;
     /* במסך הפתיחה אין בתחתית כלום, ולכן היא נעלמת — סרגל ריק נראה
        כמו תקלה ולא כמו חלק מהמכשיר */
     /* בפָן השני הדרך חזרה יושבת מעל הכותרת, ובמסך הפתיחה אין
@@ -474,6 +485,16 @@
      ================================================================= */
   var infoBtns = [].slice.call(document.querySelectorAll('[data-info]'));
   var docFrom  = null;
+  var docHome  = docFace && docFace.parentNode;
+
+  /* אותו אלמנט משרת את שני המצבים, ולכן הוא עובר בין שני ההורים:
+     לתוך המודול שלצד המחשבון בדסקטופ, ובחזרה לתוך חלון המכשיר
+     ברוחב צר. התוכן זהה, ולכן אין מה לשכפל. */
+  function placeDoc() {
+    if (!docFace) return;
+    var target = wide.matches ? sideBody : docHome;
+    if (target && docFace.parentNode !== target) target.appendChild(docFace);
+  }
 
   function docEdge() {
     if (!docScroll) return;
@@ -487,7 +508,14 @@
        ומעביר את המיקוד ל-body לפני שנספיק לזכור מאיפה באנו. */
     if (open) docFrom = document.activeElement;
     docOpen = open;
-    stack.hidden = open;
+    placeDoc();
+    var split = wide.matches;
+    /* בפיצול שני החלונות יושבים יחד והשאלון נשאר פעיל; ברוחב צר
+       המידע מחליף את תוכן החלון */
+    stack.hidden = open && !split;
+    if (stage) stage.classList.toggle('is-split', open && split);
+    /* inert נכנס ויוצא מיד, ולכן הכפתור שוב ממוקד-מקלדת ברגע הסגירה */
+    if (sideTab) sideTab.toggleAttribute('inert', open && split);
     docFace.hidden = !open;
     infoBtns.forEach(function (b) { b.setAttribute('aria-expanded', open ? 'true' : 'false'); });
     paintRail(screens[live]);
@@ -514,6 +542,19 @@
     });
     docScroll.addEventListener('scroll', docEdge, {passive: true});
     addEventListener('resize', function () { if (docOpen) docEdge(); }, {passive: true});
+    /* חצייה של נקודת השבירה בזמן שהמידע פתוח — מעבירים אותו להורה
+       הנכון ומיישרים את מצב הפיצול */
+    var onWide = function () {
+      if (!docOpen) { if (stage) stage.classList.remove('is-split'); return; }
+      placeDoc();
+      stack.hidden = !wide.matches;
+      if (stage) stage.classList.toggle('is-split', wide.matches);
+      if (sideTab) sideTab.toggleAttribute('inert', wide.matches);
+      paintRail(screens[live]);
+      docEdge();
+    };
+    if (wide.addEventListener) wide.addEventListener('change', onWide);
+    else if (wide.addListener) wide.addListener(onWide);
     addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && docOpen) { e.preventDefault(); docSet(false); }
     });

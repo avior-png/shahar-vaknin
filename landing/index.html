@@ -45,10 +45,17 @@
   <div class="shell">
 
     <!-- =================================================================
-         גוף המכשיר. מסך הפתיחה, שש השאלות והתוצאה יושבים כולם בתוכו —
-         אותה שילדה, אותה מסילת שלבים, אותו חלון קריאה. זה מה שגורם
-         לדף להיראות כמו מחשבון ולא כמו עמוד שמתחלף.
+         הבמה: המחשבון, ולידו המודול שמחזיק את המידע. בסגור העמודות
+         סימטריות משני צדי המחשבון והוא ממורכז; בלחיצה הן נעשות 60/40
+         והמודול נמתח לחלון. אותה תיבה בשני המצבים — אותה מסגרת ואותו
+         פס אדום — ולכן זה נראה כמו חלון שנמתח ולא כמו חלון שנפתח.
+         בדסקטופ בלבד; מרוחב צר יותר המידע מחליף את תוכן החלון.
          ================================================================= -->
+    <div class="stage" id="stage">
+    <div class="stage-pad" aria-hidden="true"></div>
+
+    <!-- גוף המכשיר. מסך הפתיחה, שש השאלות והתוצאה יושבים כולם בתוכו —
+         אותה שילדה, אותה מסילת שלבים, אותו חלון קריאה. -->
     <section class="calc" id="calc" aria-label="מחשבון יבוא מסין">
 
       <div class="calc-rail">
@@ -67,6 +74,10 @@
       </div>
 
       <div class="calc-main">
+        <div class="calc-nav" id="calc-nav" hidden>
+          <button class="calc-back" type="button" id="qz-back"><i aria-hidden="true"></i>חזרה</button>
+        </div>
+
         <div class="qz-stack" id="qz-stack">
 
           <noscript>
@@ -271,13 +282,22 @@
       </div>
 
       <div class="calc-foot">
-        <button class="calc-back" type="button" id="qz-back" hidden>חזרה<i aria-hidden="true"></i></button>
         <button class="calc-info" type="button" data-info aria-controls="panel" aria-expanded="false" hidden>
           <i aria-hidden="true">i</i><span>למה יבואנים משלמים יותר</span>
         </button>
       </div>
 
     </section>
+
+    <!-- המודול שלצד המחשבון: בסגור הוא הכפתור, בפתוח הוא החלון -->
+    <aside class="side" id="side">
+      <button class="side-tab" type="button" data-info aria-controls="panel" aria-expanded="false">
+        <i aria-hidden="true">i</i><span>למה יבואנים משלמים יותר</span>
+      </button>
+      <div class="side-body" id="side-body"></div>
+    </aside>
+
+    </div>
   </div>
 </main>
 

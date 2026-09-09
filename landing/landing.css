@@ -185,7 +185,20 @@ h2.title b{font-weight:800;display:block}
   flex:1;display:flex;align-items:center;
   padding-block:clamp(14px,2vw,34px) clamp(30px,4vw,64px);
 }
-.lp-main .shell{width:min(920px, 100% - 48px)}
+.lp-main .shell{width:min(1240px, 100% - 48px)}
+
+/* --- הבמה: המחשבון והמודול שלידו ----------------------------------
+   שלוש עמודות. בסגור הראשונה והשלישית שוות, ולכן המחשבון ממורכז
+   והמודול יושב בשוליים משמאלו. בפתוח הראשונה מתאפסת והשתיים
+   האחרות נעשות 60/40 — המחשבון נדחס והמודול נמתח לחלון.
+   כל העמודות ב-fr, וזה מה שמאפשר להנפיש את המעבר.
+   -------------------------------------------------------------------- */
+.stage{
+  display:grid;grid-template-columns:14fr 72fr 14fr;
+  align-items:center;
+  transition:grid-template-columns 620ms var(--ease);
+}
+.stage.is-split{grid-template-columns:0fr 60fr 40fr}
 
 .calc{
   position:relative;background:#fff;
@@ -197,6 +210,47 @@ h2.title b{font-weight:800;display:block}
   content:"";position:absolute;inset-inline:-1px;inset-block-start:-1px;
   height:3px;background:var(--red);
 }
+
+/* --- המודול שלצד המחשבון ------------------------------------------
+   אותה תיבה בשני המצבים: אותה מסגרת, אותו פס אדום, אותו צל. בסגור
+   היא מחזיקה את הכפתור; בפתוח את התוכן. לכן זה נראה כמו חלון שנמתח.
+   -------------------------------------------------------------------- */
+.side{
+  position:relative;overflow:hidden;align-self:center;
+  background:#fff;border:1px solid var(--line);
+  box-shadow:0 34px 64px -46px rgba(11,13,16,.38);
+  margin-inline-start:clamp(14px,1.6vw,24px);
+}
+.side::before{
+  content:"";position:absolute;inset-inline:-1px;inset-block-start:-1px;
+  height:3px;background:var(--red);z-index:3;
+}
+.side-tab{
+  display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.2vw,15px);
+  width:100%;padding:clamp(22px,2.4vw,32px) clamp(12px,1.4vw,18px);
+  background:none;border:0;cursor:pointer;font-family:inherit;
+  color:var(--ink);text-align:center;
+  transition:background-color .3s var(--ease), opacity .2s var(--ease);
+}
+.side-tab:hover{background:var(--mist)}
+.side-tab:focus-visible{outline:2px solid var(--red);outline-offset:-4px}
+.side-tab i{
+  width:36px;height:36px;flex:none;display:grid;place-items:center;
+  border:1.5px solid var(--red);border-radius:50%;
+  color:var(--red-deep);font-style:normal;font-weight:800;font-size:15px;
+  direction:ltr;line-height:1;
+  transition:background-color .3s var(--ease), color .3s var(--ease);
+}
+.side-tab:hover i{background:var(--red);color:#fff}
+.side-tab span{font-size:13px;font-weight:800;line-height:1.45;text-wrap:balance}
+.side-body{display:none}
+/* בפתוח הכפתור מתפוגג ויוצא מהזרימה, והתוכן נכנס אחרי שהרוחב התחיל לזוז */
+/* מתפוגג ויוצא מהזרימה. הוצאתו ממסלול המקלדת ומעץ הנגישות נעשית
+   ב-JS עם inert, ולא ב-visibility: מעבר על visibility מתהפך באמצע
+   הדרך, ולכן הכפתור לא היה יכול לקבל מיקוד ב-100ms שאחרי הסגירה. */
+.is-split .side-tab{opacity:0;pointer-events:none;position:absolute;inset:0}
+.is-split .side-body{display:block;padding:clamp(20px,2.2vw,32px)}
+.anim .is-split .side-body{animation:qz-in 460ms var(--ease) 200ms both}
 
 /* --- מסילת השלבים ------------------------------------------------- */
 .calc-rail{
@@ -248,6 +302,9 @@ h2.title b{font-weight:800;display:block}
   min-height:clamp(320px,40vh,440px);
   display:flex;flex-direction:column;justify-content:center;
 }
+/* שורת החזרה בראש החלון: אותו מקום שבו יושבת הדרך חזרה בפָן השני,
+   כדי שהכלל יהיה אחד — חזרה תמיד בראש התוכן, לא בתחתית. */
+.calc-nav{display:flex;margin-bottom:clamp(13px,1.6vw,22px)}
 .qz-stack{position:relative;width:100%}
 
 .qz-s{display:none}
@@ -260,6 +317,9 @@ h2.title b{font-weight:800;display:block}
   padding:clamp(13px,1.5vw,18px) clamp(20px,2.6vw,40px);
   border-top:1px solid var(--line);
   background:var(--mist);
+}
+.calc-back{
+  align-self:flex-start;
 }
 .calc-back,.calc-info{
   background:none;border:0;cursor:pointer;font-family:inherit;
@@ -274,6 +334,7 @@ h2.title b{font-weight:800;display:block}
   border-left:8px solid currentColor;
   transition:transform .34s var(--ease);
 }
+.calc-back{padding-block:3px}
 .calc-back:hover,.calc-back:focus-visible,
 .calc-info:hover,.calc-info:focus-visible{color:var(--red-deep)}
 .calc-back:hover i,.calc-back:focus-visible i{transform:translateX(4px)}
@@ -403,12 +464,12 @@ h2.title b{font-weight:800;display:block}
 /* שמונה אפשרויות במסך אחד: מרוחב שבו הטור באמת רחב מספיק הן נפרסות
    לשניים, ו„אף אחד מאלה” נשאר בשורה משלו */
 @media (min-width:1000px){
-  .qz-s[data-kind="many"] .qz-opts{
+  .stage:not(.is-split) .qz-s[data-kind="many"] .qz-opts{
     display:grid;grid-template-columns:1fr 1fr;gap:7px;align-items:stretch;
   }
-  .qz-s[data-kind="many"] .qz-opts li:has(input[data-none]){grid-column:1/-1}
-  .qz-s[data-kind="many"] .opt{height:100%}
-  .qz-s[data-kind="many"] .opt-t{font-size:clamp(14px,1.1vw,15.5px)}
+  .stage:not(.is-split) .qz-s[data-kind="many"] .qz-opts li:has(input[data-none]){grid-column:1/-1}
+  .stage:not(.is-split) .qz-s[data-kind="many"] .opt{height:100%}
+  .stage:not(.is-split) .qz-s[data-kind="many"] .opt-t{font-size:clamp(14px,1.1vw,15.5px)}
 }
 
 /* שדה חופשי שנפתח מתחת ל„אחר” */
@@ -678,6 +739,7 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
 .anim .qz-s.is-live .opt{animation:qz-in 380ms var(--ease) both;animation-delay:calc(90ms + var(--i,0) * 38ms)}
 
 @media (prefers-reduced-motion: reduce){
+  .stage{transition:none}
   .anim *,.calc-doc *{
     opacity:1!important;translate:none!important;
     transition:none!important;animation:none!important;
@@ -687,10 +749,23 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
 /* =====================================================================
    8 · RESPONSIVE
    ===================================================================== */
+/* הפיצול הוא התנהגות דסקטופ. מרוחב צר יותר המודול נעלם, והמידע
+   מחליף את תוכן החלון — בדיוק כמו שהיה. */
+@media (max-width:1079px){
+  .stage{display:block}
+  .stage-pad,.side{display:none}
+  .lp-main .shell{width:min(920px, 100% - 48px)}
+}
+/* בדסקטופ המודול הוא נקודת הכניסה היחידה, ולכן שני הכפתורים
+   האחרים מיותרים — והתחתית נשארת ריקה ונעלמת */
+@media (min-width:1080px){
+  .qz-start .ghost,.calc-foot{display:none}
+}
+
 @media (max-width:860px){
   :root{--shell:min(1160px, 100% - 40px)}
   .lp-main{align-items:flex-start;padding-block:8px clamp(24px,5vw,40px)}
-  .lp-main .shell{width:min(920px, 100% - 32px)}
+  .lp-main .shell{width:min(920px, 100% - 32px)!important}
   .lp-hdr-tag{display:none}
   .calc-main{min-height:0}
   .case-grid{grid-template-columns:1fr;gap:clamp(18px,3.4vw,26px)}
@@ -709,7 +784,7 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
 }
 @media (max-width:520px){
   :root{--shell:min(1160px, 100% - 32px)}
-  .lp-main .shell{width:min(920px, 100% - 24px)}
+  .lp-main .shell{width:min(920px, 100% - 24px)!important}
   .brand-sub{display:none}
   .qz-h1{font-size:clamp(27px,7.6vw,36px)}
   .qz-q{font-size:clamp(21px,5.8vw,27px)}

@@ -19,11 +19,9 @@
   root.classList.add('anim');
 
   var stack   = document.getElementById('qz-stack');
-  var bar     = document.getElementById('qz-bar');
-  var fill    = document.getElementById('qz-fill');
-  var stepTxt = document.getElementById('qz-step');
+  var railSteps = [].slice.call(document.querySelectorAll('.calc-step'));
+  var read    = document.getElementById('calc-read');
   var backBtn = document.getElementById('qz-back');
-  var below   = document.getElementById('lp-below');
   var result  = document.getElementById('qz-result');
   if (!stack) return;
 
@@ -39,12 +37,17 @@
   function isQ(el)   { return el.dataset.screen === 'q'; }
   function qIndex(el){ return +el.dataset.q || 0; }
 
-  function paintBar(el) {
-    var q = isQ(el) ? qIndex(el) : 0;
-    bar.hidden = !q;
-    if (!q) return;
-    fill.style.width = (q / qCount * 100) + '%';
-    stepTxt.textContent = 'שאלה ' + q + ' מתוך ' + qCount;
+  function paintRail(el) {
+    var isRes = el.dataset.screen === 'result';
+    var q = isQ(el) ? qIndex(el) : (isRes ? qCount : 0);
+    railSteps.forEach(function (cell, i) {
+      var n = i + 1;
+      cell.classList.toggle('is-live', !isRes && n === q);
+      cell.classList.toggle('is-done', isRes || n < q);
+    });
+    read.hidden = !q;
+    read.textContent = isRes ? 'התוצאה' : (q ? 'שאלה ' + q + ' מתוך ' + qCount : '');
+    backBtn.hidden = el.dataset.screen === 'intro';
   }
 
   function go(next, opts) {
@@ -67,11 +70,7 @@
       void to.offsetWidth;                 /* מאלץ הרצה מחדש של האנימציה */
       to.classList.add('is-live');
 
-      paintBar(to);
-      /* הבלוק התחתון מוסתר בזמן השאלון — משימה אחת על המסך —
-         וחוזר במסך התוצאה, כדי שההוכחות יהיו ליד ההחלטה */
-      below.hidden = isQ(to);
-
+      paintRail(to);
       focusFirst(to);
       if (opts.top || scrollY > 4) scrollTop();
     }, OUT_MS);
@@ -454,23 +453,61 @@
   });
 
   /* =================================================================
-     6 · גילוי בגלילה + השנה בפוטר
+     6 · הפאנל
+     נפתח מעל המחשבון ונסגר בחזרה לאותו מקום בשאלון: הוא שכבה מעל
+     ה-DOM ולא נוגע בו, ולכן כל התשובות נשמרות מעצמן.
      ================================================================= */
-  var targets = document.querySelectorAll('[data-rise],[data-zoom]');
-  if (reduced || !('IntersectionObserver' in window)) {
-    targets.forEach(function (el) { el.classList.add('in'); });
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-      });
-    }, {threshold: 0.12, rootMargin: '0px 0px -6% 0px'});
-    targets.forEach(function (el) { io.observe(el); });
+  var panel    = document.getElementById('panel');
+  var panelBox = panel && panel.querySelector('.panel-box');
+  var shields  = [].slice.call(document.querySelectorAll('.lp-hdr, .lp-main, .lp-ftr'));
+  var infoBtns = [].slice.call(document.querySelectorAll('[data-info]'));
+  var returnTo = null;
+
+  var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),' +
+                  'select,textarea,[tabindex]:not([tabindex="-1"])';
+
+  function panelSet(open) {
+    if (!panel) return;
+    infoBtns.forEach(function (b) { b.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+    shields.forEach(function (el) { el.toggleAttribute('inert', open); });
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+
+    if (open) {
+      returnTo = document.activeElement;
+      panel.hidden = false;
+      void panel.offsetWidth;                /* מאלץ את מעבר הכניסה */
+      panel.classList.add('is-open');
+      var first = panelBox.querySelector('.panel-x');
+      if (first) first.focus({preventScroll: true});
+    } else {
+      panel.classList.remove('is-open');
+      setTimeout(function () { panel.hidden = true; }, reduced ? 0 : 380);
+      if (returnTo && returnTo.isConnected) returnTo.focus({preventScroll: true});
+      returnTo = null;
+    }
+  }
+
+  if (panel) {
+    infoBtns.forEach(function (b) { b.addEventListener('click', function () { panelSet(true); }); });
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('[data-close]')) panelSet(false);
+    });
+    panel.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); panelSet(false); return; }
+      if (e.key !== 'Tab') return;
+      /* מלכודת מיקוד — גיבוי ל-inert בדפדפנים שלא תומכים בו */
+      var items = [].slice.call(panelBox.querySelectorAll(FOCUSABLE))
+                    .filter(function (el) { return el.offsetParent !== null; });
+      if (!items.length) return;
+      var first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
   }
 
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
 
   syncNext();
-  paintBar(screens[live]);
+  paintRail(screens[live]);
 })();

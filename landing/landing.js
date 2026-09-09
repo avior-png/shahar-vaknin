@@ -22,6 +22,12 @@
   var railSteps = [].slice.call(document.querySelectorAll('.calc-step'));
   var read    = document.getElementById('calc-read');
   var backBtn = document.getElementById('qz-back');
+  var foot      = document.querySelector('.calc-foot');
+  var footInfo  = document.querySelector('.calc-info');
+  var footClose = document.querySelector('.calc-close');
+  var docFace   = document.getElementById('panel');
+  var docScroll = document.getElementById('panel-scroll');
+  var docOpen   = false;
   var result  = document.getElementById('qz-result');
   if (!stack) return;
 
@@ -47,7 +53,14 @@
     });
     read.hidden = !q;
     read.textContent = isRes ? 'התוצאה' : (q ? 'שאלה ' + q + ' מתוך ' + qCount : '');
-    backBtn.hidden = el.dataset.screen === 'intro';
+    /* במסך הפתיחה כפתור המידע יושב ליד ההנעה לפעולה, ולכן התחתית
+       ריקה שם. משהשאלון מתחיל — הוא זמין בתחתית, שקט. */
+    var atIntro = el.dataset.screen === 'intro';
+    backBtn.hidden = docOpen || atIntro;
+    if (footInfo) footInfo.hidden = docOpen || atIntro;
+    /* במסך הפתיחה אין בתחתית כלום, ולכן היא נעלמת — סרגל ריק נראה
+       כמו תקלה ולא כמו חלק מהמכשיר */
+    if (foot) foot.hidden = atIntro && !docOpen;
   }
 
   function go(next, opts) {
@@ -453,55 +466,56 @@
   });
 
   /* =================================================================
-     6 · הפאנל
-     נפתח מעל המחשבון ונסגר בחזרה לאותו מקום בשאלון: הוא שכבה מעל
-     ה-DOM ולא נוגע בו, ולכן כל התשובות נשמרות מעצמן.
+     6 · הפָּן השני של המכשיר
+     המידע לא צף מעל הדף — הוא מחליף את תוכן החלון בתוך אותה שילדה.
+     השאלון נשאר ב-DOM ורק מוסתר, ולכן החזרה היא לאותו מקום עם כל
+     התשובות, בלי טעינה מחדש ובלי איבוד מצב.
      ================================================================= */
-  var panel    = document.getElementById('panel');
-  var panelBox = panel && panel.querySelector('.panel-box');
-  var shields  = [].slice.call(document.querySelectorAll('.lp-hdr, .lp-main, .lp-ftr'));
   var infoBtns = [].slice.call(document.querySelectorAll('[data-info]'));
-  var returnTo = null;
+  var docFrom  = null;
 
-  var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),' +
-                  'select,textarea,[tabindex]:not([tabindex="-1"])';
+  function docEdge() {
+    if (!docScroll) return;
+    var atEnd = docScroll.scrollTop + docScroll.clientHeight >= docScroll.scrollHeight - 4;
+    docFace.classList.toggle('is-end', atEnd);
+  }
 
-  function panelSet(open) {
-    if (!panel) return;
+  function docSet(open) {
+    if (!docFace) return;
+    /* לתפוס את המיקוד לפני כל הסתרה: paintRail מסתיר את כפתור המידע,
+       ומעביר את המיקוד ל-body לפני שנספיק לזכור מאיפה באנו. */
+    if (open) docFrom = document.activeElement;
+    docOpen = open;
+    stack.hidden = open;
+    docFace.hidden = !open;
+    if (footClose) footClose.hidden = !open;
     infoBtns.forEach(function (b) { b.setAttribute('aria-expanded', open ? 'true' : 'false'); });
-    shields.forEach(function (el) { el.toggleAttribute('inert', open); });
-    document.documentElement.style.overflow = open ? 'hidden' : '';
+    paintRail(screens[live]);
 
     if (open) {
-      returnTo = document.activeElement;
-      panel.hidden = false;
-      void panel.offsetWidth;                /* מאלץ את מעבר הכניסה */
-      panel.classList.add('is-open');
-      var first = panelBox.querySelector('.panel-x');
-      if (first) first.focus({preventScroll: true});
+      docScroll.scrollTop = 0;
+      docEdge();
+      var h = docFace.querySelector('#panel-t');
+      if (h) { h.setAttribute('tabindex', '-1'); h.focus({preventScroll: true}); }
+    } else if (docFrom && docFrom.isConnected && !docFrom.hidden) {
+      docFrom.focus({preventScroll: true});
+      docFrom = null;
     } else {
-      panel.classList.remove('is-open');
-      setTimeout(function () { panel.hidden = true; }, reduced ? 0 : 380);
-      if (returnTo && returnTo.isConnected) returnTo.focus({preventScroll: true});
-      returnTo = null;
+      var b = document.querySelector('[data-info]:not([hidden])');
+      if (b) b.focus({preventScroll: true});
+      docFrom = null;
     }
   }
 
-  if (panel) {
-    infoBtns.forEach(function (b) { b.addEventListener('click', function () { panelSet(true); }); });
-    panel.addEventListener('click', function (e) {
-      if (e.target.closest('[data-close]')) panelSet(false);
+  if (docFace) {
+    infoBtns.forEach(function (b) { b.addEventListener('click', function () { docSet(true); }); });
+    document.querySelectorAll('[data-close]').forEach(function (b) {
+      b.addEventListener('click', function () { docSet(false); });
     });
-    panel.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { e.preventDefault(); panelSet(false); return; }
-      if (e.key !== 'Tab') return;
-      /* מלכודת מיקוד — גיבוי ל-inert בדפדפנים שלא תומכים בו */
-      var items = [].slice.call(panelBox.querySelectorAll(FOCUSABLE))
-                    .filter(function (el) { return el.offsetParent !== null; });
-      if (!items.length) return;
-      var first = items[0], last = items[items.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    docScroll.addEventListener('scroll', docEdge, {passive: true});
+    addEventListener('resize', function () { if (docOpen) docEdge(); }, {passive: true});
+    addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && docOpen) { e.preventDefault(); docSet(false); }
     });
   }
 

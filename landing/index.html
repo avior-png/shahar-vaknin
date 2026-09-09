@@ -15,11 +15,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;700;800&family=Noto+Sans+SC:wght@400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/boxes.jpg" fetchpriority="high">
 <link rel="stylesheet" href="landing.css">
 </head>
 <body>
 
 <a class="skip" href="#calc">דלג למחשבון</a>
+
+<!-- ערימות הארגזים כרקע לכל הדף, מתחת לשטיפה בהירה: נותן עומק
+     בלי לגעת בקריאות — כל הטקסט יושב על גוף המכשיר הלבן. -->
+<img class="lp-bg" src="img/boxes.jpg" width="1024" height="1536" alt="" fetchpriority="high" decoding="async">
+<div class="lp-wash" aria-hidden="true"></div>
 
 <!-- כותרת: לוגו בלבד. אין ניווט ואין קישורים לאתר — יעד אחד לדף. -->
 <header class="lp-hdr">
@@ -77,9 +83,9 @@
             <p class="qz-filter">השירות מיועד ליבואנים ולעסקים שמזמינים מסין בכמויות מסחריות. לא מיועד ליבוא אישי.</p>
             <div class="qz-start">
               <button class="cta big" type="button" data-start><span>בוא נתחיל</span><span class="tri"></span></button>
-              <p class="qz-start-note">דקה אחת, 6 שאלות</p>
+              <button class="cta big ghost" type="button" data-info><span>למה נשאר כסף על השולחן?</span><span class="tri"></span></button>
             </div>
-            <p class="qz-trust">בלי להשאיר פרטים עכשיו. קודם התוצאה, אחר כך אתה מחליט.</p>
+            <p class="qz-start-note">דקה אחת, 6 שאלות · בלי להשאיר פרטים עכשיו. קודם התוצאה, אחר כך אתה מחליט.</p>
           </section>
 
           <section class="qz-s" data-screen="q" data-q="1" aria-labelledby="qt1" data-kind="one" data-name="field" hidden>
@@ -179,13 +185,94 @@
           <section class="qz-s" data-screen="result" id="qz-result" hidden></section>
 
         </div>
+
+          <!-- הפָּן השני של המכשיר: אותה שילדה, תוכן אחר. לא דיאלוג
+               שצף מעל הדף — ולכן גם השאלון לא נוגע ולא נטען מחדש,
+               והחזרה היא לאותו מקום עם כל התשובות. -->
+          <div class="calc-doc" id="panel" hidden aria-labelledby="panel-t">
+            <div class="calc-doc-scroll" id="panel-scroll" tabindex="0">
+              <div class="calc-doc-head">
+                <p class="eyebrow">שלוש הדרכים שבהן נשאר כסף על השולחן</p>
+                <h2 class="title" id="panel-t">לא צריך לקנות גרוע <b>כדי לשלם יותר.</b></h2>
+              </div>
+      <div class="q-grid">
+              <article class="q-card">
+                <div class="q-band"><span class="q-n" aria-hidden="true">01</span></div>
+                <div class="q-body">
+                  <h3>אתה קונה ממתווך שמתחזה למפעל</h3>
+                  <p>הרבה יבואנים בטוחים שהם קונים ישירות מהמפעל, ובפועל משלמים תוספת לאיש קשר — לפעמים כזה שכבר מזמן לא עובד שם.</p>
+                </div>
+              </article>
+              <article class="q-card">
+                <div class="q-band"><span class="q-n" aria-hidden="true">02</span></div>
+                <div class="q-body">
+                  <h3>המחיר עולה לך כל שנה</h3>
+                  <p>רוב המפעלים בסין לא מעלים מחירים, ולאורך זמן דווקא מוזילים. ספק שמעלה לך כל שנה „בגלל התייקרויות” כנראה פשוט יכול להרשות לעצמו.</p>
+                </div>
+              </article>
+              <article class="q-card">
+                <div class="q-band"><span class="q-n" aria-hidden="true">03</span></div>
+                <div class="q-body">
+                  <h3>הכסף נשאר בדרך</h3>
+                  <p>הזמנות מפוצלות במקום מכולה אחת מאוחדת, אחסון מנופח, שילוח יקר מהנדרש ובקרת איכות שנופלת בין הכיסאות.</p>
+                </div>
+              </article>
+            </div>
+
+      <p class="punch">כל אחד מהשלושה נראה כמו „ככה זה”. <b>אף אחד מהם לא חייב להיות ככה.</b></p>
+
+      <div class="calc-doc-case">
+        <div class="case-grid">
+                <div class="case-media">
+                  <span class="case-tag">מקרה לקוח</span>
+                  <img src="img/case-scaffold.jpg" width="1586" height="992" alt="פיגומי בנייה — התחום שבו עבד הלקוח" loading="lazy" decoding="async">
+                </div>
+                <div class="case-body">
+                  <h2>שנים עם אותו ספק. <br>35 אחוז מעל מחיר המפעל.</h2>
+                  <p>יבואן פיגומים שעבד שנים עם אותו ספק. גילינו שהוא משלם 35 אחוז מעל מחיר המפעל, כי המתווכת שהוא עבד מולה כבר מזמן לא עבדה שם.</p>
+                  <p>חיברנו אותו למפעל המקורי: אותו מוצר, איכות אחידה, מחיר נמוך בהרבה. בתוך שנתיים הוא הזמין ביותר מ-15 מיליון שקל, אחרי שנים של מכולה אחת בשנה.</p>
+                  <div class="case-kpi">
+                    <div>
+                      <b><i class="v">35%</i></b>
+                      <span>מעל מחיר המפעל, בלי לדעת</span>
+                    </div>
+                    <div>
+                      <b>15 מיליון ₪</b>
+                      <span>היקף הזמנות בשנתיים שאחרי</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      </div>
+
+      <div class="calc-doc-terms">
+        <div class="terms-grid">
+                <div>
+                  <b>הצלחה = חיסכון בעלות המלאה עד הדלת</b>
+                  <span>לא במחיר המוצר בלבד. אם אין חיסכון בעלות הכוללת, נגיד לך.</span>
+                </div>
+                <div>
+                  <b>תשלום רק על הזמנה בפועל</b>
+                  <span>אנחנו מתוגמלים רק אם יוצאת הזמנה, ורק אם באמת חסכנו לך.</span>
+                </div>
+                <div>
+                  <b>בלי הבטחת אחוז</b>
+                  <span>מחיר תלוי בהמון גורמים. אי אפשר להבטיח מספר בלי לבדוק — ולכן בודקים.</span>
+                </div>
+              </div>
+      </div>
+
+            </div>
+            <div class="calc-doc-fade" aria-hidden="true"><i></i></div>
+          </div>
       </div>
 
       <div class="calc-foot">
         <button class="calc-back" type="button" id="qz-back" hidden>חזרה<i aria-hidden="true"></i></button>
-        <button class="calc-info" type="button" data-info aria-controls="panel" aria-expanded="false">
+        <button class="calc-info" type="button" data-info aria-controls="panel" aria-expanded="false" hidden>
           <i aria-hidden="true">i</i><span>למה נשאר כסף על השולחן?</span>
         </button>
+        <button class="cta calc-close" type="button" data-close hidden><span>חזרה למחשבון</span><span class="tri"></span></button>
       </div>
 
     </section>
@@ -217,93 +304,6 @@
   </div>
 </footer>
 
-<!-- =====================================================================
-     הפאנל: כל מה שהיה מתחת לקיפול. נפתח מעל המחשבון ונסגר בחזרה
-     לאותו מקום בשאלון, עם כל התשובות — השאלון לא נוגע ולא נטען מחדש.
-     ===================================================================== -->
-<div class="panel" id="panel" hidden>
-  <div class="panel-scrim" data-close></div>
-  <div class="panel-box" role="dialog" aria-modal="true" aria-labelledby="panel-t">
-    <div class="panel-head">
-      <p class="eyebrow">שלוש הדרכים שבהן נשאר כסף על השולחן</p>
-      <h2 class="title" id="panel-t">לא צריך לקנות גרוע <b>כדי לשלם יותר.</b></h2>
-      <button class="panel-x" type="button" data-close aria-label="סגירה וחזרה למחשבון"><i aria-hidden="true"></i></button>
-    </div>
-
-    <div class="panel-body">
-      <div class="q-grid">
-              <article class="q-card">
-                <div class="q-band"><span class="q-n" aria-hidden="true">01</span></div>
-                <div class="q-body">
-                  <h3>אתה קונה ממתווך שמתחזה למפעל</h3>
-                  <p>הרבה יבואנים בטוחים שהם קונים ישירות מהמפעל, ובפועל משלמים תוספת לאיש קשר — לפעמים כזה שכבר מזמן לא עובד שם.</p>
-                </div>
-              </article>
-              <article class="q-card">
-                <div class="q-band"><span class="q-n" aria-hidden="true">02</span></div>
-                <div class="q-body">
-                  <h3>המחיר עולה לך כל שנה</h3>
-                  <p>רוב המפעלים בסין לא מעלים מחירים, ולאורך זמן דווקא מוזילים. ספק שמעלה לך כל שנה „בגלל התייקרויות” כנראה פשוט יכול להרשות לעצמו.</p>
-                </div>
-              </article>
-              <article class="q-card">
-                <div class="q-band"><span class="q-n" aria-hidden="true">03</span></div>
-                <div class="q-body">
-                  <h3>הכסף נשאר בדרך</h3>
-                  <p>הזמנות מפוצלות במקום מכולה אחת מאוחדת, אחסון מנופח, שילוח יקר מהנדרש ובקרת איכות שנופלת בין הכיסאות.</p>
-                </div>
-              </article>
-            </div>
-
-      <p class="punch">כל אחד מהשלושה נראה כמו „ככה זה”. <b>אף אחד מהם לא חייב להיות ככה.</b></p>
-
-      <div class="panel-case">
-        <div class="case-grid">
-                <div class="case-media">
-                  <span class="case-tag">מקרה לקוח</span>
-                  <img src="img/case-scaffold.jpg" width="1586" height="992" alt="פיגומי בנייה — התחום שבו עבד הלקוח" loading="lazy" decoding="async">
-                </div>
-                <div class="case-body">
-                  <h2>שנים עם אותו ספק. <br>35 אחוז מעל מחיר המפעל.</h2>
-                  <p>יבואן פיגומים שעבד שנים עם אותו ספק. גילינו שהוא משלם 35 אחוז מעל מחיר המפעל, כי המתווכת שהוא עבד מולה כבר מזמן לא עבדה שם.</p>
-                  <p>חיברנו אותו למפעל המקורי: אותו מוצר, איכות אחידה, מחיר נמוך בהרבה. בתוך שנתיים הוא הזמין ביותר מ-15 מיליון שקל, אחרי שנים של מכולה אחת בשנה.</p>
-                  <div class="case-kpi">
-                    <div>
-                      <b><i class="v">35%</i></b>
-                      <span>מעל מחיר המפעל, בלי לדעת</span>
-                    </div>
-                    <div>
-                      <b>15 מיליון ₪</b>
-                      <span>היקף הזמנות בשנתיים שאחרי</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-      </div>
-
-      <div class="panel-terms">
-        <div class="terms-grid">
-                <div>
-                  <b>הצלחה = חיסכון בעלות המלאה עד הדלת</b>
-                  <span>לא במחיר המוצר בלבד. אם אין חיסכון בעלות הכוללת, נגיד לך.</span>
-                </div>
-                <div>
-                  <b>תשלום רק על הזמנה בפועל</b>
-                  <span>אנחנו מתוגמלים רק אם יוצאת הזמנה, ורק אם באמת חסכנו לך.</span>
-                </div>
-                <div>
-                  <b>בלי הבטחת אחוז</b>
-                  <span>מחיר תלוי בהמון גורמים. אי אפשר להבטיח מספר בלי לבדוק — ולכן בודקים.</span>
-                </div>
-              </div>
-      </div>
-    </div>
-
-    <div class="panel-foot">
-      <button class="cta" type="button" data-close><span>חזרה למחשבון</span><span class="tri"></span></button>
-    </div>
-  </div>
-</div>
 
 <template id="tpl-A">
   <h2 class="qz-res-h">על סמך מה שסיפרת, <b>נראה שיש כאן פוטנציאל חיסכון אמיתי.</b></h2>

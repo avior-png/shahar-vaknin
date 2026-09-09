@@ -39,7 +39,8 @@ html{-webkit-tap-highlight-color:transparent}
   --f-label:clamp(11px, .92vw, 12.5px);
 }
 
-html,body{background:var(--mist)}
+html{background:var(--mist)}
+body{background:transparent}
 body{
   -webkit-text-size-adjust:100%;
   font-family:"Noto Sans Hebrew",system-ui,sans-serif;
@@ -64,6 +65,23 @@ a{color:inherit}
   transition:transform .25s var(--ease);
 }
 .skip:focus{transform:translateY(0);outline:3px solid var(--ink);outline-offset:-6px}
+
+/* ערימות הארגזים מאחורי הדף, מתחת לשטיפה בהירה. כל הטקסט יושב על
+   גוף המכשיר הלבן, ולכן הרקע נותן עומק בלי לגעת בקריאות.
+   התמונה עוגנת לתחתית: כך החלק התחתון של הפריים הוא רצפה נקייה
+   ולא ערימות, והרקע נושא כמה שפחות עומס ויזואלי. */
+.lp-bg{
+  position:fixed;inset:0;z-index:0;
+  width:100%;height:100%;object-fit:cover;object-position:center bottom;
+}
+/* השטיפה מתהדקת למעלה, שם יושבת הכותרת, ומתרככת למטה שם יש רק רצפה */
+.lp-wash{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(to bottom, rgba(242,244,246,.96) 0%, rgba(242,244,246,.89) 24%,
+                    rgba(242,244,246,.76) 58%, rgba(242,244,246,.62) 100%);
+}
+.lp-hdr,.lp-main,.lp-ftr{position:relative;z-index:2}
 
 /* מספרים: רק רצף הספרות מבודד כ-LTR, הזוג עצמו נשאר RTL */
 .v{direction:ltr;unicode-bidi:isolate;white-space:nowrap}
@@ -107,6 +125,9 @@ h2.title b{font-weight:800;display:block}
 .cta:hover .tri,.cta:focus-visible .tri{transform:translateX(-6px)}
 .cta:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .cta.big{height:clamp(54px,4.8vw,62px);font-size:clamp(15px,1.3vw,17px);padding:0 clamp(24px,2.4vw,34px)}
+.cta.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.cta.ghost::before{background:var(--ink)}
+.cta.ghost:hover,.cta.ghost:focus-visible{color:#fff}
 .cta[disabled]{opacity:.4;cursor:not-allowed}
 .cta[disabled]::before{transform:scaleX(0)}
 
@@ -255,6 +276,8 @@ h2.title b{font-weight:800;display:block}
 .calc-info:hover,.calc-info:focus-visible{color:var(--red-deep)}
 .calc-back:hover i,.calc-back:focus-visible i{transform:translateX(4px)}
 .calc-back:focus-visible,.calc-info:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.calc-close{height:40px;font-size:12.5px;padding:0 18px;gap:10px}
+.calc-close .tri{border-top-width:6.5px;border-bottom-width:6.5px;border-right-width:10px}
 .calc-info i{
   width:18px;height:18px;flex:none;
   display:grid;place-items:center;
@@ -296,8 +319,11 @@ h2.title b{font-weight:800;display:block}
   display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
   gap:clamp(12px,1.6vw,22px);margin-top:clamp(22px,2.6vw,36px);
 }
-.qz-start-note{font-size:var(--f-small);font-weight:700;color:var(--slate)}
-.qz-trust{margin-top:clamp(12px,1.4vw,18px);font-size:var(--f-small);color:var(--slate);line-height:1.6}
+.qz-start-note{
+  margin-top:clamp(13px,1.5vw,19px);
+  font-size:var(--f-small);font-weight:700;color:var(--slate);line-height:1.6;
+  max-width:58ch;
+}
 
 /* --- מסך שאלה ------------------------------------------------------
    ספרת השלב מופיעה בקו מתאר בצד הרחוק — אותו מוטיב של הספרות
@@ -467,66 +493,45 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
 .qz-again{margin-top:clamp(16px,1.8vw,24px)}
 
 /* =====================================================================
-   5 · הפאנל — כל מה שהיה מתחת לקיפול, נפתח מעל המחשבון
+   5 · הפָּן השני של המכשיר — המידע שהבריף ביקש „מתחת לקיפול”
+   לא דיאלוג שצף מעל הדף: אותה שילדה, אותה מסילה, אותה תחתית, תוכן
+   אחר. הגלילה קורית בתוך החלון המוכר, עם דהייה בקצה וסרגל בצבע
+   המותג — כדי שיהיה ברור שיש עוד.
    ===================================================================== */
-.panel{position:fixed;inset:0;z-index:100;display:flex;justify-content:center;align-items:flex-start}
-.panel-scrim{
-  position:absolute;inset:0;background:rgba(11,13,16,.55);
-  opacity:0;transition:opacity .38s var(--ease);
+.calc-doc{position:relative}
+.calc-doc-scroll{
+  max-height:min(64svh, 580px);
+  overflow-y:auto;overscroll-behavior:contain;
+  padding-inline-end:clamp(10px,1.2vw,18px);
+  scrollbar-width:thin;scrollbar-color:var(--red) var(--mist-2);
 }
-.panel.is-open .panel-scrim{opacity:1}
-.panel-box{
-  position:relative;margin:auto;
-  width:min(920px, 100% - 40px);max-height:calc(100svh - 48px);
-  background:#fff;border:1px solid var(--line);
-  display:flex;flex-direction:column;overflow:hidden;
-  translate:0 18px;opacity:0;
-  transition:translate .44s var(--ease), opacity .34s var(--ease);
+.calc-doc-scroll::-webkit-scrollbar{width:9px}
+.calc-doc-scroll::-webkit-scrollbar-track{background:var(--mist-2)}
+.calc-doc-scroll::-webkit-scrollbar-thumb{background:var(--red)}
+.calc-doc-scroll:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+.calc-doc-head{margin-bottom:clamp(4px,.6vw,10px)}
+.calc-doc-head .title{max-width:26ch}
+/* הדהייה בקצה התחתון — נעלמת כשמגיעים לסוף */
+.calc-doc-fade{
+  position:absolute;inset-inline:0;inset-block-end:0;height:clamp(46px,5vw,70px);
+  pointer-events:none;display:grid;place-items:end center;padding-bottom:6px;
+  background:linear-gradient(to top, #fff 24%, rgba(255,255,255,0));
+  transition:opacity .34s var(--ease);
 }
-.panel.is-open .panel-box{translate:0 0;opacity:1}
-.panel-box::before{
-  content:"";position:absolute;inset-inline:0;inset-block-start:0;
-  height:3px;background:var(--red);z-index:2;
+.calc-doc.is-end .calc-doc-fade{opacity:0}
+.calc-doc-fade i{
+  width:0;height:0;
+  border-inline:6px solid transparent;border-top:8px solid var(--red);
+  animation:doc-hint 1.9s ease-in-out infinite;
 }
-.panel-head{
-  position:relative;flex:none;
-  padding:clamp(24px,2.8vw,40px) clamp(20px,2.6vw,40px) clamp(18px,2vw,26px);
-  border-bottom:1px solid var(--line);
-}
-.panel-head .eyebrow{margin-bottom:12px}
-.panel-x{
-  position:absolute;inset-block-start:clamp(18px,2vw,26px);
-  inset-inline-end:clamp(16px,2vw,28px);
-  width:38px;height:38px;flex:none;cursor:pointer;
-  background:none;border:1px solid var(--line);
-  display:grid;place-items:center;
-  transition:border-color .3s var(--ease), background-color .3s var(--ease);
-}
-.panel-x i{position:relative;width:14px;height:14px;display:block}
-.panel-x i::before,.panel-x i::after{
-  content:"";position:absolute;inset-block-start:6px;inset-inline-start:0;
-  width:14px;height:2px;background:var(--ink);
-}
-.panel-x i::before{rotate:45deg}
-.panel-x i::after{rotate:-45deg}
-.panel-x:hover,.panel-x:focus-visible{border-color:var(--red);background:var(--mist)}
-.panel-x:focus-visible{outline:2px solid var(--red);outline-offset:2px}
-.panel-body{
-  flex:1;overflow-y:auto;overscroll-behavior:contain;
-  padding:clamp(24px,2.8vw,40px) clamp(20px,2.6vw,40px);
-}
-.panel-case{
-  margin-top:clamp(30px,3.4vw,52px);padding-top:clamp(28px,3.2vw,46px);
+@keyframes doc-hint{0%,100%{translate:0 0}50%{translate:0 3px}}
+.calc-doc-case{
+  margin-top:clamp(26px,3vw,44px);padding-top:clamp(24px,2.8vw,38px);
   border-top:1px solid var(--line);
 }
-.panel-terms{
-  margin-top:clamp(26px,3vw,42px);padding-top:clamp(22px,2.6vw,34px);
+.calc-doc-terms{
+  margin-top:clamp(24px,2.8vw,38px);padding-top:clamp(20px,2.4vw,30px);
   border-top:1px solid var(--line);
-}
-.panel-foot{
-  flex:none;padding:clamp(15px,1.8vw,22px) clamp(20px,2.6vw,40px);
-  border-top:1px solid var(--line);background:var(--mist);
-  display:flex;justify-content:flex-start;
 }
 
 /* --- שלוש נקודות הכאב — הכרטיסיות של האתר ------------------------- */
@@ -640,11 +645,10 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
 .anim .qz-s.is-live .opt{animation:qz-in 380ms var(--ease) both;animation-delay:calc(90ms + var(--i,0) * 38ms)}
 
 @media (prefers-reduced-motion: reduce){
-  .anim *,.panel *{
+  .anim *,.calc-doc *{
     opacity:1!important;translate:none!important;
     transition:none!important;animation:none!important;
   }
-  .panel-scrim{opacity:1!important}
 }
 
 /* =====================================================================
@@ -669,7 +673,6 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
   .calc-steps{flex:1;gap:5px}
   .calc-step{width:auto;flex:1}
   .calc-main,.calc-foot{padding-inline:clamp(16px,4.4vw,22px)}
-  .panel-head,.panel-body,.panel-foot{padding-inline:clamp(16px,4.4vw,22px)}
 }
 @media (max-width:520px){
   :root{--shell:min(1160px, 100% - 32px)}
@@ -680,10 +683,9 @@ input[aria-invalid="true"]{border-color:var(--red);background:rgba(221,55,27,.05
   .opt{grid-template-columns:clamp(28px,7.4vw,34px) minmax(0,1fr);padding:11px 12px}
   .opt-go{display:none}
   .opt:hover{transform:none}
-  .qz-start .cta,.qz-form .cta,.qz-next .cta,.panel-foot .cta{width:100%}
+  .qz-start .cta,.qz-form .cta,.qz-next .cta{width:100%}
   .qz-form{max-width:none}
   .calc-foot{gap:10px}
   .calc-info span{font-size:12px}
-  .panel-box{width:100%;max-height:100svh;border:0}
   .lp-ftr-in{flex-direction:column;align-items:flex-start}
 }
